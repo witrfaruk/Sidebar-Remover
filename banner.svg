@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 240" width="100%" height="240">
+  <defs>
+    <style>
+      @keyframes sidebarToggle {
+        0%, 15% {
+          width: 170px;
+          opacity: 1;
+          transform: translateX(0);
+        }
+        35%, 75% {
+          width: 0px;
+          opacity: 0;
+          transform: translateX(-20px);
+        }
+        90%, 100% {
+          width: 170px;
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes contentExpand {
+        0%, 15% {
+          width: 530px;
+          transform: translateX(0);
+        }
+        35%, 75% {
+          width: 710px;
+          transform: translateX(-180px);
+        }
+        90%, 100% {
+          width: 530px;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes pulseBadge {
+        0%, 100% {
+          opacity: 0.9;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.03);
+        }
+      }
+
+      @keyframes scrollbarFade {
+        0%, 15% {
+          opacity: 1;
+        }
+        35%, 75% {
+          opacity: 0;
+        }
+        90%, 100% {
+          opacity: 1;
+        }
+      }
+
+      .text-title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-weight: 800; font-size: 15px; fill: #F0EEE9; }
+      .text-sub { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 11px; fill: #A4A5AA; }
+      .text-badge { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-weight: 700; font-size: 10px; fill: #F43F87; letter-spacing: 1px; }
+      .anim-sidebar { animation: sidebarToggle 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+      .anim-content { animation: contentExpand 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+      .anim-scrollbar { animation: scrollbarFade 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+      .anim-badge { animation: pulseBadge 2.5s ease-in-out infinite; transform-origin: 710px 24px; }
+    </style>
+  </defs>
+
+  <!-- Window Container -->
+  <rect x="2" y="2" width="796" height="236" rx="14" fill="#222326" stroke="#414349" stroke-width="2"/>
+
+  <!-- Window Header Bar -->
+  <rect x="2" y="2" width="796" height="42" rx="14" fill="#2B2D31"/>
+  <rect x="2" y="32" width="796" height="12" fill="#2B2D31"/>
+  <line x1="2" y1="44" x2="798" y2="44" stroke="#414349" stroke-width="1.5"/>
+
+  <!-- Window Dots -->
+  <circle cx="24" cy="23" r="5" fill="#FF705E"/>
+  <circle cx="40" cy="23" r="5" fill="#F43F87"/>
+  <circle cx="56" cy="23" r="5" fill="#8FB7A0"/>
+
+  <!-- Mock URL Bar -->
+  <rect x="80" y="12" width="280" height="22" rx="6" fill="#1C1D20" stroke="#414349" stroke-width="1"/>
+  <text x="96" y="27" class="text-sub" font-size="11">https://any-website.com/article</text>
+
+  <!-- Live Status Badge -->
+  <g class="anim-badge">
+    <rect x="620" y="13" width="160" height="20" rx="10" fill="#34363B" stroke="#F43F87" stroke-width="1"/>
+    <circle cx="632" cy="23" r="3.5" fill="#8FB7A0"/>
+    <text x="642" y="27" class="text-badge">SIDEBAR REMOVED</text>
+  </g>
+
+  <!-- Viewport Area -->
+  <g transform="translate(18, 58)">
+    <!-- Animated Sidebar -->
+    <g class="anim-sidebar">
+      <rect x="0" y="0" width="165" height="162" rx="8" fill="#2B2D31" stroke="#414349" stroke-width="1"/>
+      <rect x="14" y="16" width="60" height="8" rx="3" fill="#FF705E" opacity="0.8"/>
+      <rect x="14" y="36" width="120" height="7" rx="3" fill="#34363B"/>
+      <rect x="14" y="52" width="95" height="7" rx="3" fill="#34363B"/>
+      <rect x="14" y="68" width="110" height="7" rx="3" fill="#34363B"/>
+      <rect x="14" y="84" width="80" height="7" rx="3" fill="#34363B"/>
+      <rect x="14" y="100" width="105" height="7" rx="3" fill="#34363B"/>
+      <rect x="14" y="120" width="70" height="7" rx="3" fill="#F43F87" opacity="0.6"/>
+      <rect x="14" y="136" width="90" height="7" rx="3" fill="#34363B"/>
+    </g>
+
+    <!-- Animated Article Content -->
+    <g transform="translate(185, 0)">
+      <g class="anim-content">
+        <rect x="0" y="0" width="560" height="162" rx="8" fill="#1C1D20" stroke="#414349" stroke-width="1"/>
+        <text x="22" y="30" class="text-title">Distraction-Free Reading Mode</text>
+        <rect x="22" y="48" width="85%" height="8" rx="3" fill="#34363B"/>
+        <rect x="22" y="64" width="92%" height="8" rx="3" fill="#34363B"/>
+        <rect x="22" y="80" width="78%" height="8" rx="3" fill="#34363B"/>
+        <rect x="22" y="96" width="88%" height="8" rx="3" fill="#34363B"/>
+        <rect x="22" y="112" width="60%" height="8" rx="3" fill="#34363B"/>
+        <rect x="22" y="134" width="72%" height="8" rx="3" fill="#8FB7A0" opacity="0.5"/>
+      </g>
+    </g>
+
+    <!-- Animated Scrollbar on Right -->
+    <g class="anim-scrollbar" transform="translate(754, 0)">
+      <rect x="0" y="0" width="8" height="162" rx="4" fill="#1C1D20"/>
+      <rect x="1.5" y="24" width="5" height="48" rx="2.5" fill="#66686D"/>
+    </g>
+  </g>
+</svg>
