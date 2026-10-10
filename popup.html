@@ -7,126 +7,105 @@
   <link rel="stylesheet" href="popup.css" />
 </head>
 <body>
-  <main class="popup">
-    <header>
-      <div class="brand-icon">
-        <img src="icons/icon48.png" alt="Sidebar Remover" width="28" height="28" />
-      </div>
-      <div class="header-content">
-        <h1>Sidebar Remover</h1>
-        <p>A cleaner, distraction-free web</p>
+  <div class="popup-container">
+    <!-- Header -->
+    <header class="popup-header">
+      <div class="brand-wrap">
+        <img src="icons/icon48.png" alt="Sidebar Remover" width="22" height="22" class="brand-logo" />
+        <span class="brand-title">Sidebar Remover</span>
       </div>
     </header>
 
-    <section class="card current">
-      <h2 class="label">Current website</h2>
-      <div class="row site-row">
-        <div class="site-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="9"/>
-            <path d="M3 12h18M12 3a18 18 0 0 1 0 18 18 18 0 0 1 0-18Z"/>
-          </svg>
-        </div>
-        <div class="site-copy">
-          <div class="host" id="host">—</div>
-          <p>Remove sidebar on this website</p>
-        </div>
-        <label class="switch">
-          <input type="checkbox" id="siteToggle" aria-label="Remove sidebar on this website" />
-          <span></span>
+    <!-- Main View -->
+    <main class="view active" id="mainView">
+      <div class="toggle-card">
+        <!-- Toggle: Hide scrollbars -->
+        <label class="toggle-item" for="scrollToggle">
+          <div class="toggle-info">
+            <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="5" y="2" width="14" height="20" rx="7"></rect>
+              <line x1="12" y1="6" x2="12" y2="10"></line>
+            </svg>
+            <span class="toggle-text">Hide scrollbars</span>
+          </div>
+          <span class="switch">
+            <input type="checkbox" id="scrollToggle" checked aria-label="Hide scrollbars" />
+            <span class="slider"></span>
+          </span>
+        </label>
+
+        <div class="card-divider"></div>
+
+        <!-- Toggle: Hide sidebar -->
+        <label class="toggle-item" for="sidebarToggle">
+          <div class="toggle-info">
+            <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+              <line x1="9" y1="3" x2="9" y2="21"></line>
+            </svg>
+            <span class="toggle-text">Hide sidebar</span>
+          </div>
+          <span class="switch">
+            <input type="checkbox" id="sidebarToggle" aria-label="Hide sidebar" />
+            <span class="slider"></span>
+          </span>
         </label>
       </div>
 
-      <div class="status-row" data-state="idle">
-        <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M20 7v5h-5M4 17v-5h5"/><path d="M6 7a8 8 0 0 1 13 1M18 17a8 8 0 0 1-13-1"/>
-        </svg>
-        <div class="status" id="status" role="status">Checking…</div>
-      </div>
-
-      <div class="actions">
-        <button type="button" id="restore">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="m9 5-5 5 5 5M4 10h9a6 6 0 0 1 0 12"/>
+      <!-- Settings Button -->
+      <button type="button" class="settings-btn" id="openSettingsBtn" aria-label="Settings">
+        <div class="settings-btn-content">
+          <svg class="gear-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
           </svg>
-          Restore Hidden
-        </button>
-        <button type="button" id="rescan">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M20 7v5h-5M4 17v-5h5"/><path d="M6 7a8 8 0 0 1 13 1M18 17a8 8 0 0 1-13-1"/>
-          </svg>
-          Rescan
-        </button>
-      </div>
-    </section>
-
-    <section class="card automatic row">
-      <div class="feature-icon">
-        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
-          <path d="m14 2-10 12h7l-1 8 10-12h-7l1-8Z"/>
-        </svg>
-      </div>
-      <div class="feature-copy">
-        <h2>Automatic Removal</h2>
-        <p>Automatically remove sidebars on supported websites.</p>
-      </div>
-      <label class="switch">
-        <input type="checkbox" id="globalToggle" aria-label="Automatic removal" />
-        <span></span>
-      </label>
-    </section>
-
-    <details class="settings">
-      <summary>
-        <span>More settings</span>
-        <svg class="summary-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="m6 9 6 6 6-6"/>
-        </svg>
-      </summary>
-      <div class="settings-content">
-        <div class="row scrollbar-row">
-          <div>
-            <h2>Hide scrollbars</h2>
-            <p>Pages still scroll with wheel and keys</p>
-          </div>
-          <label class="switch">
-            <input type="checkbox" id="scrollToggle" aria-label="Hide scrollbars" />
-            <span></span>
-          </label>
+          <span>Settings</span>
         </div>
-        <h2 class="label">Always run on (allowlist)</h2>
-        <ul id="allowlist" class="list"></ul>
-        <h2 class="label">Never run on (blocklist)</h2>
-        <ul id="blocklist" class="list"></ul>
-        <form id="addForm">
-          <input id="addHost" aria-label="Website address" placeholder="example.com" autocomplete="off" />
-          <select id="addList" aria-label="Site list">
-            <option value="allowlist">Allow</option>
-            <option value="blocklist">Block</option>
-          </select>
-          <button type="submit">Add</button>
-        </form>
-      </div>
-    </details>
+        <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </main>
 
-    <footer>
-      <span class="love">
-        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
-          <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/>
-        </svg>
-        Love from WitrFaruk
-      </span>
-      <a class="donate" href="https://buymeacoffee.com/witrfaruk" target="_blank" rel="noopener noreferrer">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M3 3h14v12a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V3ZM17 5h2a3 3 0 0 1 0 6h-2"/>
-        </svg>
-        Donate us
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M4 12h16m-6-6 6 6-6 6"/>
-        </svg>
-      </a>
-    </footer>
-  </main>
+    <!-- Settings View -->
+    <main class="view" id="settingsView">
+      <div class="settings-nav-header">
+        <button type="button" class="back-btn" id="closeSettingsBtn" aria-label="Back to main">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <span class="settings-title">Settings</span>
+      </div>
+
+      <div class="toggle-card">
+        <!-- Setting 1: Hide sidebar by default -->
+        <label class="toggle-item" for="defaultSidebarToggle">
+          <div class="toggle-info">
+            <span class="toggle-text">Hide sidebar by default</span>
+          </div>
+          <span class="switch">
+            <input type="checkbox" id="defaultSidebarToggle" aria-label="Hide sidebar by default" />
+            <span class="slider"></span>
+          </span>
+        </label>
+
+        <div class="card-divider"></div>
+
+        <!-- Setting 2: Hide scrollbar by default -->
+        <label class="toggle-item" for="defaultScrollToggle">
+          <div class="toggle-info">
+            <span class="toggle-text">Hide scrollbar by default</span>
+          </div>
+          <span class="switch">
+            <input type="checkbox" id="defaultScrollToggle" checked aria-label="Hide scrollbar by default" />
+            <span class="slider"></span>
+          </span>
+        </label>
+      </div>
+    </main>
+  </div>
+
   <script src="popup.js"></script>
 </body>
 </html>

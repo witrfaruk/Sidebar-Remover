@@ -1,9 +1,15 @@
-const DEFAULTS = { globalEnabled: true, allowlist: [], blocklist: [], hideScrollbars: true };
-const $ = (id) => document.getElementById(id);
-let tabId = null;
-let host = null;
+const DEFAULTS = {
+  globalEnabled: false,      // Hide sidebar by default: OFF
+  hideScrollbars: true,     // Hide scrollbars by default: ON
+  allowlist: [],            // Hosts where sidebar is hidden
+  blocklist: [],            // Hosts where sidebar is kept
+  scrollAllowlist: [],      // Hosts where scrollbars are hidden
+  scrollBlocklist: []       // Hosts where scrollbars are kept
+};
 
-const normalize = (h) => h.trim().toLowerCase().replace(/^https?:\/\//, "").replace(/\/.*$/, "").replace(/^www\./, "");
+const $ = (id) => document.getElementById(id);
+let host = "";
+let tabId = null;
 
 const getSettings = async () => {
   if (typeof chrome !== "undefined" && chrome?.storage?.local) {
@@ -26,103 +32,84 @@ const saveSettings = async (data) => {
   }
 };
 
-const effective = (s, h) => (s.blocklist.includes(h) ? false : s.allowlist.includes(h) ? true : s.globalEnabled);
-
-async function send(type) {
-  if (tabId == null) return null;
-  try { return await chrome.tabs.sendMessage(tabId, { type }); } catch { return null; }
+function isSidebarHidden(s, h) {
+  if (!h) return s.globalEnabled;
+  return s.globalEnabled ? !s.blocklist.includes(h) : s.allowlist.includes(h);
 }
 
-async function refreshStatus() {
-  const st = await send("sbr:status");
-  const row = $("status") ? $("status").closest(".status-row") : null;
-  const isProtectedHost = host && (host.includes("chromewebstore.google.com") || host.includes("chrome.google.com"));
-  if (!host) {
-    $("status").textContent = "Not available on this page.";
-    if (row) row.dataset.state = "disabled";
-  } else if (isProtectedHost) {
-    $("status").textContent = "Protected: Google blocks extensions on Chrome Web Store.";
-    if (row) row.dataset.state = "disabled";
-    $("siteToggle").disabled = true;
-  } else if (!st) {
-    $("status").textContent = "Reload the page to activate.";
-    if (row) row.dataset.state = "notice";
-  } else if (!st.enabled) {
-    $("status").textContent = "Disabled on this site.";
-    if (row) row.dataset.state = "disabled";
-  } else if (st.paused) {
-    $("status").textContent = "Paused — hidden sidebars restored.";
-    if (row) row.dataset.state = "coral";
-  } else {
-    $("status").textContent = st.hiddenCount ? `${st.hiddenCount} sidebar${st.hiddenCount > 1 ? "s" : ""} hidden.` : "No sidebars detected.";
-    if (row) row.dataset.state = st.hiddenCount ? "success" : "idle";
-  }
-}
-
-function renderList(id, items) {
-  const ul = $(id);
-  ul.textContent = "";
-  for (const h of items) {
-    const li = document.createElement("li");
-    li.textContent = h;
-    const b = document.createElement("button");
-    b.type = "button";
-    b.textContent = "✕";
-    b.title = "Remove";
-    b.onclick = async () => {
-      const s = await getSettings();
-      await saveSettings({ [id]: s[id].filter((x) => x !== h) });
-      render();
-    };
-    li.appendChild(b);
-    ul.appendChild(li);
-  }
+function isScrollHidden(s, h) {
+  if (!h) return s.hideScrollbars;
+  return s.hideScrollbars ? !s.scrollBlocklist.includes(h) : s.scrollAllowlist.includes(h);
 }
 
 async function render() {
   const s = await getSettings();
-  $("globalToggle").checked = s.globalEnabled;
-  $("scrollToggle").checked = s.hideScrollbars;
-  $("siteToggle").checked = host ? effective(s, host) : false;
-  $("siteToggle").disabled = !host;
-  renderList("allowlist", s.allowlist);
-  renderList("blocklist", s.blocklist);
-  setTimeout(refreshStatus, 250);
+
+  // Current Site Toggles
+  $("scrollToggle").checked = isScrollHidden(s, host);
+  $("sidebarToggle").checked = isSidebarHidden(s, host);
+
+  // Default Settings Toggles
+  $("defaultSidebarToggle").checked = !!s.globalEnabled;
+  $("defaultScrollToggle").checked = !!s.hideScrollbars;
 }
 
-$("globalToggle").onchange = async (e) => { await saveSettings({ globalEnabled: e.target.checked }); render(); };
-
-$("scrollToggle").onchange = async (e) => { await saveSettings({ hideScrollbars: e.target.checked }); render(); };
-
-$("siteToggle").onchange = async (e) => {
+// 1. Current Site: Hide Scrollbars
+$("scrollToggle").onchange = async (e) => {
   const s = await getSettings();
-  const allow = s.allowlist.filter((x) => x !== host);
-  const block = s.blocklist.filter((x) => x !== host);
-  // only store an override when it differs from the global default
-  if (e.target.checked && !s.globalEnabled) allow.push(host);
-  if (!e.target.checked && s.globalEnabled) block.push(host);
+  const isChecked = e.target.checked;
+  let scrollAllow = (s.scrollAllowlist || []).filter((x) => x !== host);
+  let scrollBlock = (s.scrollBlocklist || []).filter((x) => x !== host);
+
+  if (s.hideScrollbars) {
+    if (!isChecked && host) scrollBlock.push(host);
+  } else {
+    if (isChecked && host) scrollAllow.push(host);
+  }
+
+  await saveSettings({ scrollAllowlist: scrollAllow, scrollBlocklist: scrollBlock });
+};
+
+// 2. Current Site: Hide Sidebar
+$("sidebarToggle").onchange = async (e) => {
+  const s = await getSettings();
+  const isChecked = e.target.checked;
+  let allow = (s.allowlist || []).filter((x) => x !== host);
+  let block = (s.blocklist || []).filter((x) => x !== host);
+
+  if (s.globalEnabled) {
+    if (!isChecked && host) block.push(host);
+  } else {
+    if (isChecked && host) allow.push(host);
+  }
+
   await saveSettings({ allowlist: allow, blocklist: block });
+};
+
+// 3. Settings View: Hide sidebar by default
+$("defaultSidebarToggle").onchange = async (e) => {
+  await saveSettings({ globalEnabled: e.target.checked });
   render();
 };
 
-$("restore").onclick = async () => { await send("sbr:restore"); refreshStatus(); };
-$("rescan").onclick = async () => { await send("sbr:rescan"); refreshStatus(); };
-
-$("addForm").onsubmit = async (e) => {
-  e.preventDefault();
-  const h = normalize($("addHost").value);
-  if (!h || !/^[a-z0-9.-]+$/.test(h)) return;
-  const list = $("addList").value;
-  const other = list === "allowlist" ? "blocklist" : "allowlist";
-  const s = await getSettings();
-  await saveSettings({
-    [list]: [...new Set([...s[list], h])],
-    [other]: s[other].filter((x) => x !== h),
-  });
-  $("addHost").value = "";
+// 4. Settings View: Hide scrollbar by default
+$("defaultScrollToggle").onchange = async (e) => {
+  await saveSettings({ hideScrollbars: e.target.checked });
   render();
 };
 
+// 5. Navigation between views
+$("openSettingsBtn").onclick = () => {
+  $("mainView").classList.remove("active");
+  $("settingsView").classList.add("active");
+};
+
+$("closeSettingsBtn").onclick = () => {
+  $("settingsView").classList.remove("active");
+  $("mainView").classList.add("active");
+};
+
+// 6. Initialize Tab & Host
 (async () => {
   if (typeof chrome !== "undefined" && chrome?.tabs?.query) {
     try {
@@ -130,12 +117,11 @@ $("addForm").onsubmit = async (e) => {
       if (tab) {
         tabId = tab.id;
         const u = new URL(tab.url || "");
-        if (u.protocol === "http:" || u.protocol === "https:") host = u.hostname.replace(/^www\./, "");
+        if (u.protocol === "http:" || u.protocol === "https:") {
+          host = u.hostname.replace(/^www\./, "");
+        }
       }
     } catch {}
-  } else {
-    host = "example.com";
   }
-  $("host").textContent = host || "Unsupported page";
   render();
 })();

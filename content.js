@@ -6,7 +6,7 @@
   const HIDDEN_ATTR = "data-sbr-hidden";
   const STYLE_ID = "sbr-style";
   const THRESHOLD = 5;
-  const DEFAULTS = { globalEnabled: true, allowlist: [], blocklist: [], hideScrollbars: true };
+  const DEFAULTS = { globalEnabled: false, allowlist: [], blocklist: [], hideScrollbars: true, scrollAllowlist: [], scrollBlocklist: [] };
   const SCROLL_ID = "sbr-scroll-style";
   const host = location.hostname.replace(/^www\./, "");
   const isTop = window === window.top;
@@ -96,9 +96,17 @@
 
   // ---------- settings ----------
   function computeEnabled(s) {
-    if (s.blocklist.includes(host)) return false;
-    if (s.allowlist.includes(host)) return true;
+    if ((s.blocklist || []).includes(host)) return false;
+    if ((s.allowlist || []).includes(host)) return true;
     return !!s.globalEnabled;
+  }
+
+  function computeScrollbars(s) {
+    const block = s.scrollBlocklist || [];
+    const allow = s.scrollAllowlist || [];
+    if (block.includes(host)) return false;
+    if (allow.includes(host)) return true;
+    return s.hideScrollbars !== false;
   }
 
   async function loadSettings() {
@@ -435,7 +443,7 @@
   async function apply() {
     const s = await loadSettings();
     const next = computeEnabled(s);
-    setScrollbars(s.hideScrollbars);
+    setScrollbars(computeScrollbars(s));
     if (next === enabled) return;
     enabled = next;
     if (enabled) {
