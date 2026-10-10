@@ -48,7 +48,7 @@
     "author": {
       "@type": "Person",
       "name": "WitrFaruk",
-      "url": "https://github.com/witrfaruk"
+      "url": "https://witrfaruk.vercel.app/contact"
     },
     "url": "https://witrfaruk.github.io/Sidebar-Remover/",
     "image": "https://witrfaruk.github.io/Sidebar-Remover/icons/icon128.png",
@@ -119,6 +119,8 @@
       --accent-hover: #FF5C91;
       --coral: #FF705E;
       --success: #8FB7A0;
+      --coffee: #FF813F;
+      --coffee-hover: #FF9457;
       --disabled: #66686D;
       --focus-outline: #FF5C91;
     }
@@ -165,11 +167,11 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background-color: rgba(34, 35, 38, 0.92);
+      background-color: rgba(34, 35, 38, 0.94);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      padding: 16px 0;
+      padding: 14px 0;
     }
 
     .nav-inner {
@@ -197,7 +199,7 @@
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 18px;
     }
 
     .nav-links a {
@@ -216,7 +218,7 @@
       padding: 8px 16px;
       border-radius: 8px;
       font-weight: 600;
-      font-size: 14px;
+      font-size: 13.5px;
       border: 1px solid var(--accent);
       transition: background-color 0.15s ease, border-color 0.15s ease;
     }
@@ -226,9 +228,36 @@
       border-color: var(--accent-hover);
     }
 
+    .btn-coffee {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--coffee);
+      color: #FFFFFF !important;
+      padding: 8px 15px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 700;
+      border: 1px solid var(--coffee);
+      transition: background-color 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+      text-decoration: none;
+    }
+
+    .btn-coffee:hover {
+      background-color: var(--coffee-hover);
+      border-color: var(--coffee-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-coffee svg {
+      width: 17px;
+      height: 17px;
+      fill: currentColor;
+    }
+
     /* Hero Section */
     section.hero {
-      padding: 72px 0 54px;
+      padding: 68px 0 54px;
       text-align: center;
     }
 
@@ -259,7 +288,7 @@
       font-weight: 800;
       letter-spacing: -0.8px;
       max-width: 860px;
-      margin: 0 auto 20px;
+      margin: 0 auto 18px;
       color: var(--text-primary);
     }
 
@@ -268,18 +297,41 @@
     }
 
     p.hero-subtitle {
-      font-size: 19px;
+      font-size: 18.5px;
       line-height: 1.5;
       color: var(--text-secondary);
       max-width: 720px;
-      margin: 0 auto 36px;
+      margin: 0 auto 26px;
+    }
+
+    .developer-notice {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 auto 32px;
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 6px 16px;
+      border-radius: 20px;
+    }
+
+    .developer-notice a {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
+    .developer-notice a:hover {
+      color: var(--accent-hover);
     }
 
     .cta-group {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 16px;
+      gap: 14px;
       flex-wrap: wrap;
       margin-bottom: 48px;
     }
@@ -290,9 +342,9 @@
       gap: 10px;
       background-color: var(--accent);
       color: var(--text-primary);
-      padding: 14px 26px;
+      padding: 13px 24px;
       border-radius: 10px;
-      font-size: 16px;
+      font-size: 15.5px;
       font-weight: 700;
       border: 1px solid var(--accent);
       transition: background-color 0.15s ease, border-color 0.15s ease;
@@ -306,8 +358,35 @@
     }
 
     .btn-primary svg {
-      width: 20px;
-      height: 20px;
+      width: 19px;
+      height: 19px;
+      fill: currentColor;
+    }
+
+    .btn-coffee-large {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background-color: var(--coffee);
+      color: #FFFFFF !important;
+      padding: 13px 24px;
+      border-radius: 10px;
+      font-size: 15.5px;
+      font-weight: 700;
+      border: 1px solid var(--coffee);
+      transition: background-color 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+      text-decoration: none;
+    }
+
+    .btn-coffee-large:hover {
+      background-color: var(--coffee-hover);
+      border-color: var(--coffee-hover);
+      transform: translateY(-2px);
+    }
+
+    .btn-coffee-large svg {
+      width: 19px;
+      height: 19px;
       fill: currentColor;
     }
 
@@ -317,7 +396,7 @@
       gap: 8px;
       background-color: var(--bg-card);
       color: var(--text-primary);
-      padding: 14px 22px;
+      padding: 13px 20px;
       border-radius: 10px;
       font-size: 15px;
       font-weight: 600;
@@ -339,7 +418,7 @@
 
     /* Interactive Simulation */
     .demo-wrapper {
-      max-width: 880px;
+      max-width: 900px;
       margin: 0 auto 64px;
       background-color: var(--bg-card);
       border: 1px solid var(--border);
@@ -355,6 +434,8 @@
       padding: 12px 18px;
       background-color: var(--bg-elevated);
       border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     .demo-url {
@@ -368,7 +449,7 @@
       border-radius: 6px;
       border: 1px solid var(--border);
       width: 320px;
-      max-width: 50%;
+      max-width: 100%;
     }
 
     .demo-controls {
@@ -440,7 +521,7 @@
     .mock-browser {
       display: flex;
       position: relative;
-      height: 380px;
+      height: 400px;
       background-color: #17181A;
       overflow: hidden;
     }
@@ -449,11 +530,11 @@
       width: 240px;
       background-color: var(--bg-card);
       border-right: 1px solid var(--border);
-      padding: 20px 16px;
+      padding: 22px 18px;
       display: flex;
       flex-direction: column;
       gap: 12px;
-      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, margin 0.3s ease;
+      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, margin 0.35s ease;
       flex-shrink: 0;
     }
 
@@ -473,7 +554,7 @@
       letter-spacing: 0.8px;
       color: var(--coral);
       font-weight: 700;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .mock-link {
@@ -490,36 +571,74 @@
 
     .mock-content {
       flex: 1;
-      padding: 28px 36px;
+      padding: 30px 36px;
       overflow-y: auto;
       transition: padding 0.3s ease;
     }
 
-    .mock-content h3 {
-      font-size: 20px;
+    .mock-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .mock-tag {
+      font-size: 11px;
       font-weight: 700;
-      margin-bottom: 14px;
+      color: var(--coral);
+      background-color: rgba(255, 112, 94, 0.12);
+      padding: 2px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .mock-date {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .mock-title {
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 12px;
       color: var(--text-primary);
     }
 
-    .mock-para {
+    .mock-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .mock-text strong {
+      color: var(--text-primary);
+    }
+
+    .mock-stats-row {
+      display: flex;
+      gap: 24px;
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    .mock-stat {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-bottom: 20px;
     }
 
-    .mock-line {
-      height: 13px;
-      border-radius: 4px;
-      background-color: #2D2F34;
+    .mock-stat strong {
+      font-size: 17px;
+      color: var(--accent);
     }
 
-    .mock-line.full { width: 100%; }
-    .mock-line.p95 { width: 95%; }
-    .mock-line.p85 { width: 85%; }
-    .mock-line.p75 { width: 75%; }
-    .mock-line.p60 { width: 60%; }
+    .mock-stat span {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
 
     .mock-scrollbar {
       width: 12px;
@@ -766,7 +885,26 @@
       color: var(--text-secondary);
       font-size: 16px;
       max-width: 580px;
-      margin: 0 auto 28px;
+      margin: 0 auto 24px;
+    }
+
+    .banner-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .contact-sub {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+    }
+
+    .contact-sub a {
+      color: var(--accent);
+      text-decoration: underline;
     }
 
     /* Footer */
@@ -822,6 +960,9 @@
       .mock-sidebar {
         width: 160px;
       }
+      .nav-links {
+        display: none;
+      }
     }
   </style>
 </head>
@@ -839,6 +980,11 @@
         <a href="#simulation">Live Demo</a>
         <a href="#how-it-works">How to Use</a>
         <a href="#faq">FAQ</a>
+        <a href="https://witrfaruk.vercel.app/contact" target="_blank" rel="noopener noreferrer">Contact</a>
+        <a href="https://buymeacoffee.com/witrfaruk" target="_blank" rel="noopener noreferrer" class="btn-coffee">
+          <svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>
+          <span>Buy Me a Coffee</span>
+        </a>
         <a href="https://github.com/witrfaruk/Sidebar-Remover" target="_blank" rel="noopener noreferrer" class="btn-nav">GitHub</a>
       </nav>
     </div>
@@ -859,10 +1005,19 @@
           Automatically detect and hide cluttering sidebars, sticky navigation rails, and scrollbars across any website. Reclaim your horizontal reading space with one click.
         </p>
 
+        <div class="developer-notice">
+          <span>Need custom features or help? Visit</span>
+          <a href="https://witrfaruk.vercel.app/contact" target="_blank" rel="noopener noreferrer">witrfaruk.vercel.app/contact</a>
+        </div>
+
         <div class="cta-group">
           <a href="https://github.com/witrfaruk/Sidebar-Remover" class="btn-primary" target="_blank" rel="noopener noreferrer">
             <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
             <span>Get on GitHub</span>
+          </a>
+          <a href="https://buymeacoffee.com/witrfaruk" class="btn-coffee-large" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>
+            <span>Buy Me a Coffee</span>
           </a>
           <a href="#simulation" class="btn-secondary">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
@@ -911,18 +1066,21 @@
 
             <!-- Simulated Article Content -->
             <div class="mock-content">
-              <h3>Enjoy Reading Without Side Distractions</h3>
-              <div class="mock-para">
-                <div class="mock-line full"></div>
-                <div class="mock-line p95"></div>
-                <div class="mock-line p85"></div>
-                <div class="mock-line p75"></div>
+              <div class="mock-meta">
+                <span class="mock-tag">READING EXPERIENCE</span>
+                <span class="mock-date">5 min read • Productivity</span>
               </div>
-              <div class="mock-para">
-                <div class="mock-line full"></div>
-                <div class="mock-line p85"></div>
-                <div class="mock-line p95"></div>
-                <div class="mock-line p60"></div>
+              <h3 class="mock-title">Reclaim Your Screen: The Clean Web Guide</h3>
+              <p class="mock-text">
+                Modern websites are inundated with persistent side navigation rails, floating promotional panels, and redundant scrollbars that consume up to 40% of horizontal viewport width.
+              </p>
+              <p class="mock-text">
+                With <strong>Sidebar Remover</strong> active, layouts automatically re-balance into clean, edge-to-edge typography. Essential reading content flows naturally across your screen while keeping all page interaction and scrolling 100% fluid.
+              </p>
+              <div class="mock-stats-row">
+                <div class="mock-stat"><strong>+42%</strong><span>Horizontal Space</span></div>
+                <div class="mock-stat"><strong>0ms</strong><span>Reading Lag</span></div>
+                <div class="mock-stat"><strong>100%</strong><span>Privacy Local</span></div>
               </div>
             </div>
 
@@ -1039,7 +1197,7 @@
         </div>
 
         <div class="faq-list">
-          <details class="faq-item" open>
+          <details class="faq-item">
             <summary>
               <span>What is Sidebar Remover for all websites?</span>
               <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
@@ -1098,10 +1256,17 @@
         <div class="banner-box">
           <h2>Ready for Distraction-Free Browsing?</h2>
           <p>Reclaim your horizontal screen real estate today. 100% free, privacy-first, and open source.</p>
-          <a href="https://github.com/witrfaruk/Sidebar-Remover" class="btn-primary" target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
-            <span>Download Sidebar Remover</span>
-          </a>
+          <div class="banner-actions">
+            <a href="https://github.com/witrfaruk/Sidebar-Remover" class="btn-primary" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
+              <span>Download on GitHub</span>
+            </a>
+            <a href="https://buymeacoffee.com/witrfaruk" class="btn-coffee-large" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>
+              <span>Buy Me a Coffee</span>
+            </a>
+          </div>
+          <p class="contact-sub">For developer inquiries, visit <a href="https://witrfaruk.vercel.app/contact" target="_blank" rel="noopener noreferrer">witrfaruk.vercel.app/contact</a></p>
         </div>
       </div>
     </section>
@@ -1115,8 +1280,9 @@
         <span>Made with love by <a href="https://github.com/witrfaruk" target="_blank" rel="noopener noreferrer">WitrFaruk</a></span>
       </div>
       <div class="footer-links">
-        <a href="https://github.com/witrfaruk/Sidebar-Remover" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+        <a href="https://witrfaruk.vercel.app/contact" target="_blank" rel="noopener noreferrer">Contact Developer</a>
         <a href="https://buymeacoffee.com/witrfaruk" target="_blank" rel="noopener noreferrer">Buy Me a Coffee</a>
+        <a href="https://github.com/witrfaruk/Sidebar-Remover" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
       </div>
     </div>
   </footer>
@@ -1142,6 +1308,17 @@
       } else {
         demoScrollbar.classList.remove("hidden-state");
       }
+    });
+
+    // Accordion behavior: ensure only one FAQ is open at a time
+    document.querySelectorAll(".faq-item").forEach((item) => {
+      item.addEventListener("toggle", () => {
+        if (item.open) {
+          document.querySelectorAll(".faq-item").forEach((other) => {
+            if (other !== item) other.removeAttribute("open");
+          });
+        }
+      });
     });
   </script>
 </body>

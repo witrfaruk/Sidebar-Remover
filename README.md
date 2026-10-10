@@ -75,8 +75,9 @@
 
 <div align="center">
 
-Made with ❤️ by [WitrFaruk](https://github.com/witrfaruk)
+Made with ❤️ by [WitrFaruk](https://github.com/witrfaruk) • [Contact Developer](https://witrfaruk.vercel.app/contact)
 
+[![Contact Developer](https://img.shields.io/badge/Contact_Developer-Visit-8FB7A0?style=for-the-badge&logo=vercel&logoColor=white)](https://witrfaruk.vercel.app/contact)
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-Donate-FF813F?style=for-the-badge&logo=buymeacoffee&logoColor=white)](https://buymeacoffee.com/witrfaruk)
 [![Star on GitHub](https://img.shields.io/badge/Star_on_GitHub-★-F43F87?style=for-the-badge&logo=github&logoColor=white)](https://github.com/witrfaruk/Sidebar-Remover)
 
