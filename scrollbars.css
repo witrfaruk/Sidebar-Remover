@@ -1,0 +1,62 @@
+/* Sidebar Remover - Global Scrollbar Killer */
+html:not(.sbr-show-scrollbars),
+html:not(.sbr-show-scrollbars) body,
+html:not(.sbr-show-scrollbars) :root,
+html:not(.sbr-show-scrollbars) * {
+  scrollbar-width: none !important;
+  scrollbar-color: transparent transparent !important;
+  -ms-overflow-style: none !important;
+}
+
+html:not(.sbr-show-scrollbars) ::-webkit-scrollbar,
+html:not(.sbr-show-scrollbars) ::-webkit-scrollbar-button,
+html:not(.sbr-show-scrollbars) ::-webkit-scrollbar-track,
+html:not(.sbr-show-scrollbars) ::-webkit-scrollbar-track-piece,
+html:not(.sbr-show-scrollbars) ::-webkit-scrollbar-thumb,
+html:not(.sbr-show-scrollbars) ::-webkit-scrollbar-corner,
+html:not(.sbr-show-scrollbars) ::-webkit-resizer,
+html:not(.sbr-show-scrollbars) *::-webkit-scrollbar,
+html:not(.sbr-show-scrollbars) *::-webkit-scrollbar-button,
+html:not(.sbr-show-scrollbars) *::-webkit-scrollbar-track,
+html:not(.sbr-show-scrollbars) *::-webkit-scrollbar-track-piece,
+html:not(.sbr-show-scrollbars) *::-webkit-scrollbar-thumb,
+html:not(.sbr-show-scrollbars) *::-webkit-scrollbar-corner,
+html:not(.sbr-show-scrollbars) *::-webkit-resizer {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: 0 !important;
+  max-height: 0 !important;
+  background: transparent !important;
+  color: transparent !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Custom JS Scrollbar plugins (SimpleBar, PerfectScrollbar, OverlayScrollbars, etc.) */
+html:not(.sbr-show-scrollbars) .simplebar-track,
+html:not(.sbr-show-scrollbars) .simplebar-scrollbar,
+html:not(.sbr-show-scrollbars) .ps__rail-y,
+html:not(.sbr-show-scrollbars) .ps__rail-x,
+html:not(.sbr-show-scrollbars) .ps__thumb-y,
+html:not(.sbr-show-scrollbars) .ps__thumb-x,
+html:not(.sbr-show-scrollbars) .os-scrollbar,
+html:not(.sbr-show-scrollbars) .os-scrollbar-track,
+html:not(.sbr-show-scrollbars) .os-scrollbar-handle,
+html:not(.sbr-show-scrollbars) .mCSB_scrollTools,
+html:not(.sbr-show-scrollbars) .mCSB_dragger,
+html:not(.sbr-show-scrollbars) .nano-pane,
+html:not(.sbr-show-scrollbars) .nano-slider,
+html:not(.sbr-show-scrollbars) [class*="scrollbar-track"],
+html:not(.sbr-show-scrollbars) [class*="scrollbar-thumb"],
+html:not(.sbr-show-scrollbars) [class*="custom-scrollbar"]::-webkit-scrollbar {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}

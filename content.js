@@ -5,13 +5,80 @@
 
   const HIDDEN_ATTR = "data-sbr-hidden";
   const STYLE_ID = "sbr-style";
-  const THRESHOLD = 7;
+  const THRESHOLD = 5;
   const DEFAULTS = { globalEnabled: true, allowlist: [], blocklist: [], hideScrollbars: true };
   const SCROLL_ID = "sbr-scroll-style";
   const host = location.hostname.replace(/^www\./, "");
+  const isTop = window === window.top;
 
-  const NAME_RE = /(^|[\s_-])(sidebar|side-bar|sidenav|side-nav|sidepanel|side-panel|leftnav|rightnav|left-nav|right-nav|leftcol|rightcol|left-col|right-col|left-rail|right-rail|rail|drawer|offcanvas|off-canvas|aside)([\s_-]|$)/i;
+  const NAME_RE = /(^|[\s_-])(sidebar|side-bar|sidenav|side-nav|sidepanel|side-panel|side-menu|leftnav|rightnav|left-nav|right-nav|leftcol|rightcol|left-col|right-col|left-rail|right-rail|rail|drawer|offcanvas|off-canvas|aside)([\s_-]|$)/i;
   const PROTECT_RE = /(filter|facet|refine|chat|messag|comment|discussion|player|video|cart|checkout|toc|table-of-contents|editor|compose|modal|dialog|cookie|consent)/i;
+
+  const SCROLL_CSS = `
+    html, body, :root, * {
+      scrollbar-width: none !important;
+      scrollbar-color: transparent transparent !important;
+      -ms-overflow-style: none !important;
+    }
+    ::-webkit-scrollbar,
+    ::-webkit-scrollbar-button,
+    ::-webkit-scrollbar-track,
+    ::-webkit-scrollbar-track-piece,
+    ::-webkit-scrollbar-thumb,
+    ::-webkit-scrollbar-corner,
+    ::-webkit-resizer,
+    html::-webkit-scrollbar,
+    html::-webkit-scrollbar-button,
+    html::-webkit-scrollbar-track,
+    html::-webkit-scrollbar-thumb,
+    body::-webkit-scrollbar,
+    body::-webkit-scrollbar-button,
+    body::-webkit-scrollbar-track,
+    body::-webkit-scrollbar-thumb,
+    *::-webkit-scrollbar,
+    *::-webkit-scrollbar-button,
+    *::-webkit-scrollbar-track,
+    *::-webkit-scrollbar-track-piece,
+    *::-webkit-scrollbar-thumb,
+    *::-webkit-scrollbar-corner,
+    *::-webkit-resizer {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      min-width: 0 !important;
+      min-height: 0 !important;
+      max-width: 0 !important;
+      max-height: 0 !important;
+      background: transparent !important;
+      color: transparent !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+    .simplebar-track,
+    .simplebar-scrollbar,
+    .ps__rail-y,
+    .ps__rail-x,
+    .ps__thumb-y,
+    .ps__thumb-x,
+    .os-scrollbar,
+    .os-scrollbar-track,
+    .os-scrollbar-handle,
+    .mCSB_scrollTools,
+    .mCSB_dragger,
+    .nano-pane,
+    .nano-slider,
+    [class*="scrollbar-track"],
+    [class*="scrollbar-thumb"],
+    [class*="custom-scrollbar"]::-webkit-scrollbar {
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+  `;
 
   let enabled = false;
   let paused = false; // user pressed "restore" for this page session
@@ -22,6 +89,10 @@
   let pending = new Set();
   let scheduled = false;
   let lastUrl = location.href;
+  let scrollbarsActive = false;
+
+  // Immediate synchronous scrollbar suppression
+  setScrollbars(true);
 
   // ---------- settings ----------
   function computeEnabled(s) {
@@ -45,7 +116,37 @@
     const st = document.createElement("style");
     st.id = STYLE_ID;
     st.textContent = `[${HIDDEN_ATTR}]{display:none !important;}`;
-    (document.head || document.documentElement).appendChild(st);
+    const parent = document.head || document.documentElement;
+    if (parent) parent.appendChild(st);
+  }
+
+  function setScrollbars(on) {
+    scrollbarsActive = on;
+    const root = document.documentElement;
+    if (root) {
+      if (on) {
+        root.classList.remove("sbr-show-scrollbars");
+      } else {
+        root.classList.add("sbr-show-scrollbars");
+      }
+    }
+    const ex = document.getElementById(SCROLL_ID);
+    if (!on) {
+      if (ex) ex.remove();
+      return;
+    }
+    if (ex && ex.textContent === SCROLL_CSS) {
+      const target = document.head || document.documentElement;
+      if (target && target.lastElementChild !== ex) {
+        target.appendChild(ex);
+      }
+      return;
+    }
+    const st = ex || document.createElement("style");
+    st.id = SCROLL_ID;
+    st.textContent = SCROLL_CSS;
+    const parent = document.head || document.documentElement;
+    if (parent) parent.appendChild(st);
   }
 
   // ---------- detection ----------
@@ -66,21 +167,31 @@
     if (role === "main" || role === "dialog" || role === "alertdialog" || role === "log" || role === "feed") return true;
     if (el.getAttribute("aria-modal") === "true") return true;
     if (PROTECT_RE.test(nameOf(el)) || PROTECT_RE.test(labelOf(el))) return true;
+
     // contains essential content
-    if (el.querySelector("main, [role=main], article, video, h1, [contenteditable=''], [contenteditable=true], textarea, [role=log], [role=feed]")) return true;
+    if (el.querySelector("main, [role=main], article, video, [contenteditable=''], [contenteditable=true], textarea, [role=log], [role=feed]")) return true;
+
+    // If it has an h1, only protect if it is NOT a navigation element and lacks navigation links
+    if (el.querySelector("h1")) {
+      const isNav = tag === "NAV" || tag === "ASIDE" || role === "navigation" || role === "complementary" || NAME_RE.test(nameOf(el));
+      const linkCount = el.querySelectorAll("a[href]").length;
+      if (!isNav || linkCount < 3) return true;
+    }
+
     // looks like main content: lots of prose, media, or headings
     const text = (el.innerText || "").length;
-    if (text > 2500) return true;
-    if (el.querySelectorAll("p").length >= 5) return true;
-    if (el.querySelectorAll("h2, h3").length >= 4) return true;
-    if (el.querySelectorAll("img, picture, figure, canvas, svg").length >= 6) return true;
-    if (el.querySelectorAll("article, [class*=card i], [class*=post i], [class*=item i]").length >= 6) return true;
+    if (text > 3500) return true;
+    if (el.querySelectorAll("p").length >= 6) return true;
+    if (el.querySelectorAll("h2, h3").length >= 5) return true;
+
     // product filters: many checkboxes / range inputs
     if (el.querySelectorAll("input[type=checkbox], input[type=radio], input[type=range]").length >= 4) return true;
+
     // embedded players / chat widgets
     if (el.querySelector("iframe[src*='youtube'], iframe[src*='vimeo'], iframe[src*='player'], iframe[title*='chat' i]")) return true;
+
     // the element is basically the whole page
-    if (rect.width > window.innerWidth * 0.45) return true;
+    if (rect.width > window.innerWidth * 0.48) return true;
     return false;
   }
 
@@ -91,25 +202,24 @@
     const rect = el.getBoundingClientRect();
     const vw = window.innerWidth;
     const vh = window.innerHeight;
-    if (rect.width < 100 || rect.height < 100) return -1;
-    if (vw < 700) return -1; // mobile layouts: sidebars are usually already collapsed
+    if (rect.width < 80 || rect.height < 100) return -1;
+    if (vw < 680) return -1; // mobile layouts: sidebars are usually already collapsed
 
     const cs = getComputedStyle(el);
     if (cs.display === "none" || cs.visibility === "hidden" || parseFloat(cs.opacity) === 0) return -1;
 
-    // hard geometry gates
-    const widthOk = rect.width >= 120 && rect.width <= Math.min(480, vw * 0.35);
+    // geometry gates
+    const widthOk = rect.width >= 100 && rect.width <= Math.min(520, vw * 0.38);
     const visibleHeight = Math.min(rect.bottom, vh) - Math.max(rect.top, 0);
-    const tall = rect.height >= vh * 0.5 || visibleHeight >= vh * 0.6;
-    const onLeft = rect.left <= vw * 0.2;
-    const onRight = rect.right >= vw * 0.8;
+    const tall = rect.height >= vh * 0.45 || visibleHeight >= vh * 0.55;
+    const onLeft = rect.left <= vw * 0.25;
+    const onRight = rect.right >= vw * 0.75;
     if (!widthOk || !tall || !(onLeft || onRight)) return -1;
     if (rect.right <= 0 || rect.left >= vw) return -1; // off-screen drawer already collapsed
 
     if (isProtected(el, rect)) return -1;
 
     // hard gate: only hide elements that are clearly labelled as a sidebar/navigation.
-    // Without a semantic or naming signal we never touch the element, so main content is safe.
     const tag0 = el.tagName;
     const role0 = el.getAttribute("role");
     const named = NAME_RE.test(nameOf(el));
@@ -125,9 +235,9 @@
     if (NAME_RE.test(nameOf(el))) score += 2;
     if (/sidebar|navigation|menu/i.test(labelOf(el))) score += 1;
     if (cs.position === "fixed" || cs.position === "sticky") score += 2;
-    if (rect.height >= vh * 0.85) score += 1;
-    if (onLeft && rect.left <= 8) score += 1;
-    if (onRight && rect.right >= vw - 8) score += 1;
+    if (rect.height >= vh * 0.8) score += 1;
+    if (onLeft && rect.left <= 12) score += 1;
+    if (onRight && rect.right >= vw - 12) score += 1;
 
     // layout column: parent has a sibling much wider than this element
     const parent = el.parentElement;
@@ -135,8 +245,8 @@
       for (const sib of parent.children) {
         if (sib === el || !(sib instanceof HTMLElement)) continue;
         const r = sib.getBoundingClientRect();
-        if (r.width >= rect.width * 1.8 && r.height >= vh * 0.4) {
-          const horizontallySeparate = r.left >= rect.right - 4 || r.right <= rect.left + 4;
+        if (r.width >= rect.width * 1.5 && r.height >= vh * 0.35) {
+          const horizontallySeparate = r.left >= rect.right - 8 || r.right <= rect.left + 8;
           if (horizontallySeparate) { score += 2; break; }
         }
       }
@@ -145,20 +255,20 @@
     // link density (navigation-like)
     const links = el.querySelectorAll("a[href]").length;
     const textLen = (el.innerText || "").length || 1;
-    if (links >= 5) score += 1;
-    if (links >= 5 && links / (textLen / 40) > 0.6) score += 1;
+    if (links >= 4) score += 1;
+    if (links >= 4 && links / (textLen / 40) > 0.5) score += 1;
 
     // penalties
-    if (el.querySelectorAll("img").length > 6 && links < 5) score -= 2; // likely gallery/content
-    if (textLen > 4000) score -= 2; // long prose, likely content
-    if (el.querySelector("input[type=search], input[type=text]") && links < 5) score -= 2;
+    if (el.querySelectorAll("img").length > 8 && links < 4) score -= 2; // gallery/content
+    if (textLen > 4500) score -= 2; // long prose, likely content
+    if (el.querySelector("input[type=search], input[type=text]") && links < 4) score -= 2;
 
     return score;
   }
 
   function candidatesIn(root) {
     const out = new Set();
-    const sel = "aside, nav, [role=complementary], [role=navigation], [id*=side i], [class*=side i], [class*=drawer i], [class*=rail i], [class*=nav i]";
+    const sel = "aside, nav, [role=complementary], [role=navigation], [id*=side i], [class*=side i], [class*=drawer i], [class*=rail i], [class*=nav i], [class*=menu i]";
     if (root instanceof HTMLElement && root.matches(sel)) out.add(root);
     if (root.querySelectorAll) root.querySelectorAll(sel).forEach((e) => out.add(e));
     return out;
@@ -196,7 +306,7 @@
     const side = onLeft ? "left" : "right";
 
     // fixed/sticky sidebars: content is offset with margin/padding roughly equal to the sidebar width
-    if (wasFixed) {
+    if (wasFixed && document.body) {
       const targets = [document.body, ...document.body.children, ...document.querySelectorAll("main, [role=main]")];
       for (const t of targets) {
         if (!(t instanceof HTMLElement) || t === sidebar || t.hasAttribute(HIDDEN_ATTR)) continue;
@@ -204,7 +314,7 @@
         for (const kind of ["margin", "padding"]) {
           const prop = `${kind}-${side}`;
           const v = parseFloat(cs[`${kind}${onLeft ? "Left" : "Right"}`]);
-          if (v > 0 && Math.abs(v - w) <= Math.max(24, w * 0.15)) {
+          if (v > 0 && Math.abs(v - w) <= Math.max(30, w * 0.18)) {
             saveInline(t, [prop]);
             t.style.setProperty(prop, "0px", "important");
           }
@@ -256,7 +366,7 @@
     if (!enabled || paused || !document.body) return;
     try {
       const cands = new Set();
-      roots.forEach((r) => { if (r.isConnected) candidatesIn(r).forEach((c) => cands.add(c)); });
+      roots.forEach((r) => { if (r && r.isConnected) candidatesIn(r).forEach((c) => cands.add(c)); });
       const chosen = pickHighConfidence(cands);
       if (chosen.length) {
         observer && observer.disconnect(); // our own changes must not retrigger the observer
@@ -264,7 +374,6 @@
         observe();
       }
     } catch (e) {
-      // detection failures must never break the host page
       console.debug("[Sidebar Remover] scan failed:", e);
     }
   }
@@ -291,47 +400,42 @@
             if (n.nodeType === 1 && n.id !== STYLE_ID && n.id !== SCROLL_ID) { schedule(n); any = true; }
           }
         }
-        if (any && pending.size > 200) { pending = new Set([document.body]); }
+        if (any && pending.size > 200 && document.body) { pending = new Set([document.body]); }
+
+        // Re-affirm scrollbar hiding if website re-rendered head or removed styles
+        if (scrollbarsActive) {
+          const ex = document.getElementById(SCROLL_ID);
+          if (!ex) setScrollbars(true);
+        }
       });
     }
     if (document.body) observer.observe(document.body, { childList: true, subtree: true });
   }
 
   function fullRescan() {
-    // route change: forget previous evaluations so new layouts are re-checked
     pending = new Set();
-    scan([document.body]);
+    if (document.body) scan([document.body]);
   }
 
   function onUrlChange() {
     if (location.href === lastUrl) return;
     lastUrl = location.href;
-    // re-allow evaluation of elements whose geometry may now differ
     setTimeout(() => {
       resetEvaluated();
       fullRescan();
-    }, 600);
+      if (scrollbarsActive) setScrollbars(true);
+    }, 400);
   }
 
   function resetEvaluated() {
     evaluated = new WeakSet();
   }
 
-  function setScrollbars(on) {
-    const ex = document.getElementById(SCROLL_ID);
-    if (!on) { ex && ex.remove(); return; }
-    if (ex) return;
-    const st = document.createElement("style");
-    st.id = SCROLL_ID;
-    st.textContent = "html,body,*{scrollbar-width:none !important;}*::-webkit-scrollbar{width:0 !important;height:0 !important;display:none !important;}";
-    (document.head || document.documentElement).appendChild(st);
-  }
-
   // ---------- lifecycle ----------
   async function apply() {
     const s = await loadSettings();
     const next = computeEnabled(s);
-    setScrollbars(next && s.hideScrollbars);
+    setScrollbars(s.hideScrollbars);
     if (next === enabled) return;
     enabled = next;
     if (enabled) {
@@ -368,7 +472,14 @@
 
   window.addEventListener("popstate", onUrlChange);
   window.addEventListener("hashchange", onUrlChange);
-  setInterval(onUrlChange, 1000); // pushState in the page's world is invisible to isolated scripts
+  setInterval(onUrlChange, 1000);
 
-  apply();
+  // Initialize
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
+      apply();
+    }, { once: true });
+  } else {
+    apply();
+  }
 })();

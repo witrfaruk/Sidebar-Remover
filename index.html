@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sidebar Remover for All Websites — Hide Clutter &amp; Scrollbars (Chrome Extension)</title>
+  <meta name="description" content="Automatically detect and remove distracting website sidebars and scrollbars across all websites. Reclaim horizontal screen space with this 100% local, privacy-first Chrome Extension." />
+  <meta name="keywords" content="sidebar remover for all websites, remove sidebar chrome extension, hide website sidebar, hide scrollbars chrome, website sidebar blocker, distraction free reading, reclaim screen space" />
+  <meta name="author" content="WitrFaruk" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <link rel="canonical" href="https://witrfaruk.github.io/Sidebar-Remover/" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://witrfaruk.github.io/Sidebar-Remover/" />
+  <meta property="og:title" content="Sidebar Remover for All Websites — Free Chrome Extension" />
+  <meta property="og:description" content="Reclaim screen space and enjoy distraction-free reading by automatically hiding sidebars and scrollbars across any website." />
+  <meta property="og:image" content="https://witrfaruk.github.io/Sidebar-Remover/icons/icon128.png" />
+  <meta property="og:site_name" content="Sidebar Remover" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:url" content="https://witrfaruk.github.io/Sidebar-Remover/" />
+  <meta name="twitter:title" content="Sidebar Remover for All Websites — Chrome Extension" />
+  <meta name="twitter:description" content="Automatically detect and hide cluttering website sidebars and scrollbars across any website. Fully local &amp; reversible." />
+  <meta name="twitter:image" content="https://witrfaruk.github.io/Sidebar-Remover/icons/icon128.png" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/icon32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/icon16.png" />
+  <link rel="apple-touch-icon" href="icons/icon128.png" />
+  <meta name="theme-color" content="#222326" />
+
+  <!-- Structured Data: SoftwareApplication Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Sidebar Remover for All Websites",
+    "operatingSystem": "Google Chrome, Microsoft Edge, Brave, Chromium",
+    "applicationCategory": "BrowserExtension",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": "Chrome extension that detects and hides cluttering website sidebars and scrollbars to reclaim horizontal reading space. 100% local, privacy-first, and fully reversible.",
+    "author": {
+      "@type": "Person",
+      "name": "WitrFaruk",
+      "url": "https://github.com/witrfaruk"
+    },
+    "url": "https://witrfaruk.github.io/Sidebar-Remover/",
+    "image": "https://witrfaruk.github.io/Sidebar-Remover/icons/icon128.png",
+    "downloadUrl": "https://github.com/witrfaruk/Sidebar-Remover"
+  }
+  </script>
+
+  <!-- Structured Data: FAQPage Schema (AEO / Answer Engine Optimization) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is Sidebar Remover for all websites?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sidebar Remover is a free, privacy-first Google Chrome extension that automatically detects and hides sticky sidebars, navigation rails, and floating side panels across any website to reclaim horizontal reading space."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Sidebar Remover break website layouts?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Sidebar Remover uses smart layout re-balancing. When a sidebar is hidden, the main reading area smoothly expands to fill the horizontal space while preserving essential content, video players, and core navigation."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I hide scrollbars on websites without disabling scrolling?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes! Sidebar Remover features a built-in Hide Scrollbars toggle. It completely removes the visual vertical and horizontal scrollbars from pages while still allowing smooth scrolling with your mouse wheel, trackpad, and keyboard arrow keys."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Sidebar Remover collect any personal data?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Sidebar Remover runs 100% locally inside your browser. It contains zero analytics, zero trackers, and makes zero network requests. Your browsing history never leaves your device."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I enable or disable it for specific websites?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The extension popup includes a one-click switch for the current website, as well as customizable Allowlist and Blocklist settings so you have full control over where it runs."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg-main: #222326;
+      --bg-card: #2B2D31;
+      --bg-elevated: #34363B;
+      --bg-elevated-hover: #3E4147;
+      --text-primary: #F0EEE9;
+      --text-secondary: #A4A5AA;
+      --border: #414349;
+      --accent: #F43F87;
+      --accent-hover: #FF5C91;
+      --coral: #FF705E;
+      --success: #8FB7A0;
+      --disabled: #66686D;
+      --focus-outline: #FF5C91;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    a:hover {
+      color: var(--accent-hover);
+    }
+
+    /* Container */
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header Nav */
+    header.site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: rgba(34, 35, 38, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .brand img {
+      width: 36px;
+      height: 36px;
+      display: block;
+      border-radius: 8px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-primary);
+    }
+
+    .btn-nav {
+      background-color: var(--accent);
+      color: var(--text-primary) !important;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      border: 1px solid var(--accent);
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn-nav:hover {
+      background-color: var(--accent-hover);
+      border-color: var(--accent-hover);
+    }
+
+    /* Hero Section */
+    section.hero {
+      padding: 72px 0 54px;
+      text-align: center;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--success);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--success);
+    }
+
+    h1.hero-title {
+      font-size: 46px;
+      line-height: 1.18;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      max-width: 860px;
+      margin: 0 auto 20px;
+      color: var(--text-primary);
+    }
+
+    h1.hero-title span.highlight {
+      color: var(--accent);
+    }
+
+    p.hero-subtitle {
+      font-size: 19px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      max-width: 720px;
+      margin: 0 auto 36px;
+    }
+
+    .cta-group {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background-color: var(--accent);
+      color: var(--text-primary);
+      padding: 14px 26px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      border: 1px solid var(--accent);
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--accent-hover);
+      border-color: var(--accent-hover);
+      color: var(--text-primary);
+    }
+
+    .btn-primary svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--bg-card);
+      color: var(--text-primary);
+      padding: 14px 22px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--bg-elevated);
+      border-color: var(--text-secondary);
+      color: var(--text-primary);
+    }
+
+    .btn-secondary svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+    }
+
+    /* Interactive Simulation */
+    .demo-wrapper {
+      max-width: 880px;
+      margin: 0 auto 64px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      text-align: left;
+    }
+
+    .demo-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 18px;
+      background-color: var(--bg-elevated);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .demo-url {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      background-color: var(--bg-main);
+      padding: 5px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      width: 320px;
+      max-width: 50%;
+    }
+
+    .demo-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .demo-toggle-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Switch */
+    .switch-ui {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      display: inline-block;
+    }
+
+    .switch-ui input {
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      margin: 0;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .switch-ui span {
+      position: absolute;
+      inset: 0;
+      background-color: var(--bg-main);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+      cursor: pointer;
+    }
+
+    .switch-ui span::before {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      left: 3px;
+      top: 3px;
+      background-color: var(--text-secondary);
+      border-radius: 50%;
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s ease;
+    }
+
+    .switch-ui input:checked + span {
+      background-color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .switch-ui input:checked + span::before {
+      transform: translateX(18px);
+      background-color: var(--text-primary);
+    }
+
+    /* Demo Screen */
+    .mock-browser {
+      display: flex;
+      position: relative;
+      height: 380px;
+      background-color: #17181A;
+      overflow: hidden;
+    }
+
+    .mock-sidebar {
+      width: 240px;
+      background-color: var(--bg-card);
+      border-right: 1px solid var(--border);
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, margin 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .mock-sidebar.hidden-state {
+      width: 0;
+      padding: 0;
+      opacity: 0;
+      border-right: none;
+      overflow: hidden;
+      margin-left: -1px;
+    }
+
+    .mock-badge {
+      display: inline-block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--coral);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .mock-link {
+      height: 14px;
+      border-radius: 4px;
+      background-color: var(--bg-elevated);
+    }
+
+    .mock-link.w80 { width: 80%; }
+    .mock-link.w60 { width: 60%; }
+    .mock-link.w70 { width: 70%; }
+    .mock-link.w90 { width: 90%; }
+    .mock-link.w50 { width: 50%; }
+
+    .mock-content {
+      flex: 1;
+      padding: 28px 36px;
+      overflow-y: auto;
+      transition: padding 0.3s ease;
+    }
+
+    .mock-content h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+    }
+
+    .mock-para {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .mock-line {
+      height: 13px;
+      border-radius: 4px;
+      background-color: #2D2F34;
+    }
+
+    .mock-line.full { width: 100%; }
+    .mock-line.p95 { width: 95%; }
+    .mock-line.p85 { width: 85%; }
+    .mock-line.p75 { width: 75%; }
+    .mock-line.p60 { width: 60%; }
+
+    .mock-scrollbar {
+      width: 12px;
+      background-color: #222326;
+      border-left: 1px solid #34363B;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 4px 0;
+      flex-shrink: 0;
+      transition: width 0.25s ease, opacity 0.25s ease;
+    }
+
+    .mock-scrollbar.hidden-state {
+      width: 0;
+      opacity: 0;
+      border-left: none;
+      overflow: hidden;
+    }
+
+    .mock-thumb {
+      width: 6px;
+      height: 60px;
+      border-radius: 3px;
+      background-color: #66686D;
+      margin-top: 10px;
+    }
+
+    /* Features Grid */
+    section.features {
+      padding: 64px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 48px;
+    }
+
+    .section-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    h2.section-title {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: -0.4px;
+    }
+
+    p.section-desc {
+      color: var(--text-secondary);
+      font-size: 16px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .feature-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .feature-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .card-icon {
+      width: 44px;
+      height: 44px;
+      background-color: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 18px;
+      color: var(--accent);
+    }
+
+    .card-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .card-icon.coral {
+      color: var(--coral);
+    }
+
+    .card-icon.success {
+      color: var(--success);
+    }
+
+    .feature-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+    }
+
+    /* How It Works */
+    section.how-it-works {
+      padding: 64px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .steps-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .step-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 26px 22px;
+      position: relative;
+    }
+
+    .step-num {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 12px;
+      line-height: 1;
+    }
+
+    .step-card h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .step-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    /* FAQ / AEO Section */
+    section.faq-section {
+      padding: 64px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .faq-list {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .faq-item {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: border-color 0.15s ease;
+    }
+
+    .faq-item[open] {
+      border-color: var(--accent);
+    }
+
+    .faq-item summary {
+      padding: 18px 20px;
+      font-size: 16px;
+      font-weight: 650;
+      color: var(--text-primary);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      user-select: none;
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-chevron {
+      width: 18px;
+      height: 18px;
+      color: var(--text-secondary);
+      transition: transform 0.2s ease, color 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .faq-item[open] .faq-chevron {
+      transform: rotate(180deg);
+      color: var(--accent);
+    }
+
+    .faq-body {
+      padding: 0 20px 20px;
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+
+    /* CTA Bottom Banner */
+    section.cta-banner {
+      padding: 64px 0 80px;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    .banner-box {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 48px 28px;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .banner-box h2 {
+      font-size: 30px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .banner-box p {
+      color: var(--text-secondary);
+      font-size: 16px;
+      max-width: 580px;
+      margin: 0 auto 28px;
+    }
+
+    /* Footer */
+    footer.site-footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-left svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--coral);
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+    }
+
+    .footer-links a:hover {
+      color: var(--text-primary);
+    }
+
+    /* Responsive */
+    @media (max-width: 840px) {
+      h1.hero-title {
+        font-size: 34px;
+      }
+      .grid-3, .steps-row {
+        grid-template-columns: 1fr;
+      }
+      .mock-sidebar {
+        width: 160px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Site Navigation -->
+  <header class="site-header">
+    <div class="container nav-inner">
+      <a href="#" class="brand">
+        <img src="icons/icon48.png" alt="Sidebar Remover Logo" width="36" height="36" />
+        <span>Sidebar Remover</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#simulation">Live Demo</a>
+        <a href="#how-it-works">How to Use</a>
+        <a href="#faq">FAQ</a>
+        <a href="https://github.com/witrfaruk/Sidebar-Remover" target="_blank" rel="noopener noreferrer" class="btn-nav">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="badge-pill">
+          <span class="badge-dot"></span>
+          <span>100% Free &amp; Open Source Chrome Extension</span>
+        </div>
+        <h1 class="hero-title">
+          Sidebar Remover for <span class="highlight">All Websites</span>
+        </h1>
+        <p class="hero-subtitle">
+          Automatically detect and hide cluttering sidebars, sticky navigation rails, and scrollbars across any website. Reclaim your horizontal reading space with one click.
+        </p>
+
+        <div class="cta-group">
+          <a href="https://github.com/witrfaruk/Sidebar-Remover" class="btn-primary" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
+            <span>Get on GitHub</span>
+          </a>
+          <a href="#simulation" class="btn-secondary">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+            <span>Try Live Simulation</span>
+          </a>
+        </div>
+
+        <!-- Live Interactive Simulation -->
+        <div id="simulation" class="demo-wrapper">
+          <div class="demo-bar">
+            <div class="demo-url">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24m5.66 5.66 4.24 4.24"/></svg>
+              <span>https://example.com/long-article</span>
+            </div>
+            <div class="demo-controls">
+              <label class="demo-toggle-label">
+                <span>Hide Sidebar:</span>
+                <span class="switch-ui">
+                  <input type="checkbox" id="demoSidebarToggle" checked aria-label="Toggle demo sidebar" />
+                  <span></span>
+                </span>
+              </label>
+              <label class="demo-toggle-label">
+                <span>Hide Scrollbar:</span>
+                <span class="switch-ui">
+                  <input type="checkbox" id="demoScrollbarToggle" checked aria-label="Toggle demo scrollbar" />
+                  <span></span>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div class="mock-browser">
+            <!-- Simulated Sidebar -->
+            <div id="demoSidebar" class="mock-sidebar hidden-state">
+              <span class="mock-badge">Navigation Sidebar</span>
+              <div class="mock-link w80"></div>
+              <div class="mock-link w60"></div>
+              <div class="mock-link w70"></div>
+              <div class="mock-link w90"></div>
+              <div class="mock-link w50"></div>
+              <div class="mock-link w80" style="margin-top: 14px;"></div>
+              <div class="mock-link w60"></div>
+              <div class="mock-link w70"></div>
+            </div>
+
+            <!-- Simulated Article Content -->
+            <div class="mock-content">
+              <h3>Enjoy Reading Without Side Distractions</h3>
+              <div class="mock-para">
+                <div class="mock-line full"></div>
+                <div class="mock-line p95"></div>
+                <div class="mock-line p85"></div>
+                <div class="mock-line p75"></div>
+              </div>
+              <div class="mock-para">
+                <div class="mock-line full"></div>
+                <div class="mock-line p85"></div>
+                <div class="mock-line p95"></div>
+                <div class="mock-line p60"></div>
+              </div>
+            </div>
+
+            <!-- Simulated Scrollbar -->
+            <div id="demoScrollbar" class="mock-scrollbar hidden-state">
+              <svg width="8" height="8" viewBox="0 0 24 24" fill="#888"><path d="m12 8-6 6h12z"/></svg>
+              <div class="mock-thumb"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">Core Capabilities</div>
+          <h2 class="section-title">Designed for Modern Distraction-Free Web</h2>
+          <p class="section-desc">Reclaim your screen space effortlessly across blogs, documentation sites, forums, and portals.</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="feature-card">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m14 2-10 12h7l-1 8 10-12h-7l1-8Z"/></svg>
+            </div>
+            <h3>Intelligent Auto-Detection</h3>
+            <p>Smart layout heuristics automatically detect sticky and fixed nav rails while protecting video players, comment boxes, and critical tools.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="card-icon coral">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </div>
+            <h3>Universal Scrollbar Suppression</h3>
+            <p>Eliminate vertical and horizontal scrollbars from pages. Scrolling remains 100% functional with your mouse wheel, trackpad, and keyboard.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="card-icon success">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3>100% Local &amp; Private</h3>
+            <p>Operates entirely locally in your browser. No telemetry, no external API calls, and zero browsing data collection. Always safe.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a18 18 0 0 1 0 18 18 18 0 0 1 0-18Z"/></svg>
+            </div>
+            <h3>Domain-Specific Controls</h3>
+            <p>Easily toggle on or off for individual websites. Manage custom Allowlist and Blocklist entries right from the clean popup.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="card-icon coral">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 5-5 5 5 5M4 10h9a6 6 0 0 1 0 12"/></svg>
+            </div>
+            <h3>Instant One-Click Restore</h3>
+            <p>Need navigation back for a moment? Click "Restore Hidden" in the popup to bring back sidebars instantly without reloading.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="card-icon success">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </div>
+            <h3>Premium Charcoal Dark UI</h3>
+            <p>Engineered with a high-contrast charcoal dark aesthetic that seamlessly blends with dark mode workflows and night reading.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">Quick Setup</div>
+          <h2 class="section-title">How to Install and Use</h2>
+          <p class="section-desc">Up and running in less than 30 seconds.</p>
+        </div>
+
+        <div class="steps-row">
+          <div class="step-card">
+            <div class="step-num">01</div>
+            <h3>Install the Extension</h3>
+            <p>Download from GitHub or install via Chrome Web Store. Click "Add to Chrome" and pin it to your browser toolbar.</p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-num">02</div>
+            <h3>Browse Any Website</h3>
+            <p>Visit your favorite documentation, blog, or news site. Sidebars and scrollbars disappear automatically.</p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-num">03</div>
+            <h3>Customize via Popup</h3>
+            <p>Open the extension popup to check hidden count, toggle rules for the current website, or manage your allowlists.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section (AEO / GEO optimized) -->
+    <section id="faq" class="faq-section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">Frequently Asked Questions</div>
+          <h2 class="section-title">Answers to Common Questions</h2>
+          <p class="section-desc">Everything you need to know about Sidebar Remover for all websites.</p>
+        </div>
+
+        <div class="faq-list">
+          <details class="faq-item" open>
+            <summary>
+              <span>What is Sidebar Remover for all websites?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <div class="faq-body">
+              Sidebar Remover is a free Chrome extension that automatically detects and hides sticky sidebars, navigation rails, and floating side panels across any website to reclaim horizontal reading space.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              <span>Does Sidebar Remover break website layouts?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <div class="faq-body">
+              No. Sidebar Remover uses smart layout re-balancing. When a sidebar is hidden, the main reading area smoothly expands to fill the horizontal space while preserving essential content, video players, and core navigation.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              <span>Can I hide scrollbars on websites without disabling scrolling?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <div class="faq-body">
+              Yes! Sidebar Remover features a built-in Hide Scrollbars toggle. It completely removes the visual vertical and horizontal scrollbars from pages while still allowing smooth scrolling with your mouse wheel, trackpad, and keyboard arrow keys.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              <span>Does Sidebar Remover collect any personal data?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <div class="faq-body">
+              No. Sidebar Remover runs 100% locally inside your browser. It contains zero analytics, zero trackers, and makes zero network requests. Your browsing history never leaves your device.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              <span>Why does the extension not run on the Chrome Web Store?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <div class="faq-body">
+              Google Chrome enforces a strict security restriction that prevents all extensions from injecting scripts or styles into Chrome Web Store pages and internal chrome:// settings pages. Sidebar Remover runs on all normal web pages across the internet.
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="cta-banner">
+      <div class="container">
+        <div class="banner-box">
+          <h2>Ready for Distraction-Free Browsing?</h2>
+          <p>Reclaim your horizontal screen real estate today. 100% free, privacy-first, and open source.</p>
+          <a href="https://github.com/witrfaruk/Sidebar-Remover" class="btn-primary" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
+            <span>Download Sidebar Remover</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        <span>Made with love by <a href="https://github.com/witrfaruk" target="_blank" rel="noopener noreferrer">WitrFaruk</a></span>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/witrfaruk/Sidebar-Remover" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+        <a href="https://buymeacoffee.com/witrfaruk" target="_blank" rel="noopener noreferrer">Buy Me a Coffee</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Interactive Simulation Toggles
+    const sidebarToggle = document.getElementById("demoSidebarToggle");
+    const scrollbarToggle = document.getElementById("demoScrollbarToggle");
+    const demoSidebar = document.getElementById("demoSidebar");
+    const demoScrollbar = document.getElementById("demoScrollbar");
+
+    sidebarToggle.addEventListener("change", (e) => {
+      if (e.target.checked) {
+        demoSidebar.classList.add("hidden-state");
+      } else {
+        demoSidebar.classList.remove("hidden-state");
+      }
+    });
+
+    scrollbarToggle.addEventListener("change", (e) => {
+      if (e.target.checked) {
+        demoScrollbar.classList.add("hidden-state");
+      } else {
+        demoScrollbar.classList.remove("hidden-state");
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://witrfaruk.github.io/Sidebar-Remover/sitemap.xml

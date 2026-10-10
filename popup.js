@@ -36,9 +36,14 @@ async function send(type) {
 async function refreshStatus() {
   const st = await send("sbr:status");
   const row = $("status") ? $("status").closest(".status-row") : null;
+  const isProtectedHost = host && (host.includes("chromewebstore.google.com") || host.includes("chrome.google.com"));
   if (!host) {
     $("status").textContent = "Not available on this page.";
     if (row) row.dataset.state = "disabled";
+  } else if (isProtectedHost) {
+    $("status").textContent = "Protected: Google blocks extensions on Chrome Web Store.";
+    if (row) row.dataset.state = "disabled";
+    $("siteToggle").disabled = true;
   } else if (!st) {
     $("status").textContent = "Reload the page to activate.";
     if (row) row.dataset.state = "notice";
