@@ -1,0 +1,374 @@
+/* Sidebar Remover — content script (isolated world). No network access, no data leaves the page. */
+(() => {
+  if (window.__sidebarRemoverLoaded) return;
+  window.__sidebarRemoverLoaded = true;
+
+  const HIDDEN_ATTR = "data-sbr-hidden";
+  const STYLE_ID = "sbr-style";
+  const THRESHOLD = 7;
+  const DEFAULTS = { globalEnabled: true, allowlist: [], blocklist: [], hideScrollbars: true };
+  const SCROLL_ID = "sbr-scroll-style";
+  const host = location.hostname.replace(/^www\./, "");
+
+  const NAME_RE = /(^|[\s_-])(sidebar|side-bar|sidenav|side-nav|sidepanel|side-panel|leftnav|rightnav|left-nav|right-nav|leftcol|rightcol|left-col|right-col|left-rail|right-rail|rail|drawer|offcanvas|off-canvas|aside)([\s_-]|$)/i;
+  const PROTECT_RE = /(filter|facet|refine|chat|messag|comment|discussion|player|video|cart|checkout|toc|table-of-contents|editor|compose|modal|dialog|cookie|consent)/i;
+
+  let enabled = false;
+  let paused = false; // user pressed "restore" for this page session
+  const hidden = new Set(); // elements we hid
+  let evaluated = new WeakSet();
+  const reclaimed = new Map(); // element -> original inline style props
+  let observer = null;
+  let pending = new Set();
+  let scheduled = false;
+  let lastUrl = location.href;
+
+  // ---------- settings ----------
+  function computeEnabled(s) {
+    if (s.blocklist.includes(host)) return false;
+    if (s.allowlist.includes(host)) return true;
+    return !!s.globalEnabled;
+  }
+
+  async function loadSettings() {
+    try {
+      const s = await chrome.storage.local.get(DEFAULTS);
+      return { ...DEFAULTS, ...s };
+    } catch {
+      return DEFAULTS;
+    }
+  }
+
+  // ---------- style ----------
+  function ensureStyle() {
+    if (document.getElementById(STYLE_ID)) return;
+    const st = document.createElement("style");
+    st.id = STYLE_ID;
+    st.textContent = `[${HIDDEN_ATTR}]{display:none !important;}`;
+    (document.head || document.documentElement).appendChild(st);
+  }
+
+  // ---------- detection ----------
+  function nameOf(el) {
+    const cls = typeof el.className === "string" ? el.className : el.getAttribute("class") || "";
+    return `${el.id || ""} ${cls} ${el.getAttribute("data-testid") || ""}`;
+  }
+
+  function labelOf(el) {
+    return `${el.getAttribute("aria-label") || ""} ${el.getAttribute("aria-labelledby") || ""}`;
+  }
+
+  function isProtected(el, rect) {
+    if (el === document.body || el === document.documentElement) return true;
+    const tag = el.tagName;
+    if (tag === "MAIN" || tag === "ARTICLE" || tag === "VIDEO" || tag === "IFRAME" || tag === "FORM") return true;
+    const role = el.getAttribute("role");
+    if (role === "main" || role === "dialog" || role === "alertdialog" || role === "log" || role === "feed") return true;
+    if (el.getAttribute("aria-modal") === "true") return true;
+    if (PROTECT_RE.test(nameOf(el)) || PROTECT_RE.test(labelOf(el))) return true;
+    // contains essential content
+    if (el.querySelector("main, [role=main], article, video, h1, [contenteditable=''], [contenteditable=true], textarea, [role=log], [role=feed]")) return true;
+    // looks like main content: lots of prose, media, or headings
+    const text = (el.innerText || "").length;
+    if (text > 2500) return true;
+    if (el.querySelectorAll("p").length >= 5) return true;
+    if (el.querySelectorAll("h2, h3").length >= 4) return true;
+    if (el.querySelectorAll("img, picture, figure, canvas, svg").length >= 6) return true;
+    if (el.querySelectorAll("article, [class*=card i], [class*=post i], [class*=item i]").length >= 6) return true;
+    // product filters: many checkboxes / range inputs
+    if (el.querySelectorAll("input[type=checkbox], input[type=radio], input[type=range]").length >= 4) return true;
+    // embedded players / chat widgets
+    if (el.querySelector("iframe[src*='youtube'], iframe[src*='vimeo'], iframe[src*='player'], iframe[title*='chat' i]")) return true;
+    // the element is basically the whole page
+    if (rect.width > window.innerWidth * 0.45) return true;
+    return false;
+  }
+
+  function scoreElement(el) {
+    if (!(el instanceof HTMLElement) || evaluated.has(el) || el.hasAttribute(HIDDEN_ATTR)) return -1;
+    evaluated.add(el);
+
+    const rect = el.getBoundingClientRect();
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    if (rect.width < 100 || rect.height < 100) return -1;
+    if (vw < 700) return -1; // mobile layouts: sidebars are usually already collapsed
+
+    const cs = getComputedStyle(el);
+    if (cs.display === "none" || cs.visibility === "hidden" || parseFloat(cs.opacity) === 0) return -1;
+
+    // hard geometry gates
+    const widthOk = rect.width >= 120 && rect.width <= Math.min(480, vw * 0.35);
+    const visibleHeight = Math.min(rect.bottom, vh) - Math.max(rect.top, 0);
+    const tall = rect.height >= vh * 0.5 || visibleHeight >= vh * 0.6;
+    const onLeft = rect.left <= vw * 0.2;
+    const onRight = rect.right >= vw * 0.8;
+    if (!widthOk || !tall || !(onLeft || onRight)) return -1;
+    if (rect.right <= 0 || rect.left >= vw) return -1; // off-screen drawer already collapsed
+
+    if (isProtected(el, rect)) return -1;
+
+    // hard gate: only hide elements that are clearly labelled as a sidebar/navigation.
+    // Without a semantic or naming signal we never touch the element, so main content is safe.
+    const tag0 = el.tagName;
+    const role0 = el.getAttribute("role");
+    const named = NAME_RE.test(nameOf(el));
+    const semantic = tag0 === "ASIDE" || role0 === "complementary" || tag0 === "NAV" || role0 === "navigation";
+    if (!named && !semantic) return -1;
+
+    let score = 0;
+    const tag = el.tagName;
+    const role = el.getAttribute("role");
+    if (tag === "ASIDE") score += 3;
+    if (role === "complementary") score += 3;
+    if (tag === "NAV" || role === "navigation") score += 2;
+    if (NAME_RE.test(nameOf(el))) score += 2;
+    if (/sidebar|navigation|menu/i.test(labelOf(el))) score += 1;
+    if (cs.position === "fixed" || cs.position === "sticky") score += 2;
+    if (rect.height >= vh * 0.85) score += 1;
+    if (onLeft && rect.left <= 8) score += 1;
+    if (onRight && rect.right >= vw - 8) score += 1;
+
+    // layout column: parent has a sibling much wider than this element
+    const parent = el.parentElement;
+    if (parent) {
+      for (const sib of parent.children) {
+        if (sib === el || !(sib instanceof HTMLElement)) continue;
+        const r = sib.getBoundingClientRect();
+        if (r.width >= rect.width * 1.8 && r.height >= vh * 0.4) {
+          const horizontallySeparate = r.left >= rect.right - 4 || r.right <= rect.left + 4;
+          if (horizontallySeparate) { score += 2; break; }
+        }
+      }
+    }
+
+    // link density (navigation-like)
+    const links = el.querySelectorAll("a[href]").length;
+    const textLen = (el.innerText || "").length || 1;
+    if (links >= 5) score += 1;
+    if (links >= 5 && links / (textLen / 40) > 0.6) score += 1;
+
+    // penalties
+    if (el.querySelectorAll("img").length > 6 && links < 5) score -= 2; // likely gallery/content
+    if (textLen > 4000) score -= 2; // long prose, likely content
+    if (el.querySelector("input[type=search], input[type=text]") && links < 5) score -= 2;
+
+    return score;
+  }
+
+  function candidatesIn(root) {
+    const out = new Set();
+    const sel = "aside, nav, [role=complementary], [role=navigation], [id*=side i], [class*=side i], [class*=drawer i], [class*=rail i], [class*=nav i]";
+    if (root instanceof HTMLElement && root.matches(sel)) out.add(root);
+    if (root.querySelectorAll) root.querySelectorAll(sel).forEach((e) => out.add(e));
+    return out;
+  }
+
+  // outermost-wins: skip candidates nested in an already chosen one
+  function pickHighConfidence(cands) {
+    const scored = [];
+    for (const el of cands) {
+      const s = scoreElement(el);
+      if (s >= THRESHOLD) scored.push({ el, s });
+    }
+    scored.sort((a, b) => b.s - a.s);
+    const chosen = [];
+    for (const { el } of scored) {
+      if (chosen.some((c) => c.contains(el) || el.contains(c))) continue;
+      if ([...hidden].some((h) => h.contains(el))) continue;
+      chosen.push(el);
+    }
+    return chosen;
+  }
+
+  // ---------- hide / reclaim ----------
+  function saveInline(el, props) {
+    if (!reclaimed.has(el)) {
+      const orig = {};
+      props.forEach((p) => { orig[p] = [el.style.getPropertyValue(p), el.style.getPropertyPriority(p)]; });
+      reclaimed.set(el, orig);
+    }
+  }
+
+  function reclaimSpace(sidebar, rect, wasFixed) {
+    const w = rect.width;
+    const onLeft = rect.left < window.innerWidth / 2;
+    const side = onLeft ? "left" : "right";
+
+    // fixed/sticky sidebars: content is offset with margin/padding roughly equal to the sidebar width
+    if (wasFixed) {
+      const targets = [document.body, ...document.body.children, ...document.querySelectorAll("main, [role=main]")];
+      for (const t of targets) {
+        if (!(t instanceof HTMLElement) || t === sidebar || t.hasAttribute(HIDDEN_ATTR)) continue;
+        const cs = getComputedStyle(t);
+        for (const kind of ["margin", "padding"]) {
+          const prop = `${kind}-${side}`;
+          const v = parseFloat(cs[`${kind}${onLeft ? "Left" : "Right"}`]);
+          if (v > 0 && Math.abs(v - w) <= Math.max(24, w * 0.15)) {
+            saveInline(t, [prop]);
+            t.style.setProperty(prop, "0px", "important");
+          }
+        }
+      }
+    }
+
+    // grid parents: collapse the now-empty track
+    const parent = sidebar.parentElement;
+    if (parent) {
+      const pcs = getComputedStyle(parent);
+      if (pcs.display.includes("grid")) {
+        const visible = [...parent.children].filter((c) => c instanceof HTMLElement && !c.hasAttribute(HIDDEN_ATTR) && getComputedStyle(c).display !== "none");
+        const tracks = pcs.gridTemplateColumns.split(" ").filter(Boolean);
+        if (visible.length >= 1 && tracks.length > visible.length) {
+          saveInline(parent, ["grid-template-columns", "grid-template-areas"]);
+          parent.style.setProperty("grid-template-columns", visible.length === 1 ? "minmax(0, 1fr)" : `repeat(${visible.length}, minmax(0, 1fr))`, "important");
+          parent.style.setProperty("grid-template-areas", "none", "important");
+          visible.forEach((c) => {
+            saveInline(c, ["grid-column", "max-width"]);
+            if (visible.length === 1) c.style.setProperty("grid-column", "1 / -1", "important");
+          });
+        }
+      }
+    }
+  }
+
+  function hide(el) {
+    const rect = el.getBoundingClientRect();
+    const pos = getComputedStyle(el).position;
+    el.setAttribute(HIDDEN_ATTR, "1");
+    hidden.add(el);
+    reclaimSpace(el, rect, pos === "fixed" || pos === "sticky");
+  }
+
+  function restoreAll() {
+    hidden.forEach((el) => el.removeAttribute(HIDDEN_ATTR));
+    hidden.clear();
+    reclaimed.forEach((orig, el) => {
+      for (const [p, [v, pr]] of Object.entries(orig)) {
+        if (v) el.style.setProperty(p, v, pr); else el.style.removeProperty(p);
+      }
+    });
+    reclaimed.clear();
+  }
+
+  // ---------- scanning ----------
+  function scan(roots) {
+    if (!enabled || paused || !document.body) return;
+    try {
+      const cands = new Set();
+      roots.forEach((r) => { if (r.isConnected) candidatesIn(r).forEach((c) => cands.add(c)); });
+      const chosen = pickHighConfidence(cands);
+      if (chosen.length) {
+        observer && observer.disconnect(); // our own changes must not retrigger the observer
+        chosen.forEach(hide);
+        observe();
+      }
+    } catch (e) {
+      // detection failures must never break the host page
+      console.debug("[Sidebar Remover] scan failed:", e);
+    }
+  }
+
+  function schedule(node) {
+    pending.add(node);
+    if (scheduled) return;
+    scheduled = true;
+    const run = () => {
+      scheduled = false;
+      const roots = [...pending];
+      pending = new Set();
+      scan(roots);
+    };
+    "requestIdleCallback" in window ? requestIdleCallback(run, { timeout: 800 }) : setTimeout(run, 300);
+  }
+
+  function observe() {
+    if (!observer) {
+      observer = new MutationObserver((muts) => {
+        let any = false;
+        for (const m of muts) {
+          for (const n of m.addedNodes) {
+            if (n.nodeType === 1 && n.id !== STYLE_ID && n.id !== SCROLL_ID) { schedule(n); any = true; }
+          }
+        }
+        if (any && pending.size > 200) { pending = new Set([document.body]); }
+      });
+    }
+    if (document.body) observer.observe(document.body, { childList: true, subtree: true });
+  }
+
+  function fullRescan() {
+    // route change: forget previous evaluations so new layouts are re-checked
+    pending = new Set();
+    scan([document.body]);
+  }
+
+  function onUrlChange() {
+    if (location.href === lastUrl) return;
+    lastUrl = location.href;
+    // re-allow evaluation of elements whose geometry may now differ
+    setTimeout(() => {
+      resetEvaluated();
+      fullRescan();
+    }, 600);
+  }
+
+  function resetEvaluated() {
+    evaluated = new WeakSet();
+  }
+
+  function setScrollbars(on) {
+    const ex = document.getElementById(SCROLL_ID);
+    if (!on) { ex && ex.remove(); return; }
+    if (ex) return;
+    const st = document.createElement("style");
+    st.id = SCROLL_ID;
+    st.textContent = "html,body,*{scrollbar-width:none !important;}*::-webkit-scrollbar{width:0 !important;height:0 !important;display:none !important;}";
+    (document.head || document.documentElement).appendChild(st);
+  }
+
+  // ---------- lifecycle ----------
+  async function apply() {
+    const s = await loadSettings();
+    const next = computeEnabled(s);
+    setScrollbars(next && s.hideScrollbars);
+    if (next === enabled) return;
+    enabled = next;
+    if (enabled) {
+      paused = false;
+      ensureStyle();
+      resetEvaluated();
+      fullRescan();
+      observe();
+    } else {
+      observer && observer.disconnect();
+      restoreAll();
+    }
+  }
+
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === "local") apply();
+  });
+
+  chrome.runtime.onMessage.addListener((msg, _sender, reply) => {
+    if (!msg || typeof msg !== "object") return;
+    if (msg.type === "sbr:status") {
+      reply({ enabled, paused, hiddenCount: hidden.size, host });
+    } else if (msg.type === "sbr:restore") {
+      paused = true;
+      observer && observer.disconnect();
+      restoreAll();
+      reply({ ok: true, hiddenCount: 0 });
+    } else if (msg.type === "sbr:rescan") {
+      paused = false;
+      if (enabled) { ensureStyle(); resetEvaluated(); fullRescan(); observe(); }
+      reply({ ok: true, hiddenCount: hidden.size });
+    }
+  });
+
+  window.addEventListener("popstate", onUrlChange);
+  window.addEventListener("hashchange", onUrlChange);
+  setInterval(onUrlChange, 1000); // pushState in the page's world is invisible to isolated scripts
+
+  apply();
+})();
