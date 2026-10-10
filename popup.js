@@ -109,7 +109,19 @@ $("closeSettingsBtn").onclick = () => {
   $("mainView").classList.add("active");
 };
 
-// 6. Initialize Tab & Host
+// 6. External link handler for Chrome extension popups
+document.querySelectorAll('a[target="_blank"]').forEach((a) => {
+  a.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (typeof chrome !== "undefined" && chrome?.tabs?.create) {
+      chrome.tabs.create({ url: a.href });
+    } else {
+      window.open(a.href, "_blank");
+    }
+  });
+});
+
+// 7. Initialize Tab & Host
 (async () => {
   if (typeof chrome !== "undefined" && chrome?.tabs?.query) {
     try {
