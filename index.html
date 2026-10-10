@@ -8,6 +8,7 @@
   <meta name="keywords" content="sidebar remover for all websites, remove sidebar chrome extension, hide website sidebar, hide scrollbars chrome, website sidebar blocker, distraction free reading, reclaim screen space" />
   <meta name="author" content="WitrFaruk" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="google-site-verification" content="google90004f821ac4a959" />
   <link rel="canonical" href="https://witrfaruk.github.io/Sidebar-Remover/" />
 
   <!-- Open Graph / Facebook -->
@@ -29,7 +30,12 @@
   <link rel="icon" type="image/png" sizes="32x32" href="icons/icon32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="icons/icon16.png" />
   <link rel="apple-touch-icon" href="icons/icon128.png" />
-  <meta name="theme-color" content="#222326" />
+  <meta name="theme-color" content="#FFFFFF" />
+
+  <!-- Google Fonts (Matching witrfaruk.vercel.app) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
 
   <!-- Structured Data: SoftwareApplication Schema -->
   <script type="application/ld+json">
@@ -108,21 +114,27 @@
 
   <style>
     :root {
-      --bg-main: #222326;
-      --bg-card: #2B2D31;
-      --bg-elevated: #34363B;
-      --bg-elevated-hover: #3E4147;
-      --text-primary: #F0EEE9;
-      --text-secondary: #A4A5AA;
-      --border: #414349;
-      --accent: #F43F87;
-      --accent-hover: #FF5C91;
-      --coral: #FF705E;
-      --success: #8FB7A0;
-      --coffee: #FF813F;
-      --coffee-hover: #FF9457;
-      --disabled: #66686D;
-      --focus-outline: #FF5C91;
+      --bg-main: #FFFFFF;
+      --bg-page: #FAFBFC;
+      --bg-card: #FFFFFF;
+      --bg-elevated: #F8FAFC;
+      --bg-elevated-hover: #F1F5F9;
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-muted: #94A3B8;
+      --border: #E2E8F0;
+      --border-subtle: #F1F5F9;
+      --accent: #2C3480;            /* Signature Royal Indigo from witrfaruk.vercel.app */
+      --accent-hover: #1E2563;
+      --accent-light: rgba(44, 52, 128, 0.08);
+      --coral: #FF5A5F;
+      --success: #10B981;
+      --coffee: #FFDD00;            /* Buy Me a Coffee Iconic Yellow */
+      --coffee-hover: #F5D300;
+      --coffee-text: #000000;
+      --disabled: #94A3B8;
+      --focus-outline: #2C3480;
+      --header-height: 68px;
     }
 
     *, *::before, *::after {
@@ -138,10 +150,17 @@
     body {
       background-color: var(--bg-main);
       color: var(--text-primary);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       font-size: 16px;
       line-height: 1.6;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    h1, h2, h3, h4, h5, h6, .brand, .btn-primary, .btn-secondary, .btn-coffee-large, .btn-coffee {
+      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      letter-spacing: -0.02em;
     }
 
     a {
@@ -152,6 +171,50 @@
 
     a:hover {
       color: var(--accent-hover);
+    }
+
+    /* Ambient Glowing Gradients (Matching witrfaruk.vercel.app) */
+    .ambient-glow-wrapper {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .ambient-glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(140px);
+      pointer-events: none;
+    }
+
+    .glow-top {
+      top: -150px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 900px;
+      height: 480px;
+      background: radial-gradient(circle, rgba(44, 52, 128, 0.08) 0%, transparent 70%);
+      opacity: 0.85;
+    }
+
+    .glow-middle {
+      top: 38%;
+      left: -180px;
+      width: 650px;
+      height: 550px;
+      background: radial-gradient(circle, rgba(44, 52, 128, 0.06) 0%, transparent 70%);
+      opacity: 0.7;
+    }
+
+    .glow-bottom {
+      bottom: 8%;
+      right: -180px;
+      width: 750px;
+      height: 550px;
+      background: radial-gradient(circle, rgba(44, 52, 128, 0.06) 0%, transparent 70%);
+      opacity: 0.7;
     }
 
     /* Container */
@@ -167,126 +230,168 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background-color: rgba(34, 35, 38, 0.94);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background-color: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
-      padding: 14px 0;
+      height: var(--header-height);
+      display: flex;
+      align-items: center;
+      transition: box-shadow 0.2s ease;
     }
 
     .nav-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      width: 100%;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       color: var(--text-primary);
       font-weight: 700;
-      font-size: 18px;
+      font-size: 17.5px;
+      cursor: pointer;
+      user-select: none;
     }
 
     .brand img {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       display: block;
       border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 18px;
+      gap: 16px;
     }
 
-    .nav-links a {
+    .nav-link-btn {
       color: var(--text-secondary);
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    .nav-links a:hover {
-      color: var(--text-primary);
-    }
-
-    .btn-nav {
-      background-color: var(--accent);
-      color: var(--text-primary) !important;
-      padding: 8px 16px;
-      border-radius: 8px;
+      font-size: 14.5px;
       font-weight: 600;
-      font-size: 13.5px;
-      border: 1px solid var(--accent);
-      transition: background-color 0.15s ease, border-color 0.15s ease;
+      background: none;
+      border: none;
+      font-family: inherit;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 8px;
+      transition: color 0.15s ease, background-color 0.15s ease;
     }
 
-    .btn-nav:hover {
-      background-color: var(--accent-hover);
-      border-color: var(--accent-hover);
+    .nav-link-btn:hover {
+      color: var(--accent);
+      background-color: var(--bg-elevated);
     }
 
     .btn-coffee {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
       background-color: var(--coffee);
-      color: #FFFFFF !important;
-      padding: 8px 15px;
-      border-radius: 8px;
+      color: #000000 !important;
+      padding: 8px 16px;
+      border-radius: 10px;
       font-size: 13.5px;
       font-weight: 700;
       border: 1px solid var(--coffee);
-      transition: background-color 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
       text-decoration: none;
+      box-shadow: 0 2px 8px rgba(255, 221, 0, 0.28);
     }
 
     .btn-coffee:hover {
       background-color: var(--coffee-hover);
-      border-color: var(--coffee-hover);
       transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(255, 221, 0, 0.38);
     }
 
     .btn-coffee svg {
-      width: 17px;
-      height: 17px;
+      width: 16px;
+      height: 16px;
       fill: currentColor;
+    }
+
+    /* Mobile Hamburger Button */
+    .mobile-menu-btn {
+      display: none;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px;
+      color: var(--text-primary);
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mobile-menu-btn svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+    }
+
+    /* Mobile Navigation Drawer */
+    .mobile-drawer {
+      display: none;
+      position: absolute;
+      top: var(--header-height);
+      left: 0;
+      width: 100%;
+      background-color: #FFFFFF;
+      border-bottom: 1px solid var(--border);
+      padding: 18px 24px 24px;
+      flex-direction: column;
+      gap: 14px;
+      z-index: 99;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1);
+    }
+
+    .mobile-drawer.open {
+      display: flex;
+    }
+
+    .mobile-drawer .nav-link-btn {
+      font-size: 16px;
+      font-weight: 600;
+      text-align: left;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      width: 100%;
+    }
+
+    .mobile-drawer .drawer-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .mobile-drawer .btn-coffee {
+      justify-content: center;
+      padding: 12px;
+      font-size: 15px;
+      width: 100%;
     }
 
     /* Hero Section */
     section.hero {
-      padding: 68px 0 54px;
+      padding: clamp(48px, 9vw, 84px) 0 clamp(36px, 6vw, 54px);
       text-align: center;
-    }
-
-    .badge-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background-color: var(--bg-card);
-      border: 1px solid var(--border);
-      color: var(--success);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 24px;
-    }
-
-    .badge-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background-color: var(--success);
+      position: relative;
     }
 
     h1.hero-title {
-      font-size: 46px;
-      line-height: 1.18;
+      font-size: clamp(32px, 6vw, 52px);
+      line-height: 1.15;
       font-weight: 800;
-      letter-spacing: -0.8px;
+      letter-spacing: -0.03em;
       max-width: 860px;
       margin: 0 auto 18px;
       color: var(--text-primary);
@@ -297,34 +402,11 @@
     }
 
     p.hero-subtitle {
-      font-size: 18.5px;
-      line-height: 1.5;
+      font-size: clamp(15.5px, 3vw, 19px);
+      line-height: 1.6;
       color: var(--text-secondary);
       max-width: 720px;
-      margin: 0 auto 26px;
-    }
-
-    .developer-notice {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin: 0 auto 32px;
-      font-size: 13.5px;
-      color: var(--text-secondary);
-      background-color: var(--bg-card);
-      border: 1px solid var(--border);
-      padding: 6px 16px;
-      border-radius: 20px;
-    }
-
-    .developer-notice a {
-      color: var(--accent);
-      font-weight: 600;
-      text-decoration: underline;
-    }
-
-    .developer-notice a:hover {
-      color: var(--accent-hover);
+      margin: 0 auto 36px;
     }
 
     .cta-group {
@@ -333,28 +415,31 @@
       justify-content: center;
       gap: 14px;
       flex-wrap: wrap;
-      margin-bottom: 48px;
+      margin-bottom: clamp(36px, 7vw, 56px);
     }
 
     .btn-primary {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      background-color: var(--accent);
-      color: var(--text-primary);
-      padding: 13px 24px;
-      border-radius: 10px;
+      justify-content: center;
+      gap: 9px;
+      background-color: #0F172A;
+      color: #FFFFFF !important;
+      padding: 13px 26px;
+      border-radius: 12px;
       font-size: 15.5px;
-      font-weight: 700;
-      border: 1px solid var(--accent);
-      transition: background-color 0.15s ease, border-color 0.15s ease;
-      cursor: pointer;
+      font-weight: 600;
+      border: 1px solid #0F172A;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
+      text-decoration: none;
     }
 
     .btn-primary:hover {
-      background-color: var(--accent-hover);
-      border-color: var(--accent-hover);
-      color: var(--text-primary);
+      background-color: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(44, 52, 128, 0.28);
     }
 
     .btn-primary svg {
@@ -366,22 +451,24 @@
     .btn-coffee-large {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 9px;
       background-color: var(--coffee);
-      color: #FFFFFF !important;
-      padding: 13px 24px;
-      border-radius: 10px;
+      color: #000000 !important;
+      padding: 13px 26px;
+      border-radius: 12px;
       font-size: 15.5px;
       font-weight: 700;
       border: 1px solid var(--coffee);
-      transition: background-color 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 14px rgba(255, 221, 0, 0.28);
       text-decoration: none;
     }
 
     .btn-coffee-large:hover {
       background-color: var(--coffee-hover);
-      border-color: var(--coffee-hover);
       transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(255, 221, 0, 0.38);
     }
 
     .btn-coffee-large svg {
@@ -393,21 +480,26 @@
     .btn-secondary {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
-      background-color: var(--bg-card);
+      background-color: #FFFFFF;
       color: var(--text-primary);
-      padding: 13px 20px;
-      border-radius: 10px;
+      padding: 13px 22px;
+      border-radius: 12px;
       font-size: 15px;
       font-weight: 600;
       border: 1px solid var(--border);
-      transition: background-color 0.15s ease, border-color 0.15s ease;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+      cursor: pointer;
+      font-family: inherit;
     }
 
     .btn-secondary:hover {
       background-color: var(--bg-elevated);
-      border-color: var(--text-secondary);
-      color: var(--text-primary);
+      border-color: #CBD5E1;
+      color: var(--accent);
+      transform: translateY(-2px);
     }
 
     .btn-secondary svg {
@@ -416,15 +508,16 @@
       stroke: currentColor;
     }
 
-    /* Interactive Simulation */
+    /* Interactive Simulation (Image 1 Refined) */
     .demo-wrapper {
-      max-width: 900px;
-      margin: 0 auto 64px;
-      background-color: var(--bg-card);
+      max-width: 920px;
+      margin: 0 auto clamp(40px, 8vw, 64px);
+      background-color: #FFFFFF;
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-radius: 16px;
       overflow: hidden;
       text-align: left;
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
     }
 
     .demo-bar {
@@ -432,10 +525,10 @@
       align-items: center;
       justify-content: space-between;
       padding: 12px 18px;
-      background-color: var(--bg-elevated);
+      background-color: #F8FAFC;
       border-bottom: 1px solid var(--border);
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 12px;
     }
 
     .demo-url {
@@ -444,18 +537,22 @@
       gap: 8px;
       font-size: 13px;
       color: var(--text-secondary);
-      background-color: var(--bg-main);
-      padding: 5px 12px;
-      border-radius: 6px;
+      background-color: #FFFFFF;
+      padding: 6px 12px;
+      border-radius: 8px;
       border: 1px solid var(--border);
       width: 320px;
       max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .demo-controls {
       display: flex;
       align-items: center;
       gap: 16px;
+      flex-wrap: wrap;
     }
 
     .demo-toggle-label {
@@ -473,6 +570,7 @@
       width: 44px;
       height: 24px;
       display: inline-block;
+      flex-shrink: 0;
     }
 
     .switch-ui input {
@@ -488,8 +586,8 @@
     .switch-ui span {
       position: absolute;
       inset: 0;
-      background-color: var(--bg-main);
-      border: 1px solid var(--border);
+      background-color: #E2E8F0;
+      border: 1px solid #CBD5E1;
       border-radius: 20px;
       transition: background-color 0.2s ease, border-color 0.2s ease;
       cursor: pointer;
@@ -502,9 +600,10 @@
       height: 16px;
       left: 3px;
       top: 3px;
-      background-color: var(--text-secondary);
+      background-color: #FFFFFF;
       border-radius: 50%;
-      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .switch-ui input:checked + span {
@@ -514,23 +613,22 @@
 
     .switch-ui input:checked + span::before {
       transform: translateX(18px);
-      background-color: var(--text-primary);
     }
 
     /* Demo Screen */
     .mock-browser {
       display: flex;
       position: relative;
-      height: 400px;
-      background-color: #17181A;
+      min-height: 380px;
+      background-color: #FFFFFF;
       overflow: hidden;
     }
 
     .mock-sidebar {
-      width: 240px;
-      background-color: var(--bg-card);
+      width: 220px;
+      background-color: #F8FAFC;
       border-right: 1px solid var(--border);
-      padding: 22px 18px;
+      padding: 22px 16px;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -552,15 +650,16 @@
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.8px;
-      color: var(--coral);
+      color: var(--accent);
       font-weight: 700;
       margin-bottom: 6px;
+      white-space: nowrap;
     }
 
     .mock-link {
       height: 14px;
       border-radius: 4px;
-      background-color: var(--bg-elevated);
+      background-color: #E2E8F0;
     }
 
     .mock-link.w80 { width: 80%; }
@@ -571,9 +670,10 @@
 
     .mock-content {
       flex: 1;
-      padding: 30px 36px;
+      padding: clamp(20px, 4vw, 32px);
       overflow-y: auto;
       transition: padding 0.3s ease;
+      min-width: 0;
     }
 
     .mock-meta {
@@ -581,25 +681,26 @@
       align-items: center;
       gap: 10px;
       margin-bottom: 12px;
+      flex-wrap: wrap;
     }
 
     .mock-tag {
       font-size: 11px;
       font-weight: 700;
-      color: var(--coral);
-      background-color: rgba(255, 112, 94, 0.12);
-      padding: 2px 8px;
-      border-radius: 4px;
+      color: var(--accent);
+      background-color: rgba(44, 52, 128, 0.08);
+      padding: 3px 9px;
+      border-radius: 6px;
       letter-spacing: 0.5px;
     }
 
     .mock-date {
       font-size: 12px;
-      color: var(--text-secondary);
+      color: var(--text-muted);
     }
 
     .mock-title {
-      font-size: 22px;
+      font-size: clamp(19px, 3.5vw, 24px);
       font-weight: 800;
       line-height: 1.3;
       margin-bottom: 12px;
@@ -607,8 +708,8 @@
     }
 
     .mock-text {
-      font-size: 14px;
-      line-height: 1.6;
+      font-size: clamp(13.5px, 2.5vw, 14.5px);
+      line-height: 1.65;
       color: var(--text-secondary);
       margin-bottom: 12px;
     }
@@ -620,9 +721,10 @@
     .mock-stats-row {
       display: flex;
       gap: 24px;
-      margin-top: 18px;
-      padding-top: 14px;
+      margin-top: 20px;
+      padding-top: 16px;
       border-top: 1px solid var(--border);
+      flex-wrap: wrap;
     }
 
     .mock-stat {
@@ -631,19 +733,20 @@
     }
 
     .mock-stat strong {
-      font-size: 17px;
+      font-size: 18px;
+      font-weight: 800;
       color: var(--accent);
     }
 
     .mock-stat span {
-      font-size: 11px;
+      font-size: 11.5px;
       color: var(--text-secondary);
     }
 
     .mock-scrollbar {
       width: 12px;
-      background-color: #222326;
-      border-left: 1px solid #34363B;
+      background-color: #F8FAFC;
+      border-left: 1px solid var(--border);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -663,20 +766,20 @@
       width: 6px;
       height: 60px;
       border-radius: 3px;
-      background-color: #66686D;
+      background-color: #CBD5E1;
       margin-top: 10px;
     }
 
     /* Features Grid */
     section.features {
-      padding: 64px 0;
+      padding: clamp(48px, 8vw, 72px) 0;
       border-top: 1px solid var(--border);
     }
 
     .section-header {
       text-align: center;
       max-width: 680px;
-      margin: 0 auto 48px;
+      margin: 0 auto clamp(32px, 6vw, 48px);
     }
 
     .section-label {
@@ -689,41 +792,44 @@
     }
 
     h2.section-title {
-      font-size: 32px;
+      font-size: clamp(26px, 5vw, 36px);
       font-weight: 800;
       margin-bottom: 12px;
-      letter-spacing: -0.4px;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
     }
 
     p.section-desc {
       color: var(--text-secondary);
-      font-size: 16px;
+      font-size: clamp(14px, 3vw, 16px);
     }
 
     .grid-3 {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      gap: 24px;
     }
 
     .feature-card {
-      background-color: var(--bg-card);
+      background-color: #FFFFFF;
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 24px;
-      transition: border-color 0.2s ease, transform 0.2s ease;
+      border-radius: 14px;
+      padding: clamp(20px, 4vw, 26px);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
     }
 
     .feature-card:hover {
       border-color: var(--accent);
-      transform: translateY(-2px);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(44, 52, 128, 0.08);
     }
 
     .card-icon {
       width: 44px;
       height: 44px;
-      background-color: var(--bg-elevated);
-      border: 1px solid var(--border);
+      background-color: rgba(44, 52, 128, 0.08);
+      border: 1px solid rgba(44, 52, 128, 0.15);
       border-radius: 10px;
       display: grid;
       place-items: center;
@@ -738,14 +844,18 @@
 
     .card-icon.coral {
       color: var(--coral);
+      background-color: rgba(255, 90, 95, 0.08);
+      border-color: rgba(255, 90, 95, 0.15);
     }
 
     .card-icon.success {
       color: var(--success);
+      background-color: rgba(16, 185, 129, 0.08);
+      border-color: rgba(16, 185, 129, 0.15);
     }
 
     .feature-card h3 {
-      font-size: 18px;
+      font-size: 17.5px;
       font-weight: 700;
       margin-bottom: 8px;
       color: var(--text-primary);
@@ -753,14 +863,15 @@
 
     .feature-card p {
       font-size: 14px;
-      line-height: 1.5;
+      line-height: 1.55;
       color: var(--text-secondary);
     }
 
     /* How It Works */
     section.how-it-works {
-      padding: 64px 0;
+      padding: clamp(48px, 8vw, 72px) 0;
       border-top: 1px solid var(--border);
+      background-color: var(--bg-page);
     }
 
     .steps-row {
@@ -770,11 +881,12 @@
     }
 
     .step-card {
-      background-color: var(--bg-card);
+      background-color: #FFFFFF;
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 26px 22px;
+      border-radius: 14px;
+      padding: clamp(22px, 4vw, 28px);
       position: relative;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
     }
 
     .step-num {
@@ -789,42 +901,46 @@
       font-size: 17px;
       font-weight: 700;
       margin-bottom: 8px;
+      color: var(--text-primary);
     }
 
     .step-card p {
       font-size: 14px;
       color: var(--text-secondary);
+      line-height: 1.55;
     }
 
     /* FAQ / AEO Section */
     section.faq-section {
-      padding: 64px 0;
+      padding: clamp(48px, 8vw, 72px) 0;
       border-top: 1px solid var(--border);
     }
 
     .faq-list {
-      max-width: 800px;
+      max-width: 820px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
     }
 
     .faq-item {
-      background-color: var(--bg-card);
+      background-color: #FFFFFF;
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
-      transition: border-color 0.15s ease;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
     }
 
     .faq-item[open] {
       border-color: var(--accent);
+      box-shadow: 0 6px 20px rgba(44, 52, 128, 0.07);
     }
 
     .faq-item summary {
-      padding: 18px 20px;
-      font-size: 16px;
+      padding: 18px 22px;
+      font-size: clamp(15px, 3vw, 16.5px);
       font-weight: 650;
       color: var(--text-primary);
       cursor: pointer;
@@ -833,6 +949,7 @@
       align-items: center;
       justify-content: space-between;
       user-select: none;
+      gap: 12px;
     }
 
     .faq-item summary::-webkit-details-marker {
@@ -853,39 +970,43 @@
     }
 
     .faq-body {
-      padding: 0 20px 20px;
+      padding: 0 22px 20px;
       font-size: 14.5px;
-      line-height: 1.6;
+      line-height: 1.65;
       color: var(--text-secondary);
     }
 
     /* CTA Bottom Banner */
     section.cta-banner {
-      padding: 64px 0 80px;
+      padding: clamp(48px, 8vw, 72px) 0 clamp(48px, 10vw, 84px);
       text-align: center;
       border-top: 1px solid var(--border);
+      background-color: var(--bg-page);
     }
 
     .banner-box {
-      background-color: var(--bg-card);
+      background-color: #FFFFFF;
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 48px 28px;
-      max-width: 820px;
+      border-radius: 20px;
+      padding: clamp(32px, 6vw, 56px) clamp(20px, 4vw, 36px);
+      max-width: 840px;
       margin: 0 auto;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
     }
 
     .banner-box h2 {
-      font-size: 30px;
+      font-size: clamp(24px, 5vw, 34px);
       font-weight: 800;
       margin-bottom: 12px;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
     }
 
     .banner-box p {
       color: var(--text-secondary);
-      font-size: 16px;
+      font-size: clamp(14.5px, 3vw, 16.5px);
       max-width: 580px;
-      margin: 0 auto 24px;
+      margin: 0 auto 28px;
     }
 
     .banner-actions {
@@ -907,61 +1028,340 @@
       text-decoration: underline;
     }
 
-    /* Footer */
-    footer.site-footer {
+    /* Sexy Modern Footer (Matching witrfaruk.vercel.app) */
+    footer.sexy-footer {
+      position: relative;
+      background-color: #FFFFFF;
       border-top: 1px solid var(--border);
-      padding: 32px 0;
-      font-size: 13px;
+      padding-top: clamp(48px, 8vw, 72px);
+      padding-bottom: 24px;
+      overflow: hidden;
       color: var(--text-secondary);
     }
 
-    .footer-inner {
+    .footer-content-wrap {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Sparkle Divider & Stay Connected */
+    .stay-connected-section {
+      text-align: center;
+      margin-bottom: clamp(40px, 6vw, 64px);
+    }
+
+    .sparkle-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      max-width: 480px;
+      margin: 0 auto 20px;
+    }
+
+    .sparkle-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    .sparkle-star {
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sparkle-star svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .stay-connected-heading {
+      font-size: clamp(22px, 4vw, 32px);
+      font-family: Georgia, "Playfair Display", "Times New Roman", serif;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .social-icons-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .social-circle {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background-color: #FFFFFF;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+      text-decoration: none;
+    }
+
+    .social-circle svg {
+      width: 18px;
+      height: 18px;
+      transition: transform 0.22s ease;
+    }
+
+    .social-circle:hover {
+      background-color: var(--accent);
+      border-color: var(--accent);
+      color: #FFFFFF;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 18px rgba(44, 52, 128, 0.25);
+    }
+
+    .social-circle:hover svg {
+      transform: scale(1.08);
+    }
+
+    /* Main Grid: Brand + 5 Columns */
+    .footer-columns-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 48px;
+      padding-top: clamp(32px, 5vw, 48px);
+      padding-bottom: clamp(36px, 5vw, 56px);
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-brand-col {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .brand-link {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-primary);
+    }
+
+    .brand-bio {
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      max-width: 250px;
+    }
+
+    .footer-coffee-wrap {
+      padding-top: 6px;
+    }
+
+    .footer-bmc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background-color: #FFDD00;
+      color: #000000;
+      font-size: 13.5px;
+      font-weight: 700;
+      padding: 10px 18px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 12px rgba(255, 221, 0, 0.25);
+    }
+
+    .footer-bmc-badge:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(255, 221, 0, 0.4);
+      color: #000000;
+    }
+
+    .footer-bmc-badge svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    .footer-nav-columns {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 24px;
+    }
+
+    .footer-col {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-col-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .footer-col a {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.15s ease, transform 0.15s ease;
+      width: fit-content;
+    }
+
+    .footer-col a:hover {
+      color: var(--accent);
+      transform: translateX(2px);
+    }
+
+    .footer-col a.font-mono {
+      font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+    }
+
+    /* Bottom Row */
+    .footer-bottom-bar {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 16px;
-    }
-
-    .footer-left {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .footer-left svg {
-      width: 16px;
-      height: 16px;
-      fill: var(--coral);
-    }
-
-    .footer-links {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-
-    .footer-links a {
+      font-size: 12.5px;
       color: var(--text-secondary);
     }
 
-    .footer-links a:hover {
-      color: var(--text-primary);
+    .footer-bottom-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
     }
 
-    /* Responsive */
-    @media (max-width: 840px) {
-      h1.hero-title {
-        font-size: 34px;
+    .footer-bottom-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .footer-bottom-links a:hover {
+      color: var(--accent);
+    }
+
+    /* Giant Watermark */
+    .footer-giant-watermark {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+      user-select: none;
+      overflow: hidden;
+      padding-top: 28px;
+      margin-bottom: -15px;
+    }
+
+    .footer-giant-watermark span {
+      font-size: clamp(38px, 8.5vw, 110px);
+      font-family: Georgia, "Playfair Display", "Times New Roman", serif;
+      font-weight: 700;
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.08) 0%, rgba(15, 23, 42, 0.02) 60%, rgba(15, 23, 42, 0.002) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 1024px) {
+      .footer-columns-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .footer-brand-col {
+        align-items: center;
+        text-align: center;
+      }
+      .brand-bio {
+        max-width: 480px;
+      }
+      .footer-nav-columns {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .footer-nav-columns {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+      }
+      .footer-bottom-bar {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+      }
+      .footer-bottom-links {
+        justify-content: center;
+        gap: 14px;
+      }
+    }
+
+    /* Tablet adjustments */
+    @media (max-width: 960px) {
+      .grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .nav-links {
+        gap: 12px;
+      }
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 780px) {
+      .nav-links {
+        display: none;
+      }
+      .mobile-menu-btn {
+        display: inline-flex;
       }
       .grid-3, .steps-row {
         grid-template-columns: 1fr;
       }
       .mock-sidebar {
-        width: 160px;
+        width: 130px;
+        padding: 16px 12px;
       }
-      .nav-links {
-        display: none;
+      .cta-group {
+        flex-direction: column;
+        width: 100%;
+      }
+      .cta-group .btn-primary,
+      .cta-group .btn-coffee-large,
+      .cta-group .btn-secondary {
+        width: 100%;
+      }
+      .banner-actions {
+        flex-direction: column;
+        width: 100%;
+      }
+      .banner-actions .btn-primary,
+      .banner-actions .btn-coffee-large {
+        width: 100%;
       }
     }
   </style>
@@ -971,44 +1371,54 @@
   <!-- Site Navigation -->
   <header class="site-header">
     <div class="container nav-inner">
-      <a href="#" class="brand">
-        <img src="icons/icon48.png" alt="Sidebar Remover Logo" width="36" height="36" />
+      <div class="brand" data-scroll-to="top">
+        <img src="icons/icon48.png" alt="Sidebar Remover Logo" width="34" height="34" />
         <span>Sidebar Remover</span>
-      </a>
+      </div>
+
+      <!-- Desktop Nav: Only Features, FAQ, Buy Me a Coffee -->
       <nav class="nav-links">
-        <a href="#features">Features</a>
-        <a href="#simulation">Live Demo</a>
-        <a href="#how-it-works">How to Use</a>
-        <a href="#faq">FAQ</a>
-        <a href="https://witrfaruk.vercel.app/contact" target="_blank" rel="noopener noreferrer">Contact</a>
+        <button type="button" class="nav-link-btn" data-scroll-to="features">Features</button>
+        <button type="button" class="nav-link-btn" data-scroll-to="faq">FAQ</button>
         <a href="https://buymeacoffee.com/witrfaruk" target="_blank" rel="noopener noreferrer" class="btn-coffee">
           <svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>
           <span>Buy Me a Coffee</span>
         </a>
-        <a href="https://github.com/witrfaruk/Sidebar-Remover" target="_blank" rel="noopener noreferrer" class="btn-nav">GitHub</a>
       </nav>
+
+      <!-- Mobile Hamburger Button -->
+      <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div class="mobile-drawer" id="mobileDrawer">
+      <button type="button" class="nav-link-btn" data-scroll-to="features">Features</button>
+      <button type="button" class="nav-link-btn" data-scroll-to="faq">FAQ</button>
+      <div class="drawer-actions">
+        <a href="https://buymeacoffee.com/witrfaruk" target="_blank" rel="noopener noreferrer" class="btn-coffee">
+          <svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>
+          <span>Buy Me a Coffee</span>
+        </a>
+      </div>
     </div>
   </header>
 
   <!-- Hero Section -->
   <main>
-    <section class="hero">
+    <section class="hero" id="top">
       <div class="container">
-        <div class="badge-pill">
-          <span class="badge-dot"></span>
-          <span>100% Free &amp; Open Source Chrome Extension</span>
-        </div>
         <h1 class="hero-title">
           Sidebar Remover for <span class="highlight">All Websites</span>
         </h1>
         <p class="hero-subtitle">
           Automatically detect and hide cluttering sidebars, sticky navigation rails, and scrollbars across any website. Reclaim your horizontal reading space with one click.
         </p>
-
-        <div class="developer-notice">
-          <span>Need custom features or help? Visit</span>
-          <a href="https://witrfaruk.vercel.app/contact" target="_blank" rel="noopener noreferrer">witrfaruk.vercel.app/contact</a>
-        </div>
 
         <div class="cta-group">
           <a href="https://github.com/witrfaruk/Sidebar-Remover" class="btn-primary" target="_blank" rel="noopener noreferrer">
@@ -1019,17 +1429,17 @@
             <svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>
             <span>Buy Me a Coffee</span>
           </a>
-          <a href="#simulation" class="btn-secondary">
+          <button type="button" class="btn-secondary" data-scroll-to="simulation">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
             <span>Try Live Simulation</span>
-          </a>
+          </button>
         </div>
 
         <!-- Live Interactive Simulation -->
         <div id="simulation" class="demo-wrapper">
           <div class="demo-bar">
             <div class="demo-url">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24m5.66 5.66 4.24 4.24"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24m5.66 5.66 4.24 4.24"/></svg>
               <span>https://example.com/long-article</span>
             </div>
             <div class="demo-controls">
@@ -1086,7 +1496,6 @@
 
             <!-- Simulated Scrollbar -->
             <div id="demoScrollbar" class="mock-scrollbar hidden-state">
-              <svg width="8" height="8" viewBox="0 0 24 24" fill="#888"><path d="m12 8-6 6h12z"/></svg>
               <div class="mock-thumb"></div>
             </div>
           </div>
@@ -1272,45 +1681,248 @@
     </section>
   </main>
 
-  <!-- Site Footer -->
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <div class="footer-left">
-        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-        <span>Made with love by <a href="https://github.com/witrfaruk" target="_blank" rel="noopener noreferrer">WitrFaruk</a></span>
+  <!-- Premium Modern Footer (Matched to witrfaruk.vercel.app) -->
+  <footer class="sexy-footer">
+    <div class="container footer-content-wrap">
+      <!-- 1. "Stay Connected" Social Hub -->
+      <div class="stay-connected-section">
+        <div class="sparkle-divider">
+          <div class="sparkle-line"></div>
+          <div class="sparkle-star">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+            </svg>
+          </div>
+          <div class="sparkle-line"></div>
+        </div>
+        <h3 class="stay-connected-heading">Stay Connected</h3>
+        <div class="social-icons-row">
+          <a href="https://www.instagram.com/witrfaruk" target="_blank" rel="noopener noreferrer" class="social-circle" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+            </svg>
+          </a>
+          <a href="https://www.linkedin.com/in/witrfaruk" target="_blank" rel="noopener noreferrer" class="social-circle" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+              <rect width="4" height="12" x="2" y="9"></rect>
+              <circle cx="4" cy="4" r="2"></circle>
+            </svg>
+          </a>
+          <a href="https://x.com/witrfaruk" target="_blank" rel="noopener noreferrer" class="social-circle" aria-label="X / Twitter">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
+              <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
+            </svg>
+          </a>
+          <a href="https://github.com/witrfaruk" target="_blank" rel="noopener noreferrer" class="social-circle" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
+              <path d="M9 18c-4.51 2-5-2-7-2"></path>
+            </svg>
+          </a>
+          <a href="mailto:witrfaruk@proton.me" class="social-circle" aria-label="Email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+            </svg>
+          </a>
+          <a href="https://www.threads.com/@witrfaruk" target="_blank" rel="noopener noreferrer" class="social-circle" aria-label="Threads">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M15.5 10.5a3.5 3.5 0 1 0-2.5 5.8 3.5 3.5 0 0 0 3-1.8"></path>
+              <path d="M12 8.5v5"></path>
+            </svg>
+          </a>
+          <a href="https://bsky.app/profile/witrfaruk.bsky.social" target="_blank" rel="noopener noreferrer" class="social-circle" aria-label="Bluesky">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 11c-1.2-2.3-4-6.5-7-8.5C3 1 2 1.5 1.5 2 1 2.6 1 3.5 1 4.5c0 3.5 1.8 10 2.8 11.5 1.2 2 3.2 2.5 5.2 2-3.5 1.5-4 4-2 5.5 2.5 1.5 6-1 7-3.5 1 2.5 4.5 5 7 3.5 2-1.5 1.5-4-2-5.5 2 .5 4 0 5.2-2 1-1.5 2.8-8 2.8-11.5 0-1 0-1.9-.5-2.5C22 1.5 21 1 19 2.5c-3 2-5.8 6.2-7 8.5z"></path>
+            </svg>
+          </a>
+          <a href="https://www.pinterest.com/witrfaruk" target="_blank" rel="noopener noreferrer" class="social-circle" aria-label="Pinterest">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M8 20l2.5-9.5"></path>
+              <path d="M9.5 14c.5.8 1.5 1.2 2.5 1.2 2.2 0 4-1.8 4-4s-1.8-4-4-4c-2.8 0-4.5 2-4.5 4.5 0 1.2.6 2.3 1.5 2.8"></path>
+            </svg>
+          </a>
+          <a href="https://www.facebook.com/witrfaruk/" target="_blank" rel="noopener noreferrer" class="social-circle" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+            </svg>
+          </a>
+        </div>
       </div>
-      <div class="footer-links">
-        <a href="https://witrfaruk.vercel.app/contact" target="_blank" rel="noopener noreferrer">Contact Developer</a>
-        <a href="https://buymeacoffee.com/witrfaruk" target="_blank" rel="noopener noreferrer">Buy Me a Coffee</a>
-        <a href="https://github.com/witrfaruk/Sidebar-Remover" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+
+      <!-- 2. Main Navigation Grid: Brand Col + 5 Link Columns -->
+      <div class="footer-columns-grid">
+        <!-- Col 1: Brand & Bio & Buy Me a Coffee -->
+        <div class="footer-brand-col">
+          <div class="brand-link" data-scroll-to="top" style="cursor: pointer;">
+            <img src="icons/icon48.png" alt="Sidebar Remover Logo" width="34" height="34" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.1);" />
+            <span style="font-weight: 800; color: var(--text-primary); font-size: 20px; letter-spacing: -0.02em;">Sidebar Remover</span>
+          </div>
+          <p class="brand-bio">
+            The free, open-source and privacy-first Chrome extension to automatically hide sidebars &amp; scrollbars and reclaim horizontal reading space.
+          </p>
+          <div class="footer-coffee-wrap">
+            <a href="https://buymeacoffee.com/witrfaruk" target="_blank" rel="noopener noreferrer" class="footer-bmc-badge">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/>
+              </svg>
+              <span>Buy me a coffee</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 5 Link Columns -->
+        <div class="footer-nav-columns">
+          <!-- ABOUT -->
+          <div class="footer-col">
+            <h4 class="footer-col-title">About</h4>
+            <a href="https://witrfaruk.vercel.app/about" target="_blank" rel="noopener noreferrer">About</a>
+            <a href="https://witrfaruk.vercel.app/author/faruk" target="_blank" rel="noopener noreferrer">Author &amp; Team</a>
+            <a href="https://witrfaruk.vercel.app/cv" target="_blank" rel="noopener noreferrer">CV / Resume</a>
+            <a href="https://witrfaruk.vercel.app/contact" target="_blank" rel="noopener noreferrer">Contact</a>
+          </div>
+
+          <!-- WORK -->
+          <div class="footer-col">
+            <h4 class="footer-col-title">Work</h4>
+            <a href="https://witrfaruk.vercel.app/#ventures" target="_blank" rel="noopener noreferrer">Ventures &amp; Work</a>
+            <a href="https://witrfaruk.vercel.app/#ventures" target="_blank" rel="noopener noreferrer">Projects</a>
+            <a href="https://witrfaruk.vercel.app/blog" target="_blank" rel="noopener noreferrer">Case Studies</a>
+          </div>
+
+          <!-- RESOURCES -->
+          <div class="footer-col">
+            <h4 class="footer-col-title">Resources</h4>
+            <a href="https://witrfaruk.vercel.app/blog" target="_blank" rel="noopener noreferrer">Blog</a>
+            <a href="https://witrfaruk.vercel.app/blog/archive" target="_blank" rel="noopener noreferrer">Article Archive</a>
+            <a href="https://witrfaruk.vercel.app/social" target="_blank" rel="noopener noreferrer">Social Channels</a>
+            <a href="https://witrfaruk.vercel.app/sitemap" target="_blank" rel="noopener noreferrer">Sitemap</a>
+            <a href="https://witrfaruk.vercel.app/llms.txt" target="_blank" rel="noopener noreferrer" class="font-mono">llms.txt</a>
+          </div>
+
+          <!-- LEGAL -->
+          <div class="footer-col">
+            <h4 class="footer-col-title">Legal</h4>
+            <a href="https://witrfaruk.vercel.app/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+            <a href="https://witrfaruk.vercel.app/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+            <a href="https://witrfaruk.vercel.app/cookie-policy" target="_blank" rel="noopener noreferrer">Cookie Policy</a>
+            <a href="https://witrfaruk.vercel.app/legal-notice" target="_blank" rel="noopener noreferrer">Legal Notice / Impressum</a>
+            <a href="https://witrfaruk.vercel.app/privacy" target="_blank" rel="noopener noreferrer">Cookie Preferences</a>
+          </div>
+
+          <!-- OPPORTUNITIES -->
+          <div class="footer-col">
+            <h4 class="footer-col-title">Opportunities</h4>
+            <a href="https://witrfaruk.vercel.app/invest" target="_blank" rel="noopener noreferrer">Invest in My Idea</a>
+            <a href="https://witrfaruk.vercel.app/contact?topic=partnership" target="_blank" rel="noopener noreferrer">Partnerships</a>
+            <a href="https://witrfaruk.vercel.app/rules" target="_blank" rel="noopener noreferrer">Work With Me</a>
+          </div>
+        </div>
       </div>
+
+      <!-- 3. Bottom Row: Copyright & Legal links -->
+      <div class="footer-bottom-bar">
+        <p class="copyright-text">2026 &copy; Sidebar Remover. Built with &#9829; by Md Faruk Abdulla. All Rights Reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="https://witrfaruk.vercel.app/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+          <a href="https://witrfaruk.vercel.app/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+          <a href="https://witrfaruk.vercel.app/cookie-policy" target="_blank" rel="noopener noreferrer">Cookie Policy</a>
+          <a href="https://witrfaruk.vercel.app/contact" target="_blank" rel="noopener noreferrer">Contact Developer</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Giant Watermark Signature -->
+    <div class="footer-giant-watermark" aria-hidden="true">
+      <span>Sidebar Remover</span>
     </div>
   </footer>
 
   <script>
-    // Interactive Simulation Toggles
+    // 1. Force page to always refresh/load from top (0, 0)
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+
+    // 2. Remove all hashtag fragments from the URL bar on load/refresh
+    if (window.location.hash) {
+      history.replaceState(null, "", window.location.pathname + window.location.search);
+      window.scrollTo(0, 0);
+    }
+
+    window.addEventListener('beforeunload', () => {
+      window.scrollTo(0, 0);
+    });
+
+    // 3. Smooth scrolling WITHOUT hashtags in the URL
+    const headerHeight = 68;
+    function smoothScrollTo(targetId) {
+      if (targetId === "top") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+      const el = document.getElementById(targetId);
+      if (el) {
+        const topPos = el.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+        window.scrollTo({ top: topPos, behavior: "smooth" });
+      }
+    }
+
+    document.querySelectorAll('[data-scroll-to]').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = btn.getAttribute('data-scroll-to');
+        smoothScrollTo(target);
+
+        // Close mobile drawer if open
+        const drawer = document.getElementById('mobileDrawer');
+        if (drawer) drawer.classList.remove('open');
+      });
+    });
+
+    // 4. Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+    if (mobileMenuBtn && mobileDrawer) {
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileDrawer.classList.toggle('open');
+      });
+    }
+
+    // 5. Interactive Simulation Toggles
     const sidebarToggle = document.getElementById("demoSidebarToggle");
     const scrollbarToggle = document.getElementById("demoScrollbarToggle");
     const demoSidebar = document.getElementById("demoSidebar");
     const demoScrollbar = document.getElementById("demoScrollbar");
 
-    sidebarToggle.addEventListener("change", (e) => {
-      if (e.target.checked) {
-        demoSidebar.classList.add("hidden-state");
-      } else {
-        demoSidebar.classList.remove("hidden-state");
-      }
-    });
+    if (sidebarToggle && demoSidebar) {
+      sidebarToggle.addEventListener("change", (e) => {
+        if (e.target.checked) {
+          demoSidebar.classList.add("hidden-state");
+        } else {
+          demoSidebar.classList.remove("hidden-state");
+        }
+      });
+    }
 
-    scrollbarToggle.addEventListener("change", (e) => {
-      if (e.target.checked) {
-        demoScrollbar.classList.add("hidden-state");
-      } else {
-        demoScrollbar.classList.remove("hidden-state");
-      }
-    });
+    if (scrollbarToggle && demoScrollbar) {
+      scrollbarToggle.addEventListener("change", (e) => {
+        if (e.target.checked) {
+          demoScrollbar.classList.add("hidden-state");
+        } else {
+          demoScrollbar.classList.remove("hidden-state");
+        }
+      });
+    }
 
-    // Accordion behavior: ensure only one FAQ is open at a time
+    // 6. Accordion behavior: only one FAQ item open at a time
     document.querySelectorAll(".faq-item").forEach((item) => {
       item.addEventListener("toggle", () => {
         if (item.open) {
