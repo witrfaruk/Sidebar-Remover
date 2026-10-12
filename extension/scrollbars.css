@@ -1,53 +1,51 @@
-/* Sidebar Remover - Global Bulletproof Scrollbar Killer */
+/* ==========================================================================
+   Sidebar Remover - Global Bulletproof Scrollbar Killer
+   Only active when html does NOT have .sbr-show-scrollbars
+   ========================================================================== */
+
+/* 1. Standard CSS Scrollbar Killer (Firefox / Standards) */
 html:not(.sbr-show-scrollbars),
 html:not(.sbr-show-scrollbars) body,
 html:not(.sbr-show-scrollbars) :root,
-html:not(.sbr-show-scrollbars) *,
-html:not(.sbr-show-scrollbars) *::before,
-html:not(.sbr-show-scrollbars) *::after {
+html:not(.sbr-show-scrollbars) * {
   scrollbar-width: none !important;
   scrollbar-color: transparent transparent !important;
   -ms-overflow-style: none !important;
 }
 
-/* Prevent horizontal scrollbars on top or bottom of viewport */
+/* 2. Prevent viewport horizontal scrollbar overflow */
 html:not(.sbr-show-scrollbars),
 html:not(.sbr-show-scrollbars) body {
   overflow-x: clip !important;
 }
 
-/* Chrome / Chromium / WebKit scrollbars (both vertical width AND horizontal height) */
-::-webkit-scrollbar,
-::-webkit-scrollbar-button,
-::-webkit-scrollbar-track,
-::-webkit-scrollbar-track-piece,
-::-webkit-scrollbar-thumb,
-::-webkit-scrollbar-corner,
-::-webkit-resizer,
-*::-webkit-scrollbar,
-*::-webkit-scrollbar-button,
-*::-webkit-scrollbar-track,
-*::-webkit-scrollbar-track-piece,
-*::-webkit-scrollbar-thumb,
-*::-webkit-scrollbar-corner,
-*::-webkit-resizer,
-html::-webkit-scrollbar,
-body::-webkit-scrollbar,
-/* Explicit horizontal WebKit scrollbars */
-::-webkit-scrollbar:horizontal,
-::-webkit-scrollbar-thumb:horizontal,
-::-webkit-scrollbar-track:horizontal,
-::-webkit-scrollbar-track-piece:horizontal,
-::-webkit-scrollbar-button:horizontal,
-::-webkit-scrollbar-corner:horizontal,
-*::-webkit-scrollbar:horizontal,
-*::-webkit-scrollbar-thumb:horizontal,
-*::-webkit-scrollbar-track:horizontal,
-*::-webkit-scrollbar-track-piece:horizontal,
-*::-webkit-scrollbar-button:horizontal,
-*::-webkit-scrollbar-corner:horizontal,
-html::-webkit-scrollbar:horizontal,
-body::-webkit-scrollbar:horizontal {
+/* 3. Chrome / Chromium / WebKit Scrollbars (Vertical & Horizontal)
+   Scoped strictly to html:not(.sbr-show-scrollbars) so native scrollbars
+   restore 100% untouched when toggled OFF. */
+html:not(.sbr-show-scrollbars) ::-webkit-scrollbar,
+html:not(.sbr-show-scrollbars) *::-webkit-scrollbar,
+html:not(.sbr-show-scrollbars) ::-webkit-scrollbar:horizontal,
+html:not(.sbr-show-scrollbars) *::-webkit-scrollbar:horizontal,
+html:not(.sbr-show-scrollbars) ::-webkit-scrollbar:vertical,
+html:not(.sbr-show-scrollbars) *::-webkit-scrollbar:vertical,
+html:not(.sbr-show-scrollbars) ::-webkit-scrollbar-thumb,
+html:not(.sbr-show-scrollbars) *::-webkit-scrollbar-thumb,
+html:not(.sbr-show-scrollbars) ::-webkit-scrollbar-thumb:horizontal,
+html:not(.sbr-show-scrollbars) *::-webkit-scrollbar-thumb:horizontal,
+html:not(.sbr-show-scrollbars) ::-webkit-scrollbar-thumb:vertical,
+html:not(.sbr-show-scrollbars) *::-webkit-scrollbar-thumb:vertical,
+html:not(.sbr-show-scrollbars) ::-webkit-scrollbar-track,
+html:not(.sbr-show-scrollbars) *::-webkit-scrollbar-track,
+html:not(.sbr-show-scrollbars) ::-webkit-scrollbar-track:horizontal,
+html:not(.sbr-show-scrollbars) *::-webkit-scrollbar-track:horizontal,
+html:not(.sbr-show-scrollbars) ::-webkit-scrollbar-track-piece,
+html:not(.sbr-show-scrollbars) *::-webkit-scrollbar-track-piece,
+html:not(.sbr-show-scrollbars) ::-webkit-scrollbar-button,
+html:not(.sbr-show-scrollbars) *::-webkit-scrollbar-button,
+html:not(.sbr-show-scrollbars) ::-webkit-scrollbar-corner,
+html:not(.sbr-show-scrollbars) *::-webkit-scrollbar-corner,
+html:not(.sbr-show-scrollbars) ::-webkit-resizer,
+html:not(.sbr-show-scrollbars) *::-webkit-resizer {
   display: none !important;
   width: 0px !important;
   height: 0px !important;
@@ -55,9 +53,7 @@ body::-webkit-scrollbar:horizontal {
   min-height: 0px !important;
   max-width: 0px !important;
   max-height: 0px !important;
-  line-height: 0px !important;
   background: transparent !important;
-  background-color: transparent !important;
   color: transparent !important;
   opacity: 0 !important;
   visibility: hidden !important;
@@ -66,65 +62,45 @@ body::-webkit-scrollbar:horizontal {
   box-shadow: none !important;
 }
 
-/* Custom JS Scrollbar plugins (SimpleBar, PerfectScrollbar, OverlayScrollbars, nano, etc.) */
-.simplebar-track,
-.simplebar-scrollbar,
-.simplebar-horizontal,
-.simplebar-track.simplebar-horizontal,
-.ps__rail-y,
-.ps__rail-x,
-.ps__thumb-y,
-.ps__thumb-x,
-.os-scrollbar,
-.os-scrollbar-track,
-.os-scrollbar-handle,
-.os-scrollbar-horizontal,
-.mCSB_scrollTools,
-.mCSB_dragger,
-.mCSB_scrollTools_horizontal,
-.nano-pane,
-.nano-slider,
-[class*="scrollbar-track"],
-[class*="scrollbar-thumb"],
-[class*="scrollbar-horizontal"],
-[class*="horizontal-scrollbar"],
-[class*="scroll-horizontal"],
-[class*="horizontal-scroll"],
-[class*="custom-scrollbar"]::-webkit-scrollbar,
-body > [class*="scroll-progress"]:not([id^="sbr-"]),
-body > [class*="reading-progress"]:not([id^="sbr-"]),
-body > [id*="scroll-progress"]:not([id^="sbr-"]),
-body > [id*="reading-progress"]:not([id^="sbr-"]),
-#nprogress,
-.pace-progress {
+/* 4. Custom JavaScript scrollbar libraries & redundant progress bars */
+html:not(.sbr-show-scrollbars) .simplebar-track,
+html:not(.sbr-show-scrollbars) .simplebar-scrollbar,
+html:not(.sbr-show-scrollbars) .simplebar-horizontal,
+html:not(.sbr-show-scrollbars) .ps__rail-y,
+html:not(.sbr-show-scrollbars) .ps__rail-x,
+html:not(.sbr-show-scrollbars) .ps__thumb-y,
+html:not(.sbr-show-scrollbars) .ps__thumb-x,
+html:not(.sbr-show-scrollbars) .os-scrollbar,
+html:not(.sbr-show-scrollbars) .os-scrollbar-track,
+html:not(.sbr-show-scrollbars) .os-scrollbar-handle,
+html:not(.sbr-show-scrollbars) .os-scrollbar-horizontal,
+html:not(.sbr-show-scrollbars) .mCSB_scrollTools,
+html:not(.sbr-show-scrollbars) .mCSB_dragger,
+html:not(.sbr-show-scrollbars) .nano-pane,
+html:not(.sbr-show-scrollbars) .nano-slider,
+html:not(.sbr-show-scrollbars) [class*="scrollbar-track"],
+html:not(.sbr-show-scrollbars) [class*="scrollbar-thumb"],
+html:not(.sbr-show-scrollbars) [class*="scrollbar-horizontal"],
+html:not(.sbr-show-scrollbars) [class*="horizontal-scrollbar"],
+html:not(.sbr-show-scrollbars) body > [class*="scroll-progress"]:not([id^="sbr-"]),
+html:not(.sbr-show-scrollbars) body > [class*="reading-progress"]:not([id^="sbr-"]),
+html:not(.sbr-show-scrollbars) body > [id*="scroll-progress"]:not([id^="sbr-"]),
+html:not(.sbr-show-scrollbars) body > [id*="reading-progress"]:not([id^="sbr-"]),
+html:not(.sbr-show-scrollbars) #nprogress,
+html:not(.sbr-show-scrollbars) .pace-progress {
   display: none !important;
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
   width: 0 !important;
   height: 0 !important;
-  min-height: 0 !important;
-  max-height: 0 !important;
 }
 
-/* If user explicitly restored scrollbars for this site */
+/* 5. When scrollbars are restored (Hide Scrollbars: OFF)
+   Only reset root & body scrollbar-width to auto. Never touch * or overflow-x. */
 html.sbr-show-scrollbars,
-html.sbr-show-scrollbars body,
-html.sbr-show-scrollbars :root,
-html.sbr-show-scrollbars * {
+html.sbr-show-scrollbars body {
   scrollbar-width: auto !important;
+  scrollbar-color: auto !important;
   -ms-overflow-style: auto !important;
-  overflow-x: auto !important;
-}
-
-html.sbr-show-scrollbars ::-webkit-scrollbar,
-html.sbr-show-scrollbars *::-webkit-scrollbar,
-html.sbr-show-scrollbars ::-webkit-scrollbar:horizontal,
-html.sbr-show-scrollbars *::-webkit-scrollbar:horizontal {
-  display: block !important;
-  width: auto !important;
-  height: auto !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  pointer-events: auto !important;
 }
