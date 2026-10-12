@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="icons/icon128.png" width="96" height="96" alt="Sidebar Remover Logo" />
+<img src="extension/icons/icon128.png" width="96" height="96" alt="Sidebar Remover Logo" />
 
 # 🚫 Sidebar Remover for All Websites
 
@@ -9,12 +9,13 @@
 [![Live Landing Page](https://img.shields.io/badge/Live_Demo-GitHub_Pages-F43F87?style=for-the-badge&logo=githubpages&logoColor=white)](https://witrfaruk.github.io/Sidebar-Remover/)
 [![Manifest V3](https://img.shields.io/badge/Manifest-V3-FF705E?style=for-the-badge&logo=googlechrome&logoColor=white)](#)
 [![Privacy First](https://img.shields.io/badge/Privacy-100%25_Local-8FB7A0?style=for-the-badge)](#)
+[![License: MIT](https://img.shields.io/badge/License-MIT-72A4F2?style=for-the-badge)](#)
 [![Theme](https://img.shields.io/badge/Theme-Neo_Brutalist-FF2A6D?style=for-the-badge)](#)
 
 <br/>
 
 <a href="https://witrfaruk.github.io/Sidebar-Remover/">
-  <img src="banner.svg" width="100%" alt="Sidebar Remover Live Animation" />
+  <img src="assets/banner.svg" width="100%" alt="Sidebar Remover Live Animation" />
 </a>
 
 <p><em>▲ Watch sidebars &amp; scrollbars disappear automatically while content expands smoothly.</em></p>
@@ -25,6 +26,21 @@
 
 ### 🌐 Official Website &amp; Live Demo
 👉 **[Visit the Live Website on GitHub Pages](https://witrfaruk.github.io/Sidebar-Remover/)** to try the interactive before/after simulation!
+
+---
+
+### 📂 Repository Structure
+
+```text
+├── assets/          # Media, badges, and animated banner SVG
+├── extension/       # Chrome Extension source files (Load Unpacked here)
+│   ├── fonts/       # Local self-hosted fonts (100% offline & GDPR-compliant)
+│   ├── icons/       # High-resolution extension icons
+│   └── ...          # manifest.json, background.js, content.js, popup.*
+├── page/            # Official GitHub Pages website and interactive simulator
+├── LICENSE          # MIT Open Source License
+└── README.md        # Project documentation
+```
 
 ---
 
@@ -50,9 +66,9 @@
    ```bash
    git clone https://github.com/witrfaruk/Sidebar-Remover.git
    ```
-2. Open Chrome and go to `chrome://extensions/`.
+2. Open Chrome and navigate to `chrome://extensions/`.
 3. Enable **Developer mode** using the toggle in the top-right corner.
-4. Click **Load unpacked** and select the `sidebar-remover` folder.
+4. Click **Load unpacked** and select the `extension` folder.
 5. Pin **Sidebar Remover** to your Chrome toolbar!
 
 ---
