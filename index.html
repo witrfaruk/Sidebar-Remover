@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sidebar Remover for All Websites — Hide Clutter &amp; Scrollbars (Chrome Extension)</title>
+  <title>Sidebar Remover for All Websites — Reclaim Your Screen (Chrome Extension)</title>
   <meta name="description" content="Automatically detect and remove distracting website sidebars and scrollbars across all websites. Reclaim horizontal screen space with this 100% local, privacy-first Chrome Extension." />
   <meta name="keywords" content="sidebar remover for all websites, remove sidebar chrome extension, hide website sidebar, hide scrollbars chrome, website sidebar blocker, distraction free reading, reclaim screen space" />
   <meta name="author" content="WitrFaruk" />
@@ -20,7 +20,7 @@
   <meta property="og:site_name" content="Sidebar Remover" />
 
   <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:url" content="https://witrfaruk.github.io/Sidebar-Remover/" />
   <meta name="twitter:title" content="Sidebar Remover for All Websites — Chrome Extension" />
   <meta name="twitter:description" content="Automatically detect and hide cluttering website sidebars and scrollbars across any website. Fully local &amp; reversible." />
@@ -30,12 +30,12 @@
   <link rel="icon" type="image/png" sizes="32x32" href="icons/icon32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="icons/icon16.png" />
   <link rel="apple-touch-icon" href="icons/icon128.png" />
-  <meta name="theme-color" content="#FFFFFF" />
+  <meta name="theme-color" content="#121019" />
 
-  <!-- Google Fonts (Matching witrfaruk.vercel.app) -->
+  <!-- Google Fonts: Space Grotesk (Neo-Brutalist Display), Plus Jakarta Sans & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@600;700;800;900&display=swap" rel="stylesheet" />
 
   <!-- Structured Data: SoftwareApplication Schema -->
   <script type="application/ld+json">
@@ -54,11 +54,11 @@
     "author": {
       "@type": "Person",
       "name": "WitrFaruk",
-      "url": "https://witrfaruk.vercel.app/contact"
+      "url": "https://witrfaruk.vercel.app/?utm_source=sidebar_remover_github_pages&utm_medium=website&utm_campaign=creator_credit"
     },
     "url": "https://witrfaruk.github.io/Sidebar-Remover/",
     "image": "https://witrfaruk.github.io/Sidebar-Remover/icons/icon128.png",
-    "downloadUrl": "https://github.com/witrfaruk/Sidebar-Remover"
+    "downloadUrl": "https://witrfaruk.github.io/Sidebar-Remover/sidebar-remover.zip?utm_source=sidebar_remover_github_pages&utm_medium=website&utm_campaign=extension_download"
   }
   </script>
 
@@ -105,7 +105,7 @@
         "name": "Can I enable or disable it for specific websites?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. The extension popup includes a one-click switch for the current website, as well as customizable Allowlist and Blocklist settings so you have full control over where it runs."
+          "text": "Yes. The extension popup includes instant toggles for the current website as well as global defaults for scrollbars and sidebars."
         }
       }
     ]
@@ -113,28 +113,27 @@
   </script>
 
   <style>
+    /* ==========================================================================
+       Neo-Brutalist Design System Tokens (Matching Extension Popup Theme)
+       ========================================================================== */
     :root {
-      --bg-main: #FFFFFF;
-      --bg-page: #FAFBFC;
-      --bg-card: #FFFFFF;
-      --bg-elevated: #F8FAFC;
-      --bg-elevated-hover: #F1F5F9;
-      --text-primary: #0F172A;
-      --text-secondary: #475569;
-      --text-muted: #94A3B8;
-      --border: #E2E8F0;
-      --border-subtle: #F1F5F9;
-      --accent: #2C3480;            /* Signature Royal Indigo from witrfaruk.vercel.app */
-      --accent-hover: #1E2563;
-      --accent-light: rgba(44, 52, 128, 0.08);
-      --coral: #FF5A5F;
-      --success: #10B981;
-      --coffee: #FFDD00;            /* Buy Me a Coffee Iconic Yellow */
-      --coffee-hover: #F5D300;
-      --coffee-text: #000000;
-      --disabled: #94A3B8;
-      --focus-outline: #2C3480;
-      --header-height: 68px;
+      --bg-dark: #121019;
+      --bg-card-dark: #1F1B2E;
+      --bg-card-alt: #181524;
+      --bg-cream: #F5F2E8;
+      --text-cream: #F5F2E8;
+      --text-dark: #121019;
+      --text-muted: #9E98B0;
+      --border-dark: #000000;
+      --border-subtle: #2C2640;
+      --accent-pink: #FF2A6D;
+      --accent-pink-hover: #ff4783;
+      --accent-cyan: #00F0FF;
+      --accent-yellow: #FFE600;
+      --kofi-blue: #72a4f2;
+      --kofi-blue-hover: #5d95e8;
+      --switch-off: #342D4B;
+      --header-height: 74px;
     }
 
     *, *::before, *::after {
@@ -148,9 +147,9 @@
     }
 
     body {
-      background-color: var(--bg-main);
-      color: var(--text-primary);
-      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-cream);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: 16px;
       line-height: 1.6;
       overflow-x: hidden;
@@ -158,86 +157,167 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    h1, h2, h3, h4, h5, h6, .brand, .btn-primary, .btn-secondary, .btn-coffee-large, .btn-coffee {
-      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    /* Ambient Comic Halftone / Cyber Grid Background */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: 
+        radial-gradient(#252037 1.5px, transparent 1.5px),
+        radial-gradient(#1A1628 1.5px, transparent 1.5px);
+      background-size: 32px 32px;
+      background-position: 0 0, 16px 16px;
+      opacity: 0.6;
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    /* Soft ambient pink glow top */
+    .ambient-glow {
+      position: fixed;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 900px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(255, 42, 109, 0.12) 0%, transparent 70%);
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    h1, h2, h3, h4, h5, h6, .brand-text, .neo-heading {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 800;
       letter-spacing: -0.02em;
     }
 
     a {
-      color: var(--accent);
+      color: inherit;
       text-decoration: none;
-      transition: color 0.15s ease;
     }
 
-    a:hover {
-      color: var(--accent-hover);
-    }
-
-    /* Ambient Glowing Gradients (Matching witrfaruk.vercel.app) */
-    .ambient-glow-wrapper {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: -1;
-      overflow: hidden;
-    }
-
-    .ambient-glow {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(140px);
-      pointer-events: none;
-    }
-
-    .glow-top {
-      top: -150px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 900px;
-      height: 480px;
-      background: radial-gradient(circle, rgba(44, 52, 128, 0.08) 0%, transparent 70%);
-      opacity: 0.85;
-    }
-
-    .glow-middle {
-      top: 38%;
-      left: -180px;
-      width: 650px;
-      height: 550px;
-      background: radial-gradient(circle, rgba(44, 52, 128, 0.06) 0%, transparent 70%);
-      opacity: 0.7;
-    }
-
-    .glow-bottom {
-      bottom: 8%;
-      right: -180px;
-      width: 750px;
-      height: 550px;
-      background: radial-gradient(circle, rgba(44, 52, 128, 0.06) 0%, transparent 70%);
-      opacity: 0.7;
-    }
-
-    /* Container */
     .container {
       width: 100%;
-      max-width: 1100px;
+      max-width: 1140px;
       margin: 0 auto;
       padding: 0 24px;
     }
 
-    /* Header Nav */
+    /* ==========================================================================
+       Neo-Brutalist Buttons & Components
+       ========================================================================== */
+    .neo-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      padding: 13px 22px;
+      border-radius: 12px;
+      border: 2.5px solid var(--border-dark);
+      cursor: pointer;
+      text-decoration: none;
+      user-select: none;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.12s ease;
+    }
+
+    .neo-btn-primary {
+      background-color: var(--accent-pink);
+      color: #FFFFFF;
+      box-shadow: 4px 4px 0 0 var(--border-dark);
+    }
+    .neo-btn-primary:hover {
+      background-color: var(--accent-pink-hover);
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 0 var(--border-dark);
+    }
+    .neo-btn-primary:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 0 var(--border-dark);
+    }
+
+    .neo-btn-cream {
+      background-color: var(--bg-cream);
+      color: var(--text-dark);
+      box-shadow: 4px 4px 0 0 var(--accent-pink), 4px 4px 0 2.5px var(--border-dark);
+    }
+    .neo-btn-cream:hover {
+      background-color: #FFFFFF;
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 0 var(--accent-pink), 6px 6px 0 2.5px var(--border-dark);
+    }
+    .neo-btn-cream:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 0 var(--accent-pink), 2px 2px 0 2.5px var(--border-dark);
+    }
+
+    .neo-btn-kofi {
+      background-color: var(--kofi-blue);
+      color: #FFFFFF;
+      box-shadow: 4px 4px 0 0 var(--border-dark);
+    }
+    .neo-btn-kofi:hover {
+      background-color: var(--kofi-blue-hover);
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 0 var(--border-dark);
+    }
+    .neo-btn-kofi:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 0 var(--border-dark);
+    }
+
+    .neo-btn-dark {
+      background-color: var(--bg-card-dark);
+      color: var(--text-cream);
+      border-color: var(--border-dark);
+      box-shadow: 4px 4px 0 0 var(--accent-pink), 4px 4px 0 2.5px var(--border-dark);
+    }
+    .neo-btn-dark:hover {
+      background-color: #27223b;
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 0 var(--accent-pink), 6px 6px 0 2.5px var(--border-dark);
+    }
+    .neo-btn-dark:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 0 var(--accent-pink), 2px 2px 0 2.5px var(--border-dark);
+    }
+
+    /* Neo-Brutalist Badge */
+    .neo-pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 2px solid var(--border-dark);
+      background-color: var(--bg-card-dark);
+      color: var(--accent-pink);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      box-shadow: 3px 3px 0 0 var(--border-dark);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    /* ==========================================================================
+       Site Header
+       ========================================================================== */
     header.site-header {
       position: sticky;
       top: 0;
       z-index: 100;
-      background-color: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
+      background-color: rgba(18, 16, 25, 0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 2.5px solid var(--border-dark);
       height: var(--header-height);
       display: flex;
       align-items: center;
-      transition: box-shadow 0.2s ease;
     }
 
     .nav-inner {
@@ -250,558 +330,496 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
-      color: var(--text-primary);
-      font-weight: 700;
-      font-size: 17.5px;
+      gap: 12px;
       cursor: pointer;
       user-select: none;
     }
 
-    .brand img {
-      width: 34px;
-      height: 34px;
+    .brand-logo-frame {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 2.5px solid var(--border-dark);
+      background: var(--bg-cream);
+      box-shadow: 3px 3px 0 0 var(--accent-pink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .brand-logo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       display: block;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+    }
+
+    .brand-title-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-text {
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--text-cream);
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+    }
+
+    .brand-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--accent-pink);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 18px;
     }
 
     .nav-link-btn {
-      color: var(--text-secondary);
+      color: var(--text-cream);
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 14.5px;
-      font-weight: 600;
+      font-weight: 700;
       background: none;
-      border: none;
-      font-family: inherit;
-      cursor: pointer;
-      padding: 6px 10px;
+      border: 2px solid transparent;
+      padding: 7px 12px;
       border-radius: 8px;
-      transition: color 0.15s ease, background-color 0.15s ease;
+      cursor: pointer;
+      transition: all 0.15s ease;
     }
 
     .nav-link-btn:hover {
-      color: var(--accent);
-      background-color: var(--bg-elevated);
+      background-color: var(--bg-card-dark);
+      border-color: var(--border-dark);
+      color: var(--accent-pink);
+      box-shadow: 2px 2px 0 0 var(--border-dark);
+      transform: translate(-1px, -1px);
     }
 
-    .btn-coffee {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      background-color: var(--coffee);
-      color: #000000 !important;
-      padding: 8px 16px;
-      border-radius: 10px;
-      font-size: 13.5px;
-      font-weight: 700;
-      border: 1px solid var(--coffee);
-      transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
-      text-decoration: none;
-      box-shadow: 0 2px 8px rgba(255, 221, 0, 0.28);
-    }
-
-    .btn-coffee:hover {
-      background-color: var(--coffee-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 14px rgba(255, 221, 0, 0.38);
-    }
-
-    .btn-coffee svg {
-      width: 16px;
-      height: 16px;
-      fill: currentColor;
-    }
-
-    /* Mobile Hamburger Button */
     .mobile-menu-btn {
       display: none;
-      background: var(--bg-elevated);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px;
-      color: var(--text-primary);
+      background: var(--bg-cream);
+      border: 2px solid var(--border-dark);
+      border-radius: 9px;
+      padding: 7px;
+      color: var(--text-dark);
       cursor: pointer;
-      align-items: center;
-      justify-content: center;
+      box-shadow: 3px 3px 0 0 var(--accent-pink);
     }
-
     .mobile-menu-btn svg {
-      width: 20px;
-      height: 20px;
-      stroke: currentColor;
+      width: 22px;
+      height: 22px;
+      display: block;
     }
 
-    /* Mobile Navigation Drawer */
     .mobile-drawer {
       display: none;
       position: absolute;
       top: var(--header-height);
       left: 0;
       width: 100%;
-      background-color: #FFFFFF;
-      border-bottom: 1px solid var(--border);
-      padding: 18px 24px 24px;
+      background-color: var(--bg-card-dark);
+      border-bottom: 2.5px solid var(--border-dark);
+      padding: 20px 24px;
       flex-direction: column;
-      gap: 14px;
-      z-index: 99;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1);
+      gap: 12px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.4);
     }
-
     .mobile-drawer.open {
       display: flex;
     }
 
-    .mobile-drawer .nav-link-btn {
-      font-size: 16px;
-      font-weight: 600;
-      text-align: left;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border);
-      width: 100%;
-    }
-
-    .mobile-drawer .drawer-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 8px;
-    }
-
-    .mobile-drawer .btn-coffee {
-      justify-content: center;
-      padding: 12px;
-      font-size: 15px;
-      width: 100%;
-    }
-
-    /* Hero Section */
+    /* ==========================================================================
+       Hero Section
+       ========================================================================== */
     section.hero {
-      padding: clamp(48px, 9vw, 84px) 0 clamp(36px, 6vw, 54px);
+      padding: clamp(48px, 8vw, 84px) 0 clamp(40px, 6vw, 64px);
       text-align: center;
       position: relative;
     }
 
-    h1.hero-title {
-      font-size: clamp(32px, 6vw, 52px);
-      line-height: 1.15;
-      font-weight: 800;
+    .hero-title {
+      font-size: clamp(34px, 6.5vw, 64px);
+      font-weight: 900;
+      line-height: 1.05;
+      margin-bottom: 18px;
+      text-transform: uppercase;
       letter-spacing: -0.03em;
-      max-width: 860px;
-      margin: 0 auto 18px;
-      color: var(--text-primary);
     }
 
-    h1.hero-title span.highlight {
-      color: var(--accent);
+    .hero-title .highlight {
+      color: var(--text-dark);
+      background-color: var(--accent-pink);
+      padding: 2px 14px;
+      border-radius: 8px;
+      border: 2.5px solid var(--border-dark);
+      box-shadow: 4px 4px 0 0 var(--border-dark);
+      display: inline-block;
+      margin: 4px 0;
+      color: #FFFFFF;
     }
 
-    p.hero-subtitle {
-      font-size: clamp(15.5px, 3vw, 19px);
+    .hero-subtitle {
+      color: var(--text-muted);
+      font-size: clamp(16px, 2.8vw, 19px);
+      max-width: 680px;
+      margin: 0 auto 34px;
       line-height: 1.6;
-      color: var(--text-secondary);
-      max-width: 720px;
-      margin: 0 auto 36px;
+      font-weight: 500;
     }
 
     .cta-group {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 14px;
+      gap: 16px;
       flex-wrap: wrap;
-      margin-bottom: clamp(36px, 7vw, 56px);
+      margin-bottom: 50px;
     }
 
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
-      background-color: #0F172A;
-      color: #FFFFFF !important;
-      padding: 13px 26px;
-      border-radius: 12px;
-      font-size: 15.5px;
-      font-weight: 600;
-      border: 1px solid #0F172A;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
-      text-decoration: none;
-    }
-
-    .btn-primary:hover {
-      background-color: var(--accent);
-      border-color: var(--accent);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 22px rgba(44, 52, 128, 0.28);
-    }
-
-    .btn-primary svg {
-      width: 19px;
-      height: 19px;
-      fill: currentColor;
-    }
-
-    .btn-coffee-large {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
-      background-color: var(--coffee);
-      color: #000000 !important;
-      padding: 13px 26px;
-      border-radius: 12px;
-      font-size: 15.5px;
-      font-weight: 700;
-      border: 1px solid var(--coffee);
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 4px 14px rgba(255, 221, 0, 0.28);
-      text-decoration: none;
-    }
-
-    .btn-coffee-large:hover {
-      background-color: var(--coffee-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 22px rgba(255, 221, 0, 0.38);
-    }
-
-    .btn-coffee-large svg {
-      width: 19px;
-      height: 19px;
-      fill: currentColor;
-    }
-
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background-color: #FFFFFF;
-      color: var(--text-primary);
-      padding: 13px 22px;
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: 600;
-      border: 1px solid var(--border);
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
-      cursor: pointer;
-      font-family: inherit;
-    }
-
-    .btn-secondary:hover {
-      background-color: var(--bg-elevated);
-      border-color: #CBD5E1;
-      color: var(--accent);
-      transform: translateY(-2px);
-    }
-
-    .btn-secondary svg {
-      width: 18px;
-      height: 18px;
-      stroke: currentColor;
-    }
-
-    /* Interactive Simulation (Image 1 Refined) */
+    /* ==========================================================================
+       Interactive Neo-Brutalist Simulation Showcase
+       ========================================================================== */
     .demo-wrapper {
-      max-width: 920px;
-      margin: 0 auto clamp(40px, 8vw, 64px);
-      background-color: #FFFFFF;
-      border: 1px solid var(--border);
-      border-radius: 16px;
+      max-width: 980px;
+      margin: 0 auto;
+      border-radius: 18px;
+      border: 3px solid var(--border-dark);
+      background-color: var(--bg-card-dark);
+      box-shadow: 8px 8px 0 0 var(--accent-pink), 8px 8px 0 3px var(--border-dark);
       overflow: hidden;
       text-align: left;
-      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
     }
 
+    /* Browser Bar */
     .demo-bar {
+      background-color: #161322;
+      border-bottom: 2.5px solid var(--border-dark);
+      padding: 12px 18px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 18px;
-      background-color: #F8FAFC;
-      border-bottom: 1px solid var(--border);
+      gap: 16px;
       flex-wrap: wrap;
-      gap: 12px;
     }
+
+    .demo-window-dots {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .demo-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border-dark);
+    }
+    .dot-red { background: #FF5F56; }
+    .dot-yellow { background: #FFBD2E; }
+    .dot-green { background: #27C93F; }
 
     .demo-url {
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 13px;
-      color: var(--text-secondary);
-      background-color: #FFFFFF;
-      padding: 6px 12px;
+      background: #0E0C16;
+      border: 2px solid var(--border-dark);
       border-radius: 8px;
-      border: 1px solid var(--border);
-      width: 320px;
-      max-width: 100%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      padding: 6px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      color: #C0BACF;
+      box-shadow: 2px 2px 0 0 var(--border-dark);
+      flex: 1;
+      max-width: 360px;
     }
 
     .demo-controls {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 18px;
       flex-wrap: wrap;
     }
 
     .demo-toggle-label {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-primary);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 9px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text-cream);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      user-select: none;
     }
 
-    /* Switch */
-    .switch-ui {
+    /* Neo-Brutalist Switch */
+    .neo-switch-ui {
       position: relative;
-      width: 44px;
-      height: 24px;
       display: inline-block;
+      width: 48px;
+      height: 26px;
       flex-shrink: 0;
     }
 
-    .switch-ui input {
+    .neo-switch-ui input {
       opacity: 0;
-      width: 100%;
-      height: 100%;
+      width: 0;
+      height: 0;
       position: absolute;
-      margin: 0;
-      cursor: pointer;
-      z-index: 2;
     }
 
-    .switch-ui span {
+    .neo-switch-ui .neo-slider {
       position: absolute;
+      cursor: pointer;
       inset: 0;
-      background-color: #E2E8F0;
-      border: 1px solid #CBD5E1;
-      border-radius: 20px;
-      transition: background-color 0.2s ease, border-color 0.2s ease;
-      cursor: pointer;
+      background-color: var(--switch-off);
+      border: 2px solid var(--border-dark);
+      border-radius: 999px;
+      transition: background-color 0.22s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .switch-ui span::before {
-      content: "";
+    .neo-switch-ui .neo-slider::before {
       position: absolute;
-      width: 16px;
+      content: "";
       height: 16px;
+      width: 16px;
       left: 3px;
       top: 3px;
-      background-color: #FFFFFF;
+      background-color: var(--bg-cream);
+      border: 1.8px solid var(--border-dark);
       border-radius: 50%;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    .switch-ui input:checked + span {
-      background-color: var(--accent);
-      border-color: var(--accent);
+    .neo-switch-ui input:checked + .neo-slider {
+      background-color: var(--accent-pink);
     }
 
-    .switch-ui input:checked + span::before {
-      transform: translateX(18px);
+    .neo-switch-ui input:checked + .neo-slider::before {
+      transform: translateX(20px);
     }
 
-    /* Demo Screen */
+    /* Browser Body */
     .mock-browser {
       display: flex;
+      height: 400px;
+      background-color: var(--bg-cream);
+      color: var(--text-dark);
       position: relative;
-      min-height: 380px;
-      background-color: #FFFFFF;
       overflow: hidden;
     }
 
+    /* Simulated Sidebar */
     .mock-sidebar {
-      width: 220px;
-      background-color: #F8FAFC;
-      border-right: 1px solid var(--border);
-      padding: 22px 16px;
+      width: 250px;
+      background-color: #E8E3D3;
+      border-right: 2.5px solid var(--border-dark);
+      padding: 20px 16px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, margin 0.35s ease;
+      gap: 10px;
+      transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1), padding 0.35s ease, opacity 0.25s ease;
+      overflow: hidden;
       flex-shrink: 0;
     }
 
     .mock-sidebar.hidden-state {
       width: 0;
-      padding: 0;
+      padding-left: 0;
+      padding-right: 0;
+      border-right-width: 0;
       opacity: 0;
-      border-right: none;
-      overflow: hidden;
-      margin-left: -1px;
+      pointer-events: none;
     }
 
     .mock-badge {
       display: inline-block;
-      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 4px 8px;
+      background-color: var(--accent-pink);
+      color: #FFFFFF;
+      border: 1.5px solid var(--border-dark);
+      border-radius: 6px;
+      box-shadow: 2px 2px 0 0 var(--border-dark);
       text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--accent);
-      font-weight: 700;
       margin-bottom: 6px;
-      white-space: nowrap;
+      width: fit-content;
     }
 
     .mock-link {
-      height: 14px;
+      height: 12px;
+      background-color: #D3CCB8;
       border-radius: 4px;
-      background-color: #E2E8F0;
+      border: 1px solid #B8B09A;
     }
+    .w90 { width: 90%; }
+    .w80 { width: 80%; }
+    .w70 { width: 70%; }
+    .w60 { width: 60%; }
+    .w50 { width: 50%; }
 
-    .mock-link.w80 { width: 80%; }
-    .mock-link.w60 { width: 60%; }
-    .mock-link.w70 { width: 70%; }
-    .mock-link.w90 { width: 90%; }
-    .mock-link.w50 { width: 50%; }
-
+    /* Simulated Content Area */
     .mock-content {
       flex: 1;
-      padding: clamp(20px, 4vw, 32px);
+      padding: 30px clamp(20px, 4vw, 40px);
       overflow-y: auto;
-      transition: padding 0.3s ease;
-      min-width: 0;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+      transition: all 0.35s ease;
+    }
+
+    .mock-content::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
     }
 
     .mock-meta {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
+      margin-bottom: 14px;
     }
-
     .mock-tag {
+      font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
-      font-weight: 700;
-      color: var(--accent);
-      background-color: rgba(44, 52, 128, 0.08);
-      padding: 3px 9px;
-      border-radius: 6px;
-      letter-spacing: 0.5px;
+      font-weight: 800;
+      background: var(--text-dark);
+      color: var(--bg-cream);
+      padding: 3px 8px;
+      border-radius: 5px;
     }
-
     .mock-date {
       font-size: 12px;
-      color: var(--text-muted);
+      color: #6C6656;
+      font-weight: 600;
     }
 
     .mock-title {
-      font-size: clamp(19px, 3.5vw, 24px);
-      font-weight: 800;
-      line-height: 1.3;
-      margin-bottom: 12px;
-      color: var(--text-primary);
+      font-size: clamp(20px, 3.5vw, 28px);
+      font-weight: 900;
+      color: var(--text-dark);
+      margin-bottom: 14px;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
     }
 
     .mock-text {
-      font-size: clamp(13.5px, 2.5vw, 14.5px);
+      font-size: 14.5px;
       line-height: 1.65;
-      color: var(--text-secondary);
-      margin-bottom: 12px;
-    }
-
-    .mock-text strong {
-      color: var(--text-primary);
+      color: #38342E;
+      margin-bottom: 14px;
+      max-width: 720px;
     }
 
     .mock-stats-row {
       display: flex;
-      gap: 24px;
-      margin-top: 20px;
-      padding-top: 16px;
-      border-top: 1px solid var(--border);
+      gap: 14px;
+      margin-top: 24px;
       flex-wrap: wrap;
     }
 
     .mock-stat {
+      background: #FFFFFF;
+      border: 2px solid var(--border-dark);
+      border-radius: 10px;
+      padding: 10px 16px;
+      box-shadow: 3px 3px 0 0 var(--border-dark);
       display: flex;
       flex-direction: column;
     }
-
     .mock-stat strong {
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--accent);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--accent-pink);
     }
-
     .mock-stat span {
-      font-size: 11.5px;
-      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 700;
+      color: #555042;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
     }
 
+    /* Simulated Scrollbar */
     .mock-scrollbar {
-      width: 12px;
-      background-color: #F8FAFC;
-      border-left: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 4px 0;
+      width: 14px;
+      background-color: #DFDAC9;
+      border-left: 2px solid var(--border-dark);
+      position: relative;
+      transition: width 0.3s ease, opacity 0.3s ease;
       flex-shrink: 0;
-      transition: width 0.25s ease, opacity 0.25s ease;
     }
 
     .mock-scrollbar.hidden-state {
       width: 0;
       opacity: 0;
-      border-left: none;
-      overflow: hidden;
+      border-left-width: 0;
     }
 
     .mock-thumb {
-      width: 6px;
-      height: 60px;
-      border-radius: 3px;
-      background-color: #CBD5E1;
-      margin-top: 10px;
+      position: absolute;
+      top: 30px;
+      left: 2px;
+      right: 2px;
+      height: 70px;
+      background-color: #8C8472;
+      border-radius: 4px;
+      border: 1px solid var(--border-dark);
     }
 
-    /* Features Grid */
-    section.features {
-      padding: clamp(48px, 8vw, 72px) 0;
-      border-top: 1px solid var(--border);
-    }
-
+    /* ==========================================================================
+       Section Layouts & Neo-Brutalist Grid
+       ========================================================================== */
     .section-header {
       text-align: center;
-      max-width: 680px;
-      margin: 0 auto clamp(32px, 6vw, 48px);
+      margin-bottom: 46px;
     }
 
     .section-label {
+      font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
+      font-weight: 800;
+      color: var(--accent-pink);
       text-transform: uppercase;
-      letter-spacing: 1.2px;
-      color: var(--accent);
-      font-weight: 700;
+      letter-spacing: 0.8px;
       margin-bottom: 8px;
     }
 
-    h2.section-title {
-      font-size: clamp(26px, 5vw, 36px);
-      font-weight: 800;
-      margin-bottom: 12px;
+    .section-title {
+      font-size: clamp(26px, 4.5vw, 42px);
+      font-weight: 900;
+      text-transform: uppercase;
       letter-spacing: -0.02em;
-      color: var(--text-primary);
+      margin-bottom: 12px;
     }
 
-    p.section-desc {
-      color: var(--text-secondary);
-      font-size: clamp(14px, 3vw, 16px);
+    .section-desc {
+      color: var(--text-muted);
+      font-size: clamp(14.5px, 2.5vw, 17px);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Features Section */
+    section.features {
+      padding: clamp(60px, 9vw, 90px) 0;
+      border-top: 2.5px solid var(--border-dark);
     }
 
     .grid-3 {
@@ -811,67 +829,62 @@
     }
 
     .feature-card {
-      background-color: #FFFFFF;
-      border: 1px solid var(--border);
+      background-color: var(--bg-card-dark);
+      border: 2.5px solid var(--border-dark);
       border-radius: 14px;
-      padding: clamp(20px, 4vw, 26px);
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+      padding: 26px 22px;
+      box-shadow: 4px 4px 0 0 var(--accent-pink), 4px 4px 0 2.5px var(--border-dark);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      display: flex;
+      flex-direction: column;
     }
 
     .feature-card:hover {
-      border-color: var(--accent);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 28px rgba(44, 52, 128, 0.08);
+      transform: translate(-3px, -3px);
+      box-shadow: 7px 7px 0 0 var(--accent-pink), 7px 7px 0 2.5px var(--border-dark);
     }
 
-    .card-icon {
+    .card-icon-tile {
       width: 44px;
       height: 44px;
-      background-color: rgba(44, 52, 128, 0.08);
-      border: 1px solid rgba(44, 52, 128, 0.15);
+      background-color: var(--bg-cream);
+      border: 2.5px solid var(--border-dark);
       border-radius: 10px;
-      display: grid;
-      place-items: center;
-      margin-bottom: 18px;
-      color: var(--accent);
+      box-shadow: 3.5px 3.5px 0 0 var(--accent-pink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      flex-shrink: 0;
     }
 
-    .card-icon svg {
+    .card-icon-tile svg {
       width: 22px;
       height: 22px;
-    }
-
-    .card-icon.coral {
-      color: var(--coral);
-      background-color: rgba(255, 90, 95, 0.08);
-      border-color: rgba(255, 90, 95, 0.15);
-    }
-
-    .card-icon.success {
-      color: var(--success);
-      background-color: rgba(16, 185, 129, 0.08);
-      border-color: rgba(16, 185, 129, 0.15);
+      stroke: var(--text-dark);
     }
 
     .feature-card h3 {
-      font-size: 17.5px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: var(--text-cream);
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
     }
 
     .feature-card p {
-      font-size: 14px;
-      line-height: 1.55;
-      color: var(--text-secondary);
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      flex: 1;
     }
 
-    /* How It Works */
+    /* How It Works Section */
     section.how-it-works {
-      padding: clamp(48px, 8vw, 72px) 0;
-      border-top: 1px solid var(--border);
-      background-color: var(--bg-page);
+      padding: clamp(60px, 9vw, 90px) 0;
+      border-top: 2.5px solid var(--border-dark);
+      background-color: #0E0C15;
     }
 
     .steps-row {
@@ -881,75 +894,93 @@
     }
 
     .step-card {
-      background-color: #FFFFFF;
-      border: 1px solid var(--border);
+      background-color: var(--bg-cream);
+      color: var(--text-dark);
+      border: 2.5px solid var(--border-dark);
       border-radius: 14px;
-      padding: clamp(22px, 4vw, 28px);
+      padding: 28px 22px;
+      box-shadow: 5px 5px 0 0 var(--border-dark);
       position: relative;
-      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
 
-    .step-num {
+    .step-card:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 8px 8px 0 0 var(--border-dark);
+    }
+
+    .step-badge {
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 32px;
-      font-weight: 800;
-      color: var(--accent);
-      margin-bottom: 12px;
+      font-weight: 900;
+      color: #FFFFFF;
+      background-color: var(--accent-pink);
+      border: 2px solid var(--border-dark);
+      box-shadow: 2.5px 2.5px 0 0 var(--border-dark);
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 12px;
+      margin-bottom: 16px;
       line-height: 1;
     }
 
     .step-card h3 {
-      font-size: 17px;
-      font-weight: 700;
+      font-size: 18px;
+      font-weight: 900;
       margin-bottom: 8px;
-      color: var(--text-primary);
+      color: var(--text-dark);
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
     }
 
     .step-card p {
-      font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.55;
+      font-size: 14.5px;
+      color: #38342E;
+      line-height: 1.6;
     }
 
-    /* FAQ / AEO Section */
+    /* FAQ Section */
     section.faq-section {
-      padding: clamp(48px, 8vw, 72px) 0;
-      border-top: 1px solid var(--border);
+      padding: clamp(60px, 9vw, 90px) 0;
+      border-top: 2.5px solid var(--border-dark);
     }
 
     .faq-list {
-      max-width: 820px;
+      max-width: 840px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 16px;
     }
 
     .faq-item {
-      background-color: #FFFFFF;
-      border: 1px solid var(--border);
+      background-color: var(--bg-card-dark);
+      border: 2.5px solid var(--border-dark);
       border-radius: 12px;
       overflow: hidden;
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+      box-shadow: 4px 4px 0 0 var(--border-dark);
+      transition: all 0.15s ease;
     }
 
     .faq-item[open] {
-      border-color: var(--accent);
-      box-shadow: 0 6px 20px rgba(44, 52, 128, 0.07);
+      box-shadow: 5px 5px 0 0 var(--accent-pink), 5px 5px 0 2.5px var(--border-dark);
     }
 
     .faq-item summary {
       padding: 18px 22px;
-      font-size: clamp(15px, 3vw, 16.5px);
-      font-weight: 650;
-      color: var(--text-primary);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(15.5px, 2.5vw, 17.5px);
+      font-weight: 800;
+      color: var(--text-cream);
       cursor: pointer;
       list-style: none;
       display: flex;
       align-items: center;
       justify-content: space-between;
       user-select: none;
-      gap: 12px;
+      gap: 14px;
     }
 
     .faq-item summary::-webkit-details-marker {
@@ -957,133 +988,105 @@
     }
 
     .faq-chevron {
-      width: 18px;
-      height: 18px;
-      color: var(--text-secondary);
-      transition: transform 0.2s ease, color 0.15s ease;
+      width: 20px;
+      height: 20px;
+      stroke: var(--accent-pink);
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
       flex-shrink: 0;
     }
 
     .faq-item[open] .faq-chevron {
       transform: rotate(180deg);
-      color: var(--accent);
     }
 
     .faq-body {
-      padding: 0 22px 20px;
-      font-size: 14.5px;
+      padding: 0 22px 22px;
+      font-size: 15px;
       line-height: 1.65;
-      color: var(--text-secondary);
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-subtle);
+      margin-top: 4px;
+      padding-top: 16px;
     }
 
     /* CTA Bottom Banner */
     section.cta-banner {
-      padding: clamp(48px, 8vw, 72px) 0 clamp(48px, 10vw, 84px);
+      padding: clamp(60px, 9vw, 90px) 0;
       text-align: center;
-      border-top: 1px solid var(--border);
-      background-color: var(--bg-page);
+      border-top: 2.5px solid var(--border-dark);
+      background-color: #0E0C15;
     }
 
     .banner-box {
-      background-color: #FFFFFF;
-      border: 1px solid var(--border);
+      background-color: var(--bg-cream);
+      color: var(--text-dark);
+      border: 3px solid var(--border-dark);
       border-radius: 20px;
-      padding: clamp(32px, 6vw, 56px) clamp(20px, 4vw, 36px);
-      max-width: 840px;
+      padding: clamp(36px, 6vw, 60px) clamp(20px, 4vw, 40px);
+      max-width: 860px;
       margin: 0 auto;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+      box-shadow: 8px 8px 0 0 var(--accent-pink), 8px 8px 0 3px var(--border-dark);
     }
 
     .banner-box h2 {
-      font-size: clamp(24px, 5vw, 34px);
-      font-weight: 800;
-      margin-bottom: 12px;
+      font-size: clamp(26px, 5vw, 42px);
+      font-weight: 900;
+      margin-bottom: 14px;
+      text-transform: uppercase;
       letter-spacing: -0.02em;
-      color: var(--text-primary);
     }
 
     .banner-box p {
-      color: var(--text-secondary);
-      font-size: clamp(14.5px, 3vw, 16.5px);
-      max-width: 580px;
-      margin: 0 auto 28px;
+      color: #38342E;
+      font-size: clamp(15px, 2.5vw, 18px);
+      max-width: 600px;
+      margin: 0 auto 32px;
+      font-weight: 500;
     }
 
     .banner-actions {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 14px;
+      gap: 16px;
       flex-wrap: wrap;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
     .contact-sub {
-      font-size: 13.5px;
-      color: var(--text-secondary);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: #555042;
+      font-weight: 600;
     }
 
     .contact-sub a {
-      color: var(--accent);
+      color: var(--accent-pink);
       text-decoration: underline;
+      font-weight: 800;
     }
 
-    /* Sexy Modern Footer (Matching witrfaruk.vercel.app) */
-    footer.sexy-footer {
-      position: relative;
-      background-color: #FFFFFF;
-      border-top: 1px solid var(--border);
-      padding-top: clamp(48px, 8vw, 72px);
-      padding-bottom: 24px;
-      overflow: hidden;
-      color: var(--text-secondary);
+    /* ==========================================================================
+       Neo-Brutalist Footer & Creator Hub
+       ========================================================================== */
+    footer.site-footer {
+      background-color: var(--bg-dark);
+      border-top: 2.5px solid var(--border-dark);
+      padding: clamp(50px, 8vw, 76px) 0 30px;
+      color: var(--text-cream);
     }
 
-    .footer-content-wrap {
-      position: relative;
-      z-index: 2;
-    }
-
-    /* Sparkle Divider & Stay Connected */
     .stay-connected-section {
       text-align: center;
-      margin-bottom: clamp(40px, 6vw, 64px);
-    }
-
-    .sparkle-divider {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      max-width: 480px;
-      margin: 0 auto 20px;
-    }
-
-    .sparkle-line {
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--border), transparent);
-    }
-
-    .sparkle-star {
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .sparkle-star svg {
-      width: 18px;
-      height: 18px;
+      margin-bottom: 50px;
     }
 
     .stay-connected-heading {
-      font-size: clamp(22px, 4vw, 32px);
-      font-family: Georgia, "Playfair Display", "Times New Roman", serif;
-      font-weight: 500;
-      color: var(--text-primary);
+      font-size: clamp(22px, 4vw, 30px);
+      font-weight: 900;
+      text-transform: uppercase;
       margin-bottom: 24px;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.01em;
     }
 
     .social-icons-row {
@@ -1091,7 +1094,7 @@
       flex-wrap: wrap;
       align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 14px;
       max-width: 600px;
       margin: 0 auto;
     }
@@ -1099,277 +1102,132 @@
     .social-circle {
       width: 46px;
       height: 46px;
-      border-radius: 50%;
-      border: 1px solid var(--border);
-      background-color: #FFFFFF;
-      color: var(--text-secondary);
+      border-radius: 12px;
+      background-color: var(--bg-card-dark);
+      border: 2px solid var(--border-dark);
+      box-shadow: 3px 3px 0 0 var(--border-dark);
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
-      text-decoration: none;
-    }
-
-    .social-circle svg {
-      width: 18px;
-      height: 18px;
-      transition: transform 0.22s ease;
+      color: var(--text-cream);
+      transition: all 0.15s ease;
     }
 
     .social-circle:hover {
-      background-color: var(--accent);
-      border-color: var(--accent);
+      background-color: var(--accent-pink);
       color: #FFFFFF;
-      transform: translateY(-3px);
-      box-shadow: 0 8px 18px rgba(44, 52, 128, 0.25);
+      transform: translate(-2px, -2px);
+      box-shadow: 5px 5px 0 0 var(--border-dark);
     }
 
-    .social-circle:hover svg {
-      transform: scale(1.08);
+    .social-circle svg {
+      width: 20px;
+      height: 20px;
     }
 
-    /* Main Grid: Brand + 5 Columns */
-    .footer-columns-grid {
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 48px;
-      padding-top: clamp(32px, 5vw, 48px);
-      padding-bottom: clamp(36px, 5vw, 56px);
-      border-top: 1px solid var(--border);
-    }
-
-    .footer-brand-col {
+    /* Footer Brand Card (Clean Open Source Layout) */
+    .footer-brand-wrap {
       display: flex;
       flex-direction: column;
+      align-items: center;
+      text-align: center;
       gap: 16px;
+      margin-bottom: 40px;
+      padding-top: 30px;
+      border-top: 1px solid var(--border-subtle);
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    .brand-link {
+    .footer-brand-title {
       font-size: 20px;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--text-primary);
-    }
-
-    .brand-bio {
-      font-size: 13.5px;
-      line-height: 1.6;
-      color: var(--text-secondary);
-      max-width: 250px;
-    }
-
-    .footer-coffee-wrap {
-      padding-top: 6px;
-    }
-
-    .footer-bmc-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      background-color: #FFDD00;
-      color: #000000;
-      font-size: 13.5px;
-      font-weight: 700;
-      padding: 10px 18px;
-      border-radius: 10px;
-      text-decoration: none;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      box-shadow: 0 4px 12px rgba(255, 221, 0, 0.25);
-    }
-
-    .footer-bmc-badge:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(255, 221, 0, 0.4);
-      color: #000000;
-    }
-
-    .footer-bmc-badge svg {
-      width: 17px;
-      height: 17px;
-    }
-
-    .footer-nav-columns {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 24px;
-    }
-
-    .footer-col {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .footer-col-title {
-      font-size: 11.5px;
-      font-weight: 700;
+      font-weight: 900;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-primary);
-      margin-bottom: 4px;
+      letter-spacing: -0.01em;
     }
 
-    .footer-col a {
-      font-size: 13.5px;
-      color: var(--text-secondary);
-      text-decoration: none;
-      transition: color 0.15s ease, transform 0.15s ease;
-      width: fit-content;
+    .footer-brand-bio {
+      color: var(--text-muted);
+      font-size: 14.5px;
+      line-height: 1.6;
     }
 
-    .footer-col a:hover {
-      color: var(--accent);
-      transform: translateX(2px);
+    .footer-brand-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
     }
 
-    .footer-col a.font-mono {
-      font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 12px;
-    }
-
-    /* Bottom Row */
+    /* Bottom Copyright Bar */
     .footer-bottom-bar {
-      border-top: 1px solid var(--border);
-      padding-top: 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 24px;
       flex-wrap: wrap;
-      gap: 16px;
-      font-size: 12.5px;
-      color: var(--text-secondary);
+      gap: 14px;
+    }
+
+    .footer-creator-credit {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: transform 0.15s ease;
+    }
+
+    .footer-creator-credit:hover {
+      transform: translateY(-1px);
+    }
+
+    .footer-creator-credit:hover .author-name {
+      color: var(--accent-pink);
+      text-shadow: 0 0 8px rgba(255, 42, 109, 0.4);
+    }
+
+    .footer-creator-credit:hover .heart-icon {
+      transform: scale(1.3);
+    }
+
+    .heart-icon {
+      display: inline-block;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .author-name {
+      color: var(--text-cream);
+      font-weight: 800;
+      transition: color 0.15s ease;
     }
 
     .footer-bottom-links {
       display: flex;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    .footer-bottom-links a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      transition: color 0.15s ease;
+      gap: 16px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      font-weight: 600;
     }
 
     .footer-bottom-links a:hover {
-      color: var(--accent);
+      color: var(--accent-pink);
     }
 
-    /* Giant Watermark */
-    .footer-giant-watermark {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      pointer-events: none;
-      user-select: none;
-      overflow: hidden;
-      padding-top: 28px;
-      margin-bottom: -15px;
-    }
-
-    .footer-giant-watermark span {
-      font-size: clamp(38px, 8.5vw, 110px);
-      font-family: Georgia, "Playfair Display", "Times New Roman", serif;
-      font-weight: 700;
-      line-height: 0.9;
-      letter-spacing: -0.03em;
-      background: linear-gradient(180deg, rgba(15, 23, 42, 0.08) 0%, rgba(15, 23, 42, 0.02) 60%, rgba(15, 23, 42, 0.002) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      display: inline-block;
-      white-space: nowrap;
-    }
-
-    @media (max-width: 1024px) {
-      .footer-columns-grid {
-        grid-template-columns: 1fr;
-        gap: 36px;
-      }
-      .footer-brand-col {
-        align-items: center;
-        text-align: center;
-      }
-      .brand-bio {
-        max-width: 480px;
-      }
-      .footer-nav-columns {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 28px;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .footer-nav-columns {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 24px;
-      }
-      .footer-bottom-bar {
-        flex-direction: column;
-        text-align: center;
-        gap: 12px;
-      }
-      .footer-bottom-links {
-        justify-content: center;
-        gap: 14px;
-      }
-    }
-
-    /* Tablet adjustments */
-    @media (max-width: 960px) {
-      .grid-3 {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .nav-links {
-        gap: 12px;
-      }
-    }
-
-    /* Mobile adjustments */
-    @media (max-width: 780px) {
-      .nav-links {
-        display: none;
-      }
-      .mobile-menu-btn {
-        display: inline-flex;
-      }
-      .grid-3, .steps-row {
-        grid-template-columns: 1fr;
-      }
-      .mock-sidebar {
-        width: 130px;
-        padding: 16px 12px;
-      }
-      .cta-group {
-        flex-direction: column;
-        width: 100%;
-      }
-      .cta-group .btn-primary,
-      .cta-group .btn-coffee-large,
-      .cta-group .btn-secondary {
-        width: 100%;
-      }
-      .banner-actions {
-        flex-direction: column;
-        width: 100%;
-      }
-      .banner-actions .btn-primary,
-      .banner-actions .btn-coffee-large {
-        width: 100%;
-      }
-    }
-
-    /* Quick Install Modal Styles */
+    /* ==========================================================================
+       Install Modal Dialog (Neo-Brutalist Pop)
+       ========================================================================== */
     .install-modal-backdrop {
       position: fixed;
       inset: 0;
-      background-color: rgba(15, 23, 42, 0.65);
+      background-color: rgba(18, 16, 25, 0.82);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       z-index: 99999;
@@ -1380,7 +1238,7 @@
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
-      transition: opacity 0.25s ease, visibility 0.25s ease;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
     }
 
     .install-modal-backdrop.active {
@@ -1390,12 +1248,13 @@
     }
 
     .install-modal-dialog {
-      background-color: #FFFFFF;
-      border: 1px solid var(--border);
-      border-radius: 20px;
+      background-color: var(--bg-cream);
+      color: var(--text-dark);
+      border: 3px solid var(--border-dark);
+      border-radius: 18px;
       width: 100%;
       max-width: 520px;
-      box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.3), 0 0 0 1px rgba(226, 232, 240, 0.8);
+      box-shadow: 8px 8px 0 0 var(--accent-pink), 8px 8px 0 3px var(--border-dark);
       position: relative;
       padding: clamp(24px, 5vw, 32px);
       transform: translateY(20px) scale(0.97);
@@ -1412,27 +1271,25 @@
       position: absolute;
       top: 16px;
       right: 16px;
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      border: 1px solid var(--border);
-      background-color: #F8FAFC;
-      color: var(--text-secondary);
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      border: 2px solid var(--border-dark);
+      background-color: #FFFFFF;
+      color: var(--text-dark);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: all 0.15s ease;
+      box-shadow: 2px 2px 0 0 var(--border-dark);
+      transition: all 0.12s ease;
     }
 
     .modal-close-btn:hover {
-      background-color: #F1F5F9;
-      color: var(--text-primary);
-    }
-
-    .modal-close-btn svg {
-      width: 16px;
-      height: 16px;
+      background-color: var(--accent-pink);
+      color: #FFFFFF;
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0 0 var(--border-dark);
     }
 
     .modal-header {
@@ -1441,34 +1298,33 @@
     }
 
     .modal-icon-badge {
-      width: 52px;
-      height: 52px;
+      width: 54px;
+      height: 54px;
       border-radius: 14px;
-      background-color: rgba(44, 52, 128, 0.08);
-      color: var(--accent);
+      background-color: var(--accent-pink);
+      color: #FFFFFF;
+      border: 2.5px solid var(--border-dark);
+      box-shadow: 3px 3px 0 0 var(--border-dark);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       margin-bottom: 14px;
     }
 
-    .modal-icon-badge svg {
-      width: 26px;
-      height: 26px;
-    }
-
     .modal-title {
       font-size: 22px;
-      font-weight: 800;
-      color: var(--text-primary);
+      font-weight: 900;
+      color: var(--text-dark);
       margin-bottom: 6px;
-      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
     }
 
     .modal-subtitle {
       font-size: 14px;
-      color: var(--text-secondary);
+      color: #555042;
       line-height: 1.5;
+      font-weight: 600;
     }
 
     .modal-steps {
@@ -1481,22 +1337,24 @@
     .modal-step-card {
       display: flex;
       gap: 14px;
-      background-color: #F8FAFC;
-      border: 1px solid var(--border);
+      background-color: #FFFFFF;
+      border: 2px solid var(--border-dark);
       border-radius: 12px;
       padding: 14px 16px;
       align-items: flex-start;
-      text-align: left;
+      box-shadow: 3px 3px 0 0 var(--border-dark);
     }
 
     .step-num-badge {
       width: 28px;
       height: 28px;
-      border-radius: 50%;
-      background-color: var(--accent);
+      border-radius: 7px;
+      background-color: var(--accent-pink);
       color: #FFFFFF;
-      font-size: 13px;
-      font-weight: 700;
+      border: 1.5px solid var(--border-dark);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 900;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1504,124 +1362,142 @@
       margin-top: 2px;
     }
 
-    .step-text-content {
-      flex: 1;
-      min-width: 0;
-    }
-
     .step-text-content h4 {
       font-size: 14.5px;
-      font-weight: 700;
-      color: var(--text-primary);
+      font-weight: 800;
+      color: var(--text-dark);
       margin-bottom: 3px;
     }
 
     .step-text-content p {
       font-size: 13px;
-      color: var(--text-secondary);
+      color: #4C4637;
       line-height: 1.5;
     }
 
     .step-text-content code {
-      font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
-      background-color: #E2E8F0;
-      color: var(--text-primary);
+      background-color: #EAE5D5;
+      border: 1px solid var(--border-dark);
+      color: var(--text-dark);
       padding: 2px 6px;
       border-radius: 4px;
-    }
-
-    .step-action-bar {
-      margin-top: 8px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
+      font-weight: 700;
     }
 
     .copy-url-btn {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--accent);
-      background-color: #FFFFFF;
-      border: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-dark);
+      background-color: var(--bg-cream);
+      border: 1.8px solid var(--border-dark);
       border-radius: 6px;
       padding: 5px 10px;
       cursor: pointer;
-      transition: all 0.15s ease;
+      box-shadow: 2px 2px 0 0 var(--border-dark);
+      margin-top: 8px;
+      transition: all 0.12s ease;
     }
 
     .copy-url-btn:hover {
-      background-color: rgba(44, 52, 128, 0.06);
-      border-color: var(--accent);
-    }
-
-    .copy-url-btn svg {
-      width: 14px;
-      height: 14px;
+      background-color: var(--accent-pink);
+      color: #FFFFFF;
+      transform: translate(-1px, -1px);
     }
 
     .copy-toast {
-      font-size: 11.5px;
-      color: var(--success);
-      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #0F9F68;
+      font-weight: 700;
+      margin-left: 8px;
       opacity: 0;
       transition: opacity 0.2s ease;
     }
-
     .copy-toast.visible {
       opacity: 1;
     }
 
-    .modal-footer {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      text-align: center;
+    /* Responsive Queries */
+    @media (max-width: 900px) {
+      .grid-3, .steps-row {
+        grid-template-columns: 1fr;
+      }
+      .nav-links {
+        display: none;
+      }
+      .mobile-menu-btn {
+        display: flex;
+      }
     }
 
-    .modal-done-btn {
-      width: 100%;
-      justify-content: center;
-      padding: 12px 20px;
-      font-size: 15px;
-      border: none;
-      cursor: pointer;
+    @media (max-width: 600px) {
+      .cta-group {
+        flex-direction: column;
+        width: 100%;
+      }
+      .neo-btn {
+        width: 100%;
+      }
+      .banner-actions {
+        flex-direction: column;
+      }
+      .banner-actions .neo-btn {
+        width: 100%;
+      }
+      .demo-controls {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .footer-bottom-bar {
+        flex-direction: column;
+        text-align: center;
+      }
     }
-
-    .modal-tip {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
   </style>
 </head>
 <body>
+
+  <div class="ambient-glow"></div>
 
   <!-- Site Navigation -->
   <header class="site-header">
     <div class="container nav-inner">
       <div class="brand" data-scroll-to="top">
-        <img src="icons/icon48.png" alt="Sidebar Remover Logo" width="34" height="34" />
-        <span>Sidebar Remover</span>
+        <div class="brand-logo-frame">
+          <img src="icons/icon48.png" alt="Sidebar Remover Logo" width="34" height="34" />
+        </div>
+        <div class="brand-title-wrap">
+          <span class="brand-text">SIDEBAR REMOVER</span>
+          <span class="brand-sub">CHROME EXTENSION</span>
+        </div>
       </div>
 
-      <!-- Desktop Nav: Only Features, FAQ, Buy Me a Coffee -->
+      <!-- Desktop Nav -->
       <nav class="nav-links">
-        <button type="button" class="nav-link-btn" data-scroll-to="features">Features</button>
+        <button type="button" class="nav-link-btn" data-scroll-to="features">FEATURES</button>
+        <button type="button" class="nav-link-btn" data-scroll-to="simulation">SIMULATION</button>
+        <button type="button" class="nav-link-btn" data-scroll-to="how-it-works">INSTALL</button>
         <button type="button" class="nav-link-btn" data-scroll-to="faq">FAQ</button>
-        <a href="https://buymeacoffee.com/witrfaruk" target="_blank" rel="noopener noreferrer" class="btn-coffee">
-          <svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>
-          <span>Buy Me a Coffee</span>
+        <a href="https://ko-fi.com/witrfaruk?utm_source=sidebar_remover_github_pages&amp;utm_medium=referral&amp;utm_campaign=donation" target="_blank" rel="noopener noreferrer" class="neo-btn neo-btn-kofi" style="padding: 8px 16px; font-size: 13.5px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 5H18C18 5 18 14 10 14C3.5 14 2 11 2 5Z" fill="#FFFFFF" stroke="#000000" stroke-width="1.8" stroke-linejoin="round"/>
+            <path d="M18 6H20C21.6 6 22.5 7.2 22.5 8.8C22.5 10.5 21.2 11.5 19.5 11.5H16.5" stroke="#000000" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M5 18H15" stroke="#000000" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M10 7.5C10 7.5 9.2 6.5 8.2 6.5C7.2 6.5 6.5 7.2 6.5 8C6.5 9.2 8.5 10.5 10 11.2C11.5 10.5 13.5 9.2 13.5 8C13.5 7.2 12.8 6.5 11.8 6.5C10.8 6.5 10 7.5 10 7.5Z" fill="#FF2A6D" />
+          </svg>
+          <span>Support on Ko-fi</span>
         </a>
       </nav>
 
       <!-- Mobile Hamburger Button -->
       <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <line x1="3" y1="12" x2="21" y2="12"></line>
           <line x1="3" y1="6" x2="21" y2="6"></line>
           <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -1631,14 +1507,13 @@
 
     <!-- Mobile Drawer -->
     <div class="mobile-drawer" id="mobileDrawer">
-      <button type="button" class="nav-link-btn" data-scroll-to="features">Features</button>
+      <button type="button" class="nav-link-btn" data-scroll-to="features">FEATURES</button>
+      <button type="button" class="nav-link-btn" data-scroll-to="simulation">SIMULATION</button>
+      <button type="button" class="nav-link-btn" data-scroll-to="how-it-works">INSTALL</button>
       <button type="button" class="nav-link-btn" data-scroll-to="faq">FAQ</button>
-      <div class="drawer-actions">
-        <a href="https://buymeacoffee.com/witrfaruk" target="_blank" rel="noopener noreferrer" class="btn-coffee">
-          <svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>
-          <span>Buy Me a Coffee</span>
-        </a>
-      </div>
+      <a href="https://ko-fi.com/witrfaruk?utm_source=sidebar_remover_github_pages&amp;utm_medium=referral&amp;utm_campaign=donation" target="_blank" rel="noopener noreferrer" class="neo-btn neo-btn-kofi" style="width: 100%;">
+        <span>Support on Ko-fi</span>
+      </a>
     </div>
   </header>
 
@@ -1647,51 +1522,68 @@
     <section class="hero" id="top">
       <div class="container">
         <h1 class="hero-title">
-          Sidebar Remover for <span class="highlight">All Websites</span>
+          RECLAIM YOUR SCREEN.<br />
+          <span class="highlight">KILL SIDEBARS &amp; SCROLLBARS.</span>
         </h1>
+
         <p class="hero-subtitle">
-          Automatically detect and hide cluttering sidebars, sticky navigation rails, and scrollbars across any website. Reclaim your horizontal reading space with one click.
+          Automatically detects and hides cluttering website navigation rails, promotional side panels, and redundant scrollbars across all websites. Enjoy full-width, clean reading with zero layout breakage.
         </p>
 
         <div class="cta-group">
-          <a href="sidebar-remover.zip" download="sidebar-remover.zip" class="btn-primary btn-download-ext" id="heroDownloadBtn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <a href="sidebar-remover.zip?utm_source=sidebar_remover_github_pages&amp;utm_medium=website&amp;utm_campaign=extension_download" download="sidebar-remover.zip" class="neo-btn neo-btn-primary btn-download-ext" id="heroDownloadBtn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
               <polyline points="7 10 12 15 17 10"></polyline>
               <line x1="12" y1="15" x2="12" y2="3"></line>
             </svg>
-            <span>Download Extension (.zip)</span>
+            <span>DOWNLOAD EXTENSION (.ZIP)</span>
           </a>
-          <a href="https://buymeacoffee.com/witrfaruk" class="btn-coffee-large" target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>
-            <span>Buy Me a Coffee</span>
+
+          <a href="https://ko-fi.com/witrfaruk?utm_source=sidebar_remover_github_pages&amp;utm_medium=referral&amp;utm_campaign=donation" target="_blank" rel="noopener noreferrer" class="neo-btn neo-btn-kofi">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 5H18C18 5 18 14 10 14C3.5 14 2 11 2 5Z" fill="#FFFFFF" stroke="#000000" stroke-width="1.8" stroke-linejoin="round"/>
+              <path d="M18 6H20C21.6 6 22.5 7.2 22.5 8.8C22.5 10.5 21.2 11.5 19.5 11.5H16.5" stroke="#000000" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M5 18H15" stroke="#000000" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M10 7.5C10 7.5 9.2 6.5 8.2 6.5C7.2 6.5 6.5 7.2 6.5 8C6.5 9.2 8.5 10.5 10 11.2C11.5 10.5 13.5 9.2 13.5 8C13.5 7.2 12.8 6.5 11.8 6.5C10.8 6.5 10 7.5 10 7.5Z" fill="#FF2A6D" />
+            </svg>
+            <span>SUPPORT ON KO-FI</span>
           </a>
-          <button type="button" class="btn-secondary" data-scroll-to="simulation">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-            <span>Try Live Simulation</span>
+
+          <button type="button" class="neo-btn neo-btn-cream" data-scroll-to="simulation">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polygon points="10 8 16 12 10 16 10 8"></polygon>
+            </svg>
+            <span>TRY LIVE SIMULATION</span>
           </button>
         </div>
 
         <!-- Live Interactive Simulation -->
         <div id="simulation" class="demo-wrapper">
           <div class="demo-bar">
+            <div class="demo-window-dots">
+              <span class="demo-dot dot-red"></span>
+              <span class="demo-dot dot-yellow"></span>
+              <span class="demo-dot dot-green"></span>
+            </div>
             <div class="demo-url">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24m5.66 5.66 4.24 4.24"/></svg>
-              <span>https://example.com/long-article</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24m5.66 5.66 4.24 4.24"/></svg>
+              <span>https://witrfaruk.github.io/Sidebar-Remover/</span>
             </div>
             <div class="demo-controls">
               <label class="demo-toggle-label">
                 <span>Hide Sidebar:</span>
-                <span class="switch-ui">
+                <span class="neo-switch-ui">
                   <input type="checkbox" id="demoSidebarToggle" checked aria-label="Toggle demo sidebar" />
-                  <span></span>
+                  <span class="neo-slider"></span>
                 </span>
               </label>
               <label class="demo-toggle-label">
                 <span>Hide Scrollbar:</span>
-                <span class="switch-ui">
+                <span class="neo-switch-ui">
                   <input type="checkbox" id="demoScrollbarToggle" checked aria-label="Toggle demo scrollbar" />
-                  <span></span>
+                  <span class="neo-slider"></span>
                 </span>
               </label>
             </div>
@@ -1700,34 +1592,33 @@
           <div class="mock-browser">
             <!-- Simulated Sidebar -->
             <div id="demoSidebar" class="mock-sidebar hidden-state">
-              <span class="mock-badge">Navigation Sidebar</span>
+              <span class="mock-badge">Navigation Rail</span>
+              <div class="mock-link w90"></div>
+              <div class="mock-link w70"></div>
               <div class="mock-link w80"></div>
               <div class="mock-link w60"></div>
-              <div class="mock-link w70"></div>
-              <div class="mock-link w90"></div>
+              <div class="mock-link w90" style="margin-top: 14px;"></div>
               <div class="mock-link w50"></div>
-              <div class="mock-link w80" style="margin-top: 14px;"></div>
-              <div class="mock-link w60"></div>
               <div class="mock-link w70"></div>
             </div>
 
             <!-- Simulated Article Content -->
             <div class="mock-content">
               <div class="mock-meta">
-                <span class="mock-tag">READING EXPERIENCE</span>
-                <span class="mock-date">5 min read • Productivity</span>
+                <span class="mock-tag">CLEAN READING</span>
+                <span class="mock-date">Neo-Brutalist Web • 100% Free</span>
               </div>
-              <h3 class="mock-title">Reclaim Your Screen: The Clean Web Guide</h3>
+              <h3 class="mock-title">The Distraction-Free Web: How Content Expands Smoothly</h3>
               <p class="mock-text">
-                Modern websites are inundated with persistent side navigation rails, floating promotional panels, and redundant scrollbars that consume up to 40% of horizontal viewport width.
+                Modern portals and documentation pages dedicate up to 40% of horizontal screen real estate to sticky side menus, redundant table-of-contents rails, and clunky scrollbars.
               </p>
               <p class="mock-text">
-                With <strong>Sidebar Remover</strong> active, layouts automatically re-balance into clean, edge-to-edge typography. Essential reading content flows naturally across your screen while keeping all page interaction and scrolling 100% fluid.
+                With <strong>Sidebar Remover</strong> active, layouts automatically re-balance into edge-to-edge typography. Essential reading content flows naturally across your screen while keeping all page interaction and scrolling 100% fluid.
               </p>
               <div class="mock-stats-row">
-                <div class="mock-stat"><strong>+42%</strong><span>Horizontal Space</span></div>
+                <div class="mock-stat"><strong>+45%</strong><span>Horizontal Space</span></div>
                 <div class="mock-stat"><strong>0ms</strong><span>Reading Lag</span></div>
-                <div class="mock-stat"><strong>100%</strong><span>Privacy Local</span></div>
+                <div class="mock-stat"><strong>100%</strong><span>Local &amp; Private</span></div>
               </div>
             </div>
 
@@ -1745,58 +1636,73 @@
     <section id="features" class="features">
       <div class="container">
         <div class="section-header">
-          <div class="section-label">Core Capabilities</div>
-          <h2 class="section-title">Designed for Modern Distraction-Free Web</h2>
+          <div class="section-label">⚡ Neo-Brutalist Performance</div>
+          <h2 class="section-title">Built for Real-World Browsing</h2>
           <p class="section-desc">Reclaim your screen space effortlessly across blogs, documentation sites, forums, and portals.</p>
         </div>
 
         <div class="grid-3">
           <div class="feature-card">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m14 2-10 12h7l-1 8 10-12h-7l1-8Z"/></svg>
+            <div class="card-icon-tile">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m14 2-10 12h7l-1 8 10-12h-7l1-8Z"/>
+              </svg>
             </div>
             <h3>Intelligent Auto-Detection</h3>
-            <p>Smart layout heuristics automatically detect sticky and fixed nav rails while protecting video players, comment boxes, and critical tools.</p>
+            <p>Smart layout heuristics automatically detect sticky and fixed nav rails while protecting video players, comment boxes, and critical interactive widgets.</p>
           </div>
 
           <div class="feature-card">
-            <div class="card-icon coral">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            <div class="card-icon-tile">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="6" y="2" width="12" height="20" rx="6"></rect>
+                <line x1="12" y1="6" x2="12" y2="10"></line>
+              </svg>
             </div>
-            <h3>Universal Scrollbar Suppression</h3>
-            <p>Eliminate vertical and horizontal scrollbars from pages. Scrolling remains 100% functional with your mouse wheel, trackpad, and keyboard.</p>
+            <h3>Universal Scrollbar Killer</h3>
+            <p>Completely suppresses vertical &amp; horizontal scrollbars from pages. Scrolling remains 100% fluid with mouse wheel, trackpad, and arrow keys.</p>
           </div>
 
           <div class="feature-card">
-            <div class="card-icon success">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <div class="card-icon-tile">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
             </div>
             <h3>100% Local &amp; Private</h3>
-            <p>Operates entirely locally in your browser. No telemetry, no external API calls, and zero browsing data collection. Always safe.</p>
+            <p>Operates entirely locally in your browser. Zero telemetry, zero external API calls, and zero browsing data collection. Your history never leaves your machine.</p>
           </div>
 
           <div class="feature-card">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a18 18 0 0 1 0 18 18 18 0 0 1 0-18Z"/></svg>
+            <div class="card-icon-tile">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M3 12h18M12 3a18 18 0 0 1 0 18 18 18 0 0 1 0-18Z"/>
+              </svg>
             </div>
-            <h3>Domain-Specific Controls</h3>
-            <p>Easily toggle on or off for individual websites. Manage custom Allowlist and Blocklist entries right from the clean popup.</p>
+            <h3>Per-Site Memory</h3>
+            <p>One-click switch remembers your toggle state specifically for the current domain. Disable on specific web apps, keep active on reading blogs.</p>
           </div>
 
           <div class="feature-card">
-            <div class="card-icon coral">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 5-5 5 5 5M4 10h9a6 6 0 0 1 0 12"/></svg>
+            <div class="card-icon-tile">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m9 5-5 5 5 5M4 10h9a6 6 0 0 1 0 12"/>
+              </svg>
             </div>
-            <h3>Instant One-Click Restore</h3>
-            <p>Need navigation back for a moment? Click "Restore Hidden" in the popup to bring back sidebars instantly without reloading.</p>
+            <h3>Instant Real-Time Toggle</h3>
+            <p>Need navigation back for a moment? Flip the switch in the popup to bring back sidebars or scrollbars in real-time without reloading the page.</p>
           </div>
 
           <div class="feature-card">
-            <div class="card-icon success">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            <div class="card-icon-tile">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
             </div>
-            <h3>Premium Charcoal Dark UI</h3>
-            <p>Engineered with a high-contrast charcoal dark aesthetic that seamlessly blends with dark mode workflows and night reading.</p>
+            <h3>Neo-Brutalist Popup UI</h3>
+            <p>Designed with high-contrast neo-brutalist pop aesthetics, thick comic borders, tactile switches, and zero visual clutter.</p>
           </div>
         </div>
       </div>
@@ -1806,57 +1712,57 @@
     <section id="how-it-works" class="how-it-works">
       <div class="container">
         <div class="section-header">
-          <div class="section-label">Quick Setup</div>
-          <h2 class="section-title">How to Install and Use</h2>
-          <p class="section-desc">Up and running in less than 30 seconds.</p>
+          <div class="section-label">⚡ Quick Setup Guide</div>
+          <h2 class="section-title">Up &amp; Running in 15 Seconds</h2>
+          <p class="section-desc">Direct install in Chrome, Brave, Edge, or any Chromium browser.</p>
         </div>
 
         <div class="steps-row">
           <div class="step-card">
-            <div class="step-num">01</div>
-            <h3>Install the Extension</h3>
-            <p>Download from GitHub or install via Chrome Web Store. Click "Add to Chrome" and pin it to your browser toolbar.</p>
+            <div class="step-badge">01</div>
+            <h3>Download the ZIP</h3>
+            <p>Click the download button to grab <code>sidebar-remover.zip</code>, then right-click and extract it to a folder on your computer.</p>
           </div>
 
           <div class="step-card">
-            <div class="step-num">02</div>
-            <h3>Browse Any Website</h3>
-            <p>Visit your favorite documentation, blog, or news site. Sidebars and scrollbars disappear automatically.</p>
+            <div class="step-badge">02</div>
+            <h3>Open chrome://extensions</h3>
+            <p>In a new Chrome tab, navigate to <code>chrome://extensions</code> and toggle on <strong>Developer mode</strong> in the top-right corner.</p>
           </div>
 
           <div class="step-card">
-            <div class="step-num">03</div>
-            <h3>Customize via Popup</h3>
-            <p>Open the extension popup to check hidden count, toggle rules for the current website, or manage your allowlists.</p>
+            <div class="step-badge">03</div>
+            <h3>Click "Load Unpacked"</h3>
+            <p>Click <strong>Load unpacked</strong> and select the extracted folder. Pin the extension to your toolbar for 1-click access!</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- FAQ Section (AEO / GEO optimized) -->
+    <!-- FAQ Section -->
     <section id="faq" class="faq-section">
       <div class="container">
         <div class="section-header">
-          <div class="section-label">Frequently Asked Questions</div>
-          <h2 class="section-title">Answers to Common Questions</h2>
-          <p class="section-desc">Everything you need to know about Sidebar Remover for all websites.</p>
+          <div class="section-label">❓ FAQ &amp; Answers</div>
+          <h2 class="section-title">Frequently Asked Questions</h2>
+          <p class="section-desc">Everything you need to know about Sidebar Remover.</p>
         </div>
 
         <div class="faq-list">
           <details class="faq-item">
             <summary>
               <span>What is Sidebar Remover for all websites?</span>
-              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
             </summary>
             <div class="faq-body">
-              Sidebar Remover is a free Chrome extension that automatically detects and hides sticky sidebars, navigation rails, and floating side panels across any website to reclaim horizontal reading space.
+              Sidebar Remover is a free, privacy-first Google Chrome extension that automatically detects and hides sticky sidebars, navigation rails, and floating side panels across any website to reclaim horizontal reading space.
             </div>
           </details>
 
           <details class="faq-item">
             <summary>
               <span>Does Sidebar Remover break website layouts?</span>
-              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
             </summary>
             <div class="faq-body">
               No. Sidebar Remover uses smart layout re-balancing. When a sidebar is hidden, the main reading area smoothly expands to fill the horizontal space while preserving essential content, video players, and core navigation.
@@ -1865,8 +1771,8 @@
 
           <details class="faq-item">
             <summary>
-              <span>Can I hide scrollbars on websites without disabling scrolling?</span>
-              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+              <span>Can I hide scrollbars without disabling scrolling?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
             </summary>
             <div class="faq-body">
               Yes! Sidebar Remover features a built-in Hide Scrollbars toggle. It completely removes the visual vertical and horizontal scrollbars from pages while still allowing smooth scrolling with your mouse wheel, trackpad, and keyboard arrow keys.
@@ -1876,7 +1782,7 @@
           <details class="faq-item">
             <summary>
               <span>Does Sidebar Remover collect any personal data?</span>
-              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
             </summary>
             <div class="faq-body">
               No. Sidebar Remover runs 100% locally inside your browser. It contains zero analytics, zero trackers, and makes zero network requests. Your browsing history never leaves your device.
@@ -1885,11 +1791,11 @@
 
           <details class="faq-item">
             <summary>
-              <span>Why does the extension not run on the Chrome Web Store?</span>
-              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+              <span>Why does the extension not run on browser settings pages?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
             </summary>
             <div class="faq-body">
-              Google Chrome enforces a strict security restriction that prevents all extensions from injecting scripts or styles into Chrome Web Store pages and internal chrome:// settings pages. Sidebar Remover runs on all normal web pages across the internet.
+              Google Chrome and Chromium browsers enforce strict security restrictions that prevent all extensions from injecting scripts into internal browser pages (like <code>chrome://</code> or <code>brave://</code>) and the Chrome Web Store. Sidebar Remover runs smoothly on all standard websites.
             </div>
           </details>
         </div>
@@ -1901,199 +1807,134 @@
       <div class="container">
         <div class="banner-box">
           <h2>Ready for Distraction-Free Browsing?</h2>
-          <p>Reclaim your horizontal screen real estate today. 100% free, privacy-first, and open source.</p>
+          <p>Reclaim your horizontal screen space today. 100% free, privacy-first, and open source.</p>
           <div class="banner-actions">
-            <a href="sidebar-remover.zip" download="sidebar-remover.zip" class="btn-primary btn-download-ext" id="bannerDownloadBtn">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <a href="sidebar-remover.zip?utm_source=sidebar_remover_github_pages&amp;utm_medium=website&amp;utm_campaign=extension_download" download="sidebar-remover.zip" class="neo-btn neo-btn-primary btn-download-ext" id="bannerDownloadBtn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                 <polyline points="7 10 12 15 17 10"></polyline>
                 <line x1="12" y1="15" x2="12" y2="3"></line>
               </svg>
-              <span>Download Extension (.zip)</span>
+              <span>DOWNLOAD EXTENSION (.ZIP)</span>
             </a>
-            <a href="https://buymeacoffee.com/witrfaruk" class="btn-coffee-large" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>
-              <span>Buy Me a Coffee</span>
+            <a href="https://ko-fi.com/witrfaruk?utm_source=sidebar_remover_github_pages&amp;utm_medium=referral&amp;utm_campaign=donation" class="neo-btn neo-btn-kofi" target="_blank" rel="noopener noreferrer">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2 5H18C18 5 18 14 10 14C3.5 14 2 11 2 5Z" fill="#FFFFFF" stroke="#000000" stroke-width="1.8" stroke-linejoin="round"/>
+                <path d="M18 6H20C21.6 6 22.5 7.2 22.5 8.8C22.5 10.5 21.2 11.5 19.5 11.5H16.5" stroke="#000000" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M5 18H15" stroke="#000000" stroke-width="2.2" stroke-linecap="round"/>
+                <path d="M10 7.5C10 7.5 9.2 6.5 8.2 6.5C7.2 6.5 6.5 7.2 6.5 8C6.5 9.2 8.5 10.5 10 11.2C11.5 10.5 13.5 9.2 13.5 8C13.5 7.2 12.8 6.5 11.8 6.5C10.8 6.5 10 7.5 10 7.5Z" fill="#FF2A6D" />
+              </svg>
+              <span>SUPPORT ON KO-FI</span>
             </a>
-            <a href="https://github.com/witrfaruk/Sidebar-Remover" class="btn-secondary" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path></svg>
-              <span>GitHub</span>
+            <a href="https://github.com/witrfaruk/Sidebar-Remover" class="neo-btn neo-btn-dark" target="_blank" rel="noopener noreferrer">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
+              </svg>
+              <span>GITHUB</span>
             </a>
           </div>
-          <p class="contact-sub">For developer inquiries, visit <a href="https://witrfaruk.vercel.app/contact" target="_blank" rel="noopener noreferrer">witrfaruk.vercel.app/contact</a></p>
+          <p class="contact-sub">Crafted by WitrFaruk • <a href="https://witrfaruk.vercel.app/contact?utm_source=sidebar_remover_github_pages&amp;utm_medium=website&amp;utm_campaign=creator_credit" target="_blank" rel="noopener noreferrer">witrfaruk.vercel.app/contact</a></p>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- Premium Modern Footer (Matched to witrfaruk.vercel.app) -->
-  <footer class="sexy-footer">
-    <div class="container footer-content-wrap">
-      <!-- 1. "Stay Connected" Social Hub -->
+  <!-- Neo-Brutalist Creator Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <!-- Social Hub -->
       <div class="stay-connected-section">
-        <div class="sparkle-divider">
-          <div class="sparkle-line"></div>
-          <div class="sparkle-star">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-            </svg>
-          </div>
-          <div class="sparkle-line"></div>
-        </div>
-        <h3 class="stay-connected-heading">Stay Connected</h3>
+        <h3 class="stay-connected-heading">STAY CONNECTED</h3>
         <div class="social-icons-row">
-          <a href="https://www.instagram.com/witrfaruk" target="_blank" rel="noopener noreferrer" class="social-circle" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-              <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+          <a href="https://github.com/witrfaruk" target="_blank" rel="noopener noreferrer" class="social-circle" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
+              <path d="M9 18c-4.51 2-5-2-7-2"></path>
             </svg>
           </a>
           <a href="https://www.linkedin.com/in/witrfaruk" target="_blank" rel="noopener noreferrer" class="social-circle" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
               <rect width="4" height="12" x="2" y="9"></rect>
               <circle cx="4" cy="4" r="2"></circle>
             </svg>
           </a>
           <a href="https://x.com/witrfaruk" target="_blank" rel="noopener noreferrer" class="social-circle" aria-label="X / Twitter">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
               <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
             </svg>
           </a>
-          <a href="https://github.com/witrfaruk" target="_blank" rel="noopener noreferrer" class="social-circle" aria-label="GitHub">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
-              <path d="M9 18c-4.51 2-5-2-7-2"></path>
+          <a href="https://www.instagram.com/witrfaruk" target="_blank" rel="noopener noreferrer" class="social-circle" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
             </svg>
           </a>
           <a href="mailto:witrfaruk@proton.me" class="social-circle" aria-label="Email">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <rect width="20" height="16" x="2" y="4" rx="2"></rect>
               <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
             </svg>
           </a>
-          <a href="https://www.threads.com/@witrfaruk" target="_blank" rel="noopener noreferrer" class="social-circle" aria-label="Threads">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <path d="M15.5 10.5a3.5 3.5 0 1 0-2.5 5.8 3.5 3.5 0 0 0 3-1.8"></path>
-              <path d="M12 8.5v5"></path>
-            </svg>
-          </a>
           <a href="https://bsky.app/profile/witrfaruk.bsky.social" target="_blank" rel="noopener noreferrer" class="social-circle" aria-label="Bluesky">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 11c-1.2-2.3-4-6.5-7-8.5C3 1 2 1.5 1.5 2 1 2.6 1 3.5 1 4.5c0 3.5 1.8 10 2.8 11.5 1.2 2 3.2 2.5 5.2 2-3.5 1.5-4 4-2 5.5 2.5 1.5 6-1 7-3.5 1 2.5 4.5 5 7 3.5 2-1.5 1.5-4-2-5.5 2 .5 4 0 5.2-2 1-1.5 2.8-8 2.8-11.5 0-1 0-1.9-.5-2.5C22 1.5 21 1 19 2.5c-3 2-5.8 6.2-7 8.5z"></path>
             </svg>
           </a>
-          <a href="https://www.pinterest.com/witrfaruk" target="_blank" rel="noopener noreferrer" class="social-circle" aria-label="Pinterest">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <path d="M8 20l2.5-9.5"></path>
-              <path d="M9.5 14c.5.8 1.5 1.2 2.5 1.2 2.2 0 4-1.8 4-4s-1.8-4-4-4c-2.8 0-4.5 2-4.5 4.5 0 1.2.6 2.3 1.5 2.8"></path>
+        </div>
+      </div>
+
+      <!-- Brand & Project Info (Clean Open Source Layout) -->
+      <div class="footer-brand-wrap">
+        <div class="brand" data-scroll-to="top">
+          <div class="brand-logo-frame" style="width: 38px; height: 38px;">
+            <img src="icons/icon48.png" alt="Sidebar Remover Logo" width="30" height="30" />
+          </div>
+          <span class="footer-brand-title">SIDEBAR REMOVER</span>
+        </div>
+        <p class="footer-brand-bio">
+          The free, open-source and privacy-first Chrome extension that gives you back 100% of your reading canvas.
+        </p>
+        <div class="footer-brand-actions">
+          <a href="https://ko-fi.com/witrfaruk?utm_source=sidebar_remover_github_pages&amp;utm_medium=referral&amp;utm_campaign=donation" target="_blank" rel="noopener noreferrer" class="neo-btn neo-btn-kofi" style="padding: 9px 18px; font-size: 13.5px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 5H18C18 5 18 14 10 14C3.5 14 2 11 2 5Z" fill="#FFFFFF" stroke="#000000" stroke-width="1.8" stroke-linejoin="round"/>
+              <path d="M18 6H20C21.6 6 22.5 7.2 22.5 8.8C22.5 10.5 21.2 11.5 19.5 11.5H16.5" stroke="#000000" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M5 18H15" stroke="#000000" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M10 7.5C10 7.5 9.2 6.5 8.2 6.5C7.2 6.5 6.5 7.2 6.5 8C6.5 9.2 8.5 10.5 10 11.2C11.5 10.5 13.5 9.2 13.5 8C13.5 7.2 12.8 6.5 11.8 6.5C10.8 6.5 10 7.5 10 7.5Z" fill="#FF2A6D" />
             </svg>
+            <span>Support on Ko-fi</span>
           </a>
-          <a href="https://www.facebook.com/witrfaruk/" target="_blank" rel="noopener noreferrer" class="social-circle" aria-label="Facebook">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+          <a href="https://github.com/witrfaruk/Sidebar-Remover" target="_blank" rel="noopener noreferrer" class="neo-btn neo-btn-dark" style="padding: 9px 18px; font-size: 13.5px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
             </svg>
+            <span>GitHub Repository</span>
           </a>
         </div>
       </div>
 
-      <!-- 2. Main Navigation Grid: Brand Col + 5 Link Columns -->
-      <div class="footer-columns-grid">
-        <!-- Col 1: Brand & Bio & Buy Me a Coffee -->
-        <div class="footer-brand-col">
-          <div class="brand-link" data-scroll-to="top" style="cursor: pointer;">
-            <img src="icons/icon48.png" alt="Sidebar Remover Logo" width="34" height="34" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.1);" />
-            <span style="font-weight: 800; color: var(--text-primary); font-size: 20px; letter-spacing: -0.02em;">Sidebar Remover</span>
-          </div>
-          <p class="brand-bio">
-            The free, open-source and privacy-first Chrome extension to automatically hide sidebars &amp; scrollbars and reclaim horizontal reading space.
-          </p>
-          <div class="footer-coffee-wrap">
-            <a href="https://buymeacoffee.com/witrfaruk" target="_blank" rel="noopener noreferrer" class="footer-bmc-badge">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/>
-              </svg>
-              <span>Buy me a coffee</span>
-            </a>
-          </div>
-        </div>
-
-        <!-- 5 Link Columns -->
-        <div class="footer-nav-columns">
-          <!-- ABOUT -->
-          <div class="footer-col">
-            <h4 class="footer-col-title">About</h4>
-            <a href="https://witrfaruk.vercel.app/about" target="_blank" rel="noopener noreferrer">About</a>
-            <a href="https://witrfaruk.vercel.app/author/faruk" target="_blank" rel="noopener noreferrer">Author &amp; Team</a>
-            <a href="https://witrfaruk.vercel.app/cv" target="_blank" rel="noopener noreferrer">CV / Resume</a>
-            <a href="https://witrfaruk.vercel.app/contact" target="_blank" rel="noopener noreferrer">Contact</a>
-          </div>
-
-          <!-- WORK -->
-          <div class="footer-col">
-            <h4 class="footer-col-title">Work</h4>
-            <a href="https://witrfaruk.vercel.app/#ventures" target="_blank" rel="noopener noreferrer">Ventures &amp; Work</a>
-            <a href="https://witrfaruk.vercel.app/#ventures" target="_blank" rel="noopener noreferrer">Projects</a>
-            <a href="https://witrfaruk.vercel.app/blog" target="_blank" rel="noopener noreferrer">Case Studies</a>
-          </div>
-
-          <!-- RESOURCES -->
-          <div class="footer-col">
-            <h4 class="footer-col-title">Resources</h4>
-            <a href="https://witrfaruk.vercel.app/blog" target="_blank" rel="noopener noreferrer">Blog</a>
-            <a href="https://witrfaruk.vercel.app/blog/archive" target="_blank" rel="noopener noreferrer">Article Archive</a>
-            <a href="https://witrfaruk.vercel.app/social" target="_blank" rel="noopener noreferrer">Social Channels</a>
-            <a href="https://witrfaruk.vercel.app/sitemap" target="_blank" rel="noopener noreferrer">Sitemap</a>
-            <a href="https://witrfaruk.vercel.app/llms.txt" target="_blank" rel="noopener noreferrer" class="font-mono">llms.txt</a>
-          </div>
-
-          <!-- LEGAL -->
-          <div class="footer-col">
-            <h4 class="footer-col-title">Legal</h4>
-            <a href="https://witrfaruk.vercel.app/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
-            <a href="https://witrfaruk.vercel.app/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a>
-            <a href="https://witrfaruk.vercel.app/cookie-policy" target="_blank" rel="noopener noreferrer">Cookie Policy</a>
-            <a href="https://witrfaruk.vercel.app/legal-notice" target="_blank" rel="noopener noreferrer">Legal Notice / Impressum</a>
-            <a href="https://witrfaruk.vercel.app/privacy" target="_blank" rel="noopener noreferrer">Cookie Preferences</a>
-          </div>
-
-          <!-- OPPORTUNITIES -->
-          <div class="footer-col">
-            <h4 class="footer-col-title">Opportunities</h4>
-            <a href="https://witrfaruk.vercel.app/invest" target="_blank" rel="noopener noreferrer">Invest in My Idea</a>
-            <a href="https://witrfaruk.vercel.app/contact?topic=partnership" target="_blank" rel="noopener noreferrer">Partnerships</a>
-            <a href="https://witrfaruk.vercel.app/rules" target="_blank" rel="noopener noreferrer">Work With Me</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- 3. Bottom Row: Copyright & Legal links -->
+      <!-- Bottom Bar -->
       <div class="footer-bottom-bar">
-        <p class="copyright-text">2026 &copy; Sidebar Remover. Built with &#9829; by Md Faruk Abdulla. All Rights Reserved.</p>
+        <a href="https://witrfaruk.vercel.app/?utm_source=sidebar_remover_github_pages&amp;utm_medium=website&amp;utm_campaign=creator_credit" target="_blank" rel="noopener noreferrer" class="footer-creator-credit">
+          <span class="heart-icon">❤️</span>
+          <span>Made by <strong class="author-name">WitrFaruk</strong></span>
+        </a>
+
         <div class="footer-bottom-links">
-          <a href="https://witrfaruk.vercel.app/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
-          <a href="https://witrfaruk.vercel.app/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a>
-          <a href="https://witrfaruk.vercel.app/cookie-policy" target="_blank" rel="noopener noreferrer">Cookie Policy</a>
-          <a href="https://witrfaruk.vercel.app/contact" target="_blank" rel="noopener noreferrer">Contact Developer</a>
+          <span>2026 &copy; Sidebar Remover. Open Source &amp; Free.</span>
         </div>
       </div>
-    </div>
-
-    <!-- 4. Giant Watermark Signature -->
-    <div class="footer-giant-watermark" aria-hidden="true">
-      <span>Sidebar Remover</span>
     </div>
   </footer>
 
-  <!-- Quick Install Guide Modal (Shown when Extension is Downloaded) -->
+  <!-- Quick Install Guide Modal -->
   <div class="install-modal-backdrop" id="installModal" aria-hidden="true">
     <div class="install-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <button type="button" class="modal-close-btn" id="modalCloseBtn" aria-label="Close modal">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
@@ -2101,18 +1942,17 @@
 
       <div class="modal-header">
         <div class="modal-icon-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
             <polyline points="7 10 12 15 17 10"></polyline>
             <line x1="12" y1="15" x2="12" y2="3"></line>
           </svg>
         </div>
-        <h3 id="modalTitle" class="modal-title">Extension Downloaded!</h3>
-        <p class="modal-subtitle">Follow these 3 quick steps to install Sidebar Remover in Chrome (takes ~15 seconds):</p>
+        <h3 id="modalTitle" class="modal-title">EXTENSION DOWNLOADED!</h3>
+        <p class="modal-subtitle">Follow these 3 quick steps to install in Chrome or Brave (~15 seconds):</p>
       </div>
 
       <div class="modal-steps">
-        <!-- Step 1 -->
         <div class="modal-step-card">
           <div class="step-num-badge">1</div>
           <div class="step-text-content">
@@ -2121,15 +1961,14 @@
           </div>
         </div>
 
-        <!-- Step 2 -->
         <div class="modal-step-card">
           <div class="step-num-badge">2</div>
           <div class="step-text-content">
-            <h4>Open Extensions &amp; Enable Developer Mode</h4>
-            <p>In a new Chrome tab, open <code>chrome://extensions</code>, then toggle on <strong>Developer mode</strong> (top-right corner).</p>
-            <div class="step-action-bar">
+            <h4>Open Extensions &amp; Developer Mode</h4>
+            <p>In a new browser tab, navigate to <code>chrome://extensions</code>, then turn ON <strong>Developer mode</strong> in the top-right corner.</p>
+            <div style="margin-top: 8px;">
               <button type="button" class="copy-url-btn" id="copyExtUrlBtn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                 <span>Copy chrome://extensions</span>
               </button>
               <span class="copy-toast" id="copyToast">Copied to clipboard!</span>
@@ -2137,44 +1976,39 @@
           </div>
         </div>
 
-        <!-- Step 3 -->
         <div class="modal-step-card">
           <div class="step-num-badge">3</div>
           <div class="step-text-content">
             <h4>Click "Load unpacked"</h4>
-            <p>Click <strong>Load unpacked</strong> (top-left) and select the extracted folder. The extension is now live!</p>
+            <p>Click <strong>Load unpacked</strong> (top-left) and select the extracted folder. You're ready to roll!</p>
           </div>
         </div>
       </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn-primary modal-done-btn" id="modalDoneBtn">
-          <span>Got it! Start Browsing</span>
+      <div class="modal-footer" style="text-align: center;">
+        <button type="button" class="neo-btn neo-btn-primary" id="modalDoneBtn" style="width: 100%;">
+          <span>GOT IT! START BROWSING</span>
         </button>
-        <p class="modal-tip">Tip: Pin the extension icon to your Chrome toolbar for instant 1-click toggling.</p>
+        <p style="font-size: 12px; color: #6C6656; margin-top: 10px; font-weight: 600;">Tip: Pin the extension to your Chrome toolbar for easy 1-click toggling.</p>
       </div>
     </div>
   </div>
 
   <script>
-    // 1. Force page to always refresh/load from top (0, 0)
+    // 1. Force page load from top
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
     }
     window.scrollTo(0, 0);
 
-    // 2. Remove all hashtag fragments from the URL bar on load/refresh
+    // 2. Clear hashtags from URL
     if (window.location.hash) {
       history.replaceState(null, "", window.location.pathname + window.location.search);
       window.scrollTo(0, 0);
     }
 
-    window.addEventListener('beforeunload', () => {
-      window.scrollTo(0, 0);
-    });
-
-    // 3. Smooth scrolling WITHOUT hashtags in the URL
-    const headerHeight = 68;
+    // 3. Smooth scrolling
+    const headerHeight = 74;
     function smoothScrollTo(targetId) {
       if (targetId === "top") {
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -2193,7 +2027,6 @@
         const target = btn.getAttribute('data-scroll-to');
         smoothScrollTo(target);
 
-        // Close mobile drawer if open
         const drawer = document.getElementById('mobileDrawer');
         if (drawer) drawer.classList.remove('open');
       });
@@ -2234,7 +2067,7 @@
       });
     }
 
-    // 6. Accordion behavior: only one FAQ item open at a time
+    // 6. Accordion: Only one open at a time
     document.querySelectorAll(".faq-item").forEach((item) => {
       item.addEventListener("toggle", () => {
         if (item.open) {

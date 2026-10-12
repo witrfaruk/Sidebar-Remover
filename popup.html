@@ -10,116 +10,160 @@
   <div class="popup-container">
     <!-- Header -->
     <header class="popup-header">
-      <div class="brand-icon">
-        <img src="icons/icon48.png" alt="Sidebar Remover" width="24" height="24" />
+      <div class="brand-logo-container">
+        <img src="icons/logo.png" alt="Sidebar Remover" class="brand-logo-img" width="52" height="52" />
       </div>
-      <div class="header-text">
-        <h1 class="brand-title">Sidebar Remover</h1>
-        <p class="brand-subtitle">A cleaner, distraction-free web</p>
+
+      <div class="brand-text-wrapper">
+        <div class="brand-top-row">
+          <div class="brand-title">
+            <span class="title-line">Sidebar</span>
+            <span class="title-line">Remover</span>
+          </div>
+          <!-- Scribble Accent -->
+          <svg class="scribble-doodle" viewBox="0 0 54 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M4 32 L16 8 L28 30 L40 10 L50 20" stroke="#FF2A6D" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <p class="brand-subtitle">A CLEANER, DISTRACTION-FREE WEB</p>
       </div>
     </header>
 
     <!-- Main View -->
     <main class="view active" id="mainView">
-      <div class="toggle-card">
-        <!-- Toggle: Hide scrollbars -->
-        <label class="toggle-item" for="scrollToggle">
-          <div class="toggle-info">
-            <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="5" y="2" width="14" height="20" rx="7"></rect>
+      <!-- Current Website Card (With Favicon & No Open Button) -->
+      <section class="site-card">
+        <div class="site-card-content">
+          <div class="site-favicon-tile" id="siteFaviconTile">
+            <svg id="siteGlobeSvg" class="site-globe-svg" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <path d="M12 3 C8.5 7, 8.5 17, 12 21" />
+              <path d="M12 3 C15.5 7, 15.5 17, 12 21" />
+            </svg>
+          </div>
+          <div class="site-details">
+            <span class="site-eyebrow">CURRENT WEBSITE</span>
+            <span class="site-domain" id="currentHost">No website</span>
+            <span class="site-footnote" id="siteFootnote">CHANGES APPLY TO THIS WEBSITE ONLY</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 1. Hide scrollbars (Scrollbar on top) -->
+      <label class="toggle-card" for="scrollToggle">
+        <div class="toggle-lead">
+          <div class="icon-tile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="6" y="2" width="12" height="20" rx="6"></rect>
               <line x1="12" y1="6" x2="12" y2="10"></line>
             </svg>
-            <span class="toggle-text">Hide scrollbars</span>
           </div>
-          <span class="switch">
-            <input type="checkbox" id="scrollToggle" checked aria-label="Hide scrollbars" />
-            <span class="slider"></span>
-          </span>
-        </label>
-
-        <div class="card-divider"></div>
-
-        <!-- Toggle: Hide sidebar -->
-        <label class="toggle-item" for="sidebarToggle">
-          <div class="toggle-info">
-            <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="2"></rect>
-              <line x1="9" y1="3" x2="9" y2="21"></line>
-            </svg>
-            <span class="toggle-text">Hide sidebar</span>
-          </div>
-          <span class="switch">
-            <input type="checkbox" id="sidebarToggle" aria-label="Hide sidebar" />
-            <span class="slider"></span>
-          </span>
-        </label>
-      </div>
-
-      <!-- Settings Button -->
-      <button type="button" class="settings-btn" id="openSettingsBtn" aria-label="Settings">
-        <div class="settings-btn-content">
-          <svg class="gear-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-          </svg>
-          <span>Settings</span>
+          <span class="toggle-text">HIDE SCROLLBARS</span>
         </div>
-        <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="9 18 15 12 9 6"></polyline>
-        </svg>
-      </button>
+        <span class="neo-switch">
+          <input type="checkbox" id="scrollToggle" checked aria-label="Hide scrollbars" />
+          <span class="slider"></span>
+        </span>
+      </label>
+
+      <!-- 2. Hide sidebar (Sidebar below) -->
+      <label class="toggle-card" for="sidebarToggle">
+        <div class="toggle-lead">
+          <div class="icon-tile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="3"></rect>
+              <line x1="10" y1="3" x2="10" y2="21"></line>
+            </svg>
+          </div>
+          <span class="toggle-text">HIDE SIDEBAR</span>
+        </div>
+        <span class="neo-switch">
+          <input type="checkbox" id="sidebarToggle" aria-label="Hide sidebar" />
+          <span class="slider"></span>
+        </span>
+      </label>
     </main>
 
-    <!-- Settings View -->
-    <main class="view" id="settingsView">
-      <div class="settings-nav-header">
-        <button type="button" class="back-btn" id="closeSettingsBtn" aria-label="Back to main">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Support View (Shown when 'Support' is clicked) -->
+    <section class="support-view" id="supportView" style="display: none;">
+      <div class="support-header-bar">
+        <button type="button" class="support-back-btn" id="supportBackBtn" aria-label="Go back">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="back-arrow-icon">
             <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
+          <span>Back</span>
         </button>
-        <span class="settings-title">Settings</span>
+        <span class="support-badge">HELP &amp; FAQ</span>
       </div>
 
-      <div class="toggle-card">
-        <!-- Setting 1: Hide sidebar by default -->
-        <label class="toggle-item" for="defaultSidebarToggle">
-          <div class="toggle-info">
-            <span class="toggle-text">Hide sidebar by default</span>
-          </div>
-          <span class="switch">
-            <input type="checkbox" id="defaultSidebarToggle" aria-label="Hide sidebar by default" />
-            <span class="slider"></span>
-          </span>
-        </label>
+      <div class="support-card-neo">
+        <h2 class="support-heading">Sidebar Remover isn't working?</h2>
 
-        <div class="card-divider"></div>
+        <div class="support-block">
+          <p class="support-step-title">First, try the following:</p>
+          <ul class="support-steps-list">
+            <li>refresh the webpage</li>
+            <li>close all tabs and restart the browser</li>
+            <li>disable any other extensions</li>
+            <li>disable and re-enable Sidebar Remover</li>
+            <li>uninstall and reinstall Sidebar Remover</li>
+          </ul>
+        </div>
 
-        <!-- Setting 2: Hide scrollbar by default -->
-        <label class="toggle-item" for="defaultScrollToggle">
-          <div class="toggle-info">
-            <span class="toggle-text">Hide scrollbar by default</span>
-          </div>
-          <span class="switch">
-            <input type="checkbox" id="defaultScrollToggle" checked aria-label="Hide scrollbar by default" />
-            <span class="slider"></span>
-          </span>
-        </label>
+        <div class="support-block">
+          <p class="support-text">
+            If the problem persists, email me at:<br />
+            <a href="mailto:witrfaruk@proton.me" class="support-email-pill" id="supportEmailLink">witrfaruk@proton.me</a>
+          </p>
+        </div>
+
+        <div class="support-block">
+          <p class="support-step-title">To help me help you faster, include:</p>
+          <ul class="support-steps-list">
+            <li>description of the issue</li>
+            <li>screenshot or video</li>
+            <li>browser (ex: Chrome)</li>
+            <li>version of Sidebar Remover: 1.1.1</li>
+          </ul>
+        </div>
       </div>
-    </main>
 
-    <!-- Footer: Made by WitrFaruk + Buy me a coffee -->
-    <footer class="popup-footer">
-      <a href="https://witrfaruk.vercel.app" target="_blank" rel="noopener noreferrer" class="made-by-link">
-        <span class="heart-icon">❤️</span>
-        <span>Made by WitrFaruk</span>
-      </a>
-      <a href="https://buymeacoffee.com/witrfaruk" target="_blank" rel="noopener noreferrer" class="coffee-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor">
-          <path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/>
+      <!-- Made with love by WitrFaruk (Neo-Brutalist Creator Credit) -->
+      <a href="https://witrfaruk.vercel.app/?utm_source=sidebar_remover_extension&amp;utm_medium=extension&amp;utm_campaign=creator_credit" target="_blank" rel="noopener noreferrer" class="made-with-love-card" id="madeByLink" title="Visit WitrFaruk's Website">
+        <span class="love-heart">❤️</span>
+        <span class="love-caption">Made with <strong class="love-highlight">love</strong> by <strong class="author-highlight">WitrFaruk</strong></span>
+        <svg class="love-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
         </svg>
-        <span>Buy me a coffee</span>
       </a>
+    </section>
+
+    <!-- Footer: Donate | Request Feature | Support (Neo-Brutalist Buttons) -->
+    <footer class="popup-footer" id="popupFooter">
+      <div class="neo-footer-row">
+        <a href="https://ko-fi.com/witrfaruk?utm_source=sidebar_remover_extension&amp;utm_medium=extension&amp;utm_campaign=donation" target="_blank" rel="noopener noreferrer" class="neo-footer-btn donate-btn" id="donateLink" title="Support on Ko-fi">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+          <span>Donate</span>
+        </a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdqzdboXmtKLeK9AhMB_0dH27BehWKFtk0tlv02W5x7f0F8Fw/viewform?usp=header" target="_blank" rel="noopener noreferrer" class="neo-footer-btn feature-btn" id="requestFeatureLink" title="Request a Feature">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+          <span>Request Feature</span>
+        </a>
+        <button type="button" class="neo-footer-btn support-btn" id="supportBtn" title="Get Help &amp; Support">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          <span>Support</span>
+        </button>
+      </div>
     </footer>
   </div>
 
